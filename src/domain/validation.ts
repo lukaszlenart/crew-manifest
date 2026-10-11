@@ -4,6 +4,7 @@ import { ATTRIBUTES, SKILLS } from './types'
 
 export type IssueCode =
   | 'name.required'
+  | 'career.required'
   | 'career.unknown'
   | 'attribute.notInteger'
   | 'attribute.belowMin'
@@ -56,6 +57,7 @@ export function validateName(c: Pick<Character, 'name'>): ValidationIssue[] {
 }
 
 export function validateCareer(c: Pick<Character, 'careerId'>, rules: Rules): ValidationIssue[] {
+  if (c.careerId === '') return [{ field: 'careerId', message: 'career.required' }]
   return findCareer(rules, c.careerId)
     ? []
     : [{ field: 'careerId', message: 'career.unknown', params: { id: c.careerId } }]

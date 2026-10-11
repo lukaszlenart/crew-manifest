@@ -30,6 +30,9 @@ describe('validateCharacter', () => {
     expect(codes(validateCharacter(validCharacter({ careerId: 'nope' }), R))).toContain(
       'career.unknown',
     )
+    expect(codes(validateCharacter(validCharacter({ careerId: '' }), R))).toContain(
+      'career.required',
+    )
   })
 })
 

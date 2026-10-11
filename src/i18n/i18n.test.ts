@@ -16,6 +16,8 @@ describe('i18n', () => {
   })
 
   it('interpolates params', () => {
-    expect(translate('en', 'app.title')).toBe('Crew Manifest')
+    expect(translate('en', 'list.count', { count: 3 })).toBe('Total: 3')
+    expect(translate('pl', 'editor.pointsLeft', { count: -1 })).toBe('Pozostało punktów: -1')
+    expect(translate('en', 'list.copyName')).toBe('{name} (copy)')
   })
 })
