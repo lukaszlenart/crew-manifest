@@ -1,3 +1,4 @@
+import { newId } from '../domain/id'
 import { RULES, findCareer } from '../domain/rules'
 import type { Attribute, Career, Character, Lang, Rules, Skill } from '../domain/types'
 import { ATTRIBUTES, SKILLS } from '../domain/types'
@@ -77,7 +78,7 @@ export function generateCharacter(options: GenerateOptions): Character {
   const signatureItem = pickOr(rng, table.signatureItem)
 
   const generated: Character = {
-    id: crypto.randomUUID(),
+    id: newId(),
     schemaVersion: 1,
     name,
     careerId,

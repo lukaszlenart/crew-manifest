@@ -1,3 +1,4 @@
+import { newId } from '../domain/id'
 import type { ComponentChildren } from 'preact'
 import { useEffect, useMemo, useState } from 'preact/hooks'
 import { emptyCharacter } from '../domain/character'
@@ -39,7 +40,7 @@ export function CharacterEditor({ id }: { id?: string }) {
     return (
       <EditorForm
         key="new"
-        initial={emptyCharacter(RULES, crypto.randomUUID(), new Date().toISOString())}
+        initial={emptyCharacter(RULES, newId(), new Date().toISOString())}
         isNew
       />
     )

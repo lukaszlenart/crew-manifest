@@ -1,3 +1,4 @@
+import { newId } from '../domain/id'
 import type { Character } from '../domain/types'
 import { StorageError, type CharacterRepository } from './repository'
 import { parseCharacter } from './schema'
@@ -31,7 +32,7 @@ export class LocalStorageRepo implements CharacterRepository {
   constructor(options: LocalStorageRepoOptions = {}) {
     this.storage = 'storage' in options ? options.storage : safeLocalStorage()
     this.now = options.now ?? (() => new Date().toISOString())
-    this.newId = options.newId ?? (() => crypto.randomUUID())
+    this.newId = options.newId ?? (() => newId())
     this.logger = options.logger ?? console
   }
 

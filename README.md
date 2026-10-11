@@ -25,9 +25,12 @@ Requires Node.js 20+.
 ```sh
 npm install
 npm run dev        # http://localhost:5173
-npm run build      # static build in dist/ (relative paths, can be opened from any folder/host)
+npm run build      # static build in dist/ (relative paths; serve it from any folder of a static host)
 npm run preview    # serve the production build
 ```
+
+Browsers do not load the built app from `file://`, so serve `dist/` over HTTP (for example
+`npm run preview`, or any static file server on your LAN).
 
 Checks:
 
