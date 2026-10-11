@@ -1,0 +1,67 @@
+import { RULES } from './rules'
+import type { Career, Character, Rules, Talent } from './types'
+
+const loc = (s: string) => ({ en: s, pl: s })
+const talent = (id: string): Talent => ({ id, label: loc(id), description: loc(id) })
+const gear = [loc('g1'), loc('g2'), loc('g3')]
+
+/** Fixed rules for tests, independent of the (GM-edited) data in `rules.ts`. */
+export const TEST_RULES: Rules = {
+  ...RULES,
+  careers: [
+    {
+      id: 'roughneck',
+      label: loc('roughneck'),
+      keyAttribute: 'strength',
+      keySkills: ['heavyMachinery', 'stamina', 'closeCombat'],
+      talents: ['t1', 't2'],
+      gearOptions: gear,
+    },
+    {
+      id: 'scientist',
+      label: loc('scientist'),
+      keyAttribute: 'wits',
+      keySkills: ['observation', 'survival', 'comtech'],
+      talents: ['t3'],
+      gearOptions: gear,
+    },
+  ],
+  talents: [talent('t1'), talent('t2'), talent('t3')],
+}
+
+/** A valid character for the first career of TEST_RULES. */
+export function validCharacter(overrides: Partial<Character> = {}): Character {
+  const career = TEST_RULES.careers[0] as Career
+  return {
+    id: 'test-id',
+    schemaVersion: 1,
+    name: 'Ellen',
+    careerId: career.id,
+    attributes: { strength: 5, agility: 3, wits: 3, empathy: 3 },
+    skills: {
+      heavyMachinery: 3,
+      stamina: 3,
+      closeCombat: 3,
+      mobility: 1,
+      piloting: 0,
+      rangedCombat: 0,
+      observation: 0,
+      survival: 0,
+      comtech: 0,
+      command: 0,
+      manipulation: 0,
+      medicalAid: 0,
+    },
+    talentId: 't1',
+    appearance: '',
+    personalAgenda: '',
+    buddy: '',
+    rival: '',
+    signatureItem: '',
+    gear: [],
+    notes: '',
+    createdAt: '2026-01-01T00:00:00.000Z',
+    updatedAt: '2026-01-01T00:00:00.000Z',
+    ...overrides,
+  }
+}
