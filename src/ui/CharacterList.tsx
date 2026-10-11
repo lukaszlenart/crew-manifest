@@ -6,7 +6,8 @@ import { validateCharacter } from '../domain/validation'
 import { lang, useLocalize, useT } from '../i18n'
 import { BackupControls } from './components/BackupControls'
 import { attributeShort, careerLabel } from './format'
-import { href } from './router'
+import { href, navigate } from './router'
+import { useShortcuts } from './shortcuts'
 import { characters, deleteCharacter, duplicateCharacter, loaded } from './store'
 
 export function CharacterList() {
@@ -15,6 +16,10 @@ export function CharacterList() {
   const [query, setQuery] = useState('')
   const [careerFilter, setCareerFilter] = useState('')
   const [selected, setSelected] = useState<ReadonlySet<string>>(new Set())
+  useShortcuts({
+    n: () => navigate(href.new()),
+    '/': () => document.getElementById('search')?.focus(),
+  })
 
   const all = characters.value
   const l = lang.value
@@ -105,6 +110,7 @@ export function CharacterList() {
           ))}
         </ul>
       )}
+      <p class="muted small shortcuts-hint">{t('shortcuts.list')}</p>
     </section>
   )
 }

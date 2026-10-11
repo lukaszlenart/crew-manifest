@@ -593,3 +593,37 @@ ul.plain {
 .backup-dialog .toolbar {
   margin: 0;
 }
+
+.shortcuts-hint {
+  margin-top: 24px;
+}
+
+@media (hover: none) {
+  .shortcuts-hint {
+    display: none;
+  }
+}
+
+@media (max-width: 520px) {
+  .app-header nav {
+    order: 3;
+    flex-basis: 100%;
+  }
+
+  .toolbar h2 {
+    flex-basis: 100%;
+  }
+
+  .sheet {
+    padding: 14px;
+  }
+
+  .sheet-stats,
+  .sheet-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .stats th {
+    width: auto;
+  }
+}

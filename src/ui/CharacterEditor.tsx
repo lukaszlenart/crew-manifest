@@ -21,6 +21,7 @@ import { SectionHeader } from './components/SectionHeader'
 import { Stepper } from './components/Stepper'
 import { cleanGear } from './format'
 import { href, navigate } from './router'
+import { useShortcuts } from './shortcuts'
 import { characters, lastSaved, loaded, saveCharacter } from './store'
 
 type TextSection = 'appearance' | 'personalAgenda' | 'buddy' | 'rival' | 'signatureItem'
@@ -118,6 +119,8 @@ function EditorForm({ initial, isNew }: { initial: Character; isNew: boolean }) 
     if (isNew) navigate(href.edit(saved.id), { replace: true })
   }
 
+  useShortcuts({ r: () => randomize(SECTIONS), 'mod+s': () => void save() })
+
   return (
     <form
       class="editor"
@@ -129,10 +132,10 @@ function EditorForm({ initial, isNew }: { initial: Character; isNew: boolean }) 
       <div class="toolbar">
         <h2>{isNew ? t('editor.newTitle') : t('editor.editTitle')}</h2>
         <span class="spacer" />
-        <button type="button" onClick={() => randomize(SECTIONS)}>
+        <button type="button" title="R" onClick={() => randomize(SECTIONS)}>
           🎲 {t('editor.randomizeAll')}
         </button>
-        <button type="submit" class="primary">
+        <button type="submit" class="primary" title="Ctrl+S / ⌘S">
           {t('common.save')}
         </button>
         {!isNew && (
@@ -327,6 +330,7 @@ function EditorForm({ initial, isNew }: { initial: Character; isNew: boolean }) 
           />
         </section>
       </div>
+      <p class="muted small shortcuts-hint">{t('shortcuts.editor')}</p>
     </form>
   )
 }

@@ -90,6 +90,9 @@ export const pl = {
   'backup.cancel': 'Anuluj',
   'backup.close': 'Zamknij',
 
+  'shortcuts.editor': 'Skróty: R — losuj wszystko (niezablokowane pola), Ctrl+S / ⌘S — zapisz.',
+  'shortcuts.list': 'Skróty: N — nowa postać, / — szukaj.',
+
   'validation.name.required': 'Podaj imię.',
   'validation.career.required': 'Wybierz karierę.',
   'validation.career.unknown': 'Nieznana kariera „{id}”.',

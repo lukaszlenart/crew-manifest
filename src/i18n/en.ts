@@ -89,6 +89,9 @@ export const en = {
   'backup.cancel': 'Cancel',
   'backup.close': 'Close',
 
+  'shortcuts.editor': 'Shortcuts: R — randomize all (unlocked fields), Ctrl+S / ⌘S — save.',
+  'shortcuts.list': 'Shortcuts: N — new character, / — search.',
+
   'validation.name.required': 'Enter a name.',
   'validation.career.required': 'Choose a career.',
   'validation.career.unknown': 'Unknown career “{id}”.',
