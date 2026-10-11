@@ -32,6 +32,17 @@ npm run preview    # serve the production build
 Browsers do not load the built app from `file://`, so serve `dist/` over HTTP (for example
 `npm run preview`, or any static file server on your LAN).
 
+### Hosted version
+
+Every push to `main` is built and deployed to GitHub Pages by `.github/workflows/deploy.yml`:
+<https://lukaszlenart.github.io/crew-manifest/>. One-time setup: **Settings → Pages → Source:
+GitHub Actions**.
+
+On an iPad or phone, open that address in Safari and use **Share → Add to Home Screen**. A
+Home Screen app keeps its data; in a plain Safari tab, Safari may clear the site's storage after
+about 7 days without a visit. Characters live only on the device they were created on; move
+them with **Export** / **Import**.
+
 Checks:
 
 ```sh
