@@ -1,0 +1,61 @@
+@media print {
+  @page {
+    size: A4;
+    margin: 12mm;
+  }
+
+  :root {
+    --bg: #fff;
+    --panel: #fff;
+    --panel-border: #999;
+    --text: #000;
+    --muted: #555;
+    --accent: #000;
+    color-scheme: light;
+  }
+
+  body {
+    background: #fff;
+    color: #000;
+    font-size: 11pt;
+  }
+
+  .no-print,
+  .app-header,
+  .banner {
+    display: none !important;
+  }
+
+  .app {
+    max-width: none;
+    padding: 0;
+  }
+
+  /* One character per page. */
+  .sheet {
+    max-width: none;
+    margin: 0;
+    padding: 0;
+    border: none;
+    break-after: page;
+    page-break-after: always;
+    break-inside: avoid;
+  }
+
+  .sheet:last-child {
+    break-after: auto;
+    page-break-after: auto;
+  }
+
+  .sheet-stats {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+
+  .sheet-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .badge.draft {
+    color: #000;
+  }
+}

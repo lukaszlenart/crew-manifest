@@ -13,6 +13,7 @@ export function CharacterList() {
   const loc = useLocalize()
   const [query, setQuery] = useState('')
   const [careerFilter, setCareerFilter] = useState('')
+  const [selected, setSelected] = useState<ReadonlySet<string>>(new Set())
 
   const all = characters.value
   const l = lang.value
@@ -31,12 +32,26 @@ export function CharacterList() {
 
   if (!loaded.value) return <p>{t('common.loading')}</p>
 
+  // Ignore selections of characters that no longer exist.
+  const selectedIds = all.filter((c) => selected.has(c.id)).map((c) => c.id)
+  const toggle = (id: string) => {
+    const next = new Set(selected)
+    if (next.has(id)) next.delete(id)
+    else next.add(id)
+    setSelected(next)
+  }
+
   return (
     <section>
       <div class="toolbar">
         <h2>{t('list.title')}</h2>
         <span class="muted">{t('list.count', { count: all.length })}</span>
         <span class="spacer" />
+        {selectedIds.length > 0 && (
+          <a class="button" href={href.print(selectedIds)}>
+            🖶 {t('list.printSelected', { count: selectedIds.length })}
+          </a>
+        )}
         <a class="button primary" href={href.new()}>
           + {t('nav.new')}
         </a>
@@ -79,7 +94,12 @@ export function CharacterList() {
       ) : (
         <ul class="cards">
           {filtered.map((c) => (
-            <CharacterCard key={c.id} character={c} />
+            <CharacterCard
+              key={c.id}
+              character={c}
+              selected={selected.has(c.id)}
+              onToggle={() => toggle(c.id)}
+            />
           ))}
         </ul>
       )}
@@ -87,7 +107,13 @@ export function CharacterList() {
   )
 }
 
-function CharacterCard({ character: c }: { character: Character }) {
+interface CardProps {
+  character: Character
+  selected: boolean
+  onToggle: () => void
+}
+
+function CharacterCard({ character: c, selected, onToggle }: CardProps) {
   const t = useT()
   const l = lang.value
   const isDraft = validateCharacter(c, RULES).length > 0
@@ -100,6 +126,13 @@ function CharacterCard({ character: c }: { character: Character }) {
   return (
     <li class="card panel">
       <div class="card-head">
+        <input
+          type="checkbox"
+          class="select"
+          checked={selected}
+          aria-label={t('list.select', { name })}
+          onChange={onToggle}
+        />
         <a class="card-name" href={href.sheet(c.id)}>
           {name}
         </a>
@@ -114,6 +147,9 @@ function CharacterCard({ character: c }: { character: Character }) {
         ))}
       </div>
       <div class="card-actions">
+        <a class="button" href={href.sheet(c.id)}>
+          {t('common.sheet')}
+        </a>
         <a class="button" href={href.edit(c.id)}>
           {t('common.edit')}
         </a>

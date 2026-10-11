@@ -443,3 +443,136 @@ a:focus-visible {
     flex-direction: column;
   }
 }
+
+/* Character sheet */
+.card .select {
+  width: auto;
+  margin: 0;
+  accent-color: var(--accent);
+}
+
+.card-head .card-name {
+  flex: 1;
+}
+
+.sheet {
+  max-width: 900px;
+  margin: 0 auto 16px;
+  padding: 20px 24px;
+}
+
+.sheet-header {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+  padding-bottom: 12px;
+  border-bottom: 2px solid var(--accent);
+  margin-bottom: 14px;
+}
+
+.sheet-header > div:first-child {
+  flex: 1;
+}
+
+.sheet-name {
+  font-size: 1.6rem;
+  text-transform: none;
+  letter-spacing: 0.02em;
+}
+
+.sheet-career {
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+.sheet-health {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border: 1px solid var(--panel-border);
+  border-radius: var(--radius);
+  padding: 4px 14px;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+}
+
+.sheet-health strong {
+  font-size: 1.6rem;
+}
+
+.sheet-stats {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 10px;
+  margin-bottom: 14px;
+}
+
+.sheet-attr {
+  border: 1px solid var(--panel-border);
+  border-radius: var(--radius);
+  padding: 8px 10px;
+}
+
+.sheet-attr-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  text-transform: uppercase;
+  font-size: 0.85rem;
+  border-bottom: 1px solid var(--panel-border);
+  padding-bottom: 4px;
+  margin-bottom: 4px;
+}
+
+.sheet-attr-head strong {
+  font-size: 1.4rem;
+}
+
+.sheet-skills {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  font-size: 0.85rem;
+}
+
+.sheet-skills li {
+  display: flex;
+  justify-content: space-between;
+  gap: 6px;
+}
+
+.sheet-skills li.zero {
+  color: var(--muted);
+}
+
+.sheet-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px 16px;
+}
+
+.sheet-field.wide {
+  grid-column: 1 / -1;
+}
+
+.sheet-field h3 {
+  font-size: 0.75rem;
+  margin-bottom: 2px;
+}
+
+ul.plain {
+  margin: 0;
+  padding-left: 1.1em;
+}
+
+.pre {
+  white-space: pre-wrap;
+}
+
+@media (max-width: 800px) {
+  .sheet-stats,
+  .sheet-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}

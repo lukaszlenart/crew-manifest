@@ -2,6 +2,7 @@ import { useEffect } from 'preact/hooks'
 import { lang, useT } from '../i18n'
 import { CharacterEditor } from './CharacterEditor'
 import { CharacterList } from './CharacterList'
+import { CharacterSheet, PrintView } from './CharacterSheet'
 import { LangSwitch } from './components/LangSwitch'
 import { href, route, type Route } from './router'
 import { storageError } from './store'
@@ -53,7 +54,8 @@ function View({ route }: { route: Route }) {
     case 'edit':
       return <CharacterEditor id={route.id} />
     case 'sheet':
+      return <CharacterSheet id={route.id} />
     case 'print':
-      return <CharacterList />
+      return <PrintView ids={route.ids} />
   }
 }

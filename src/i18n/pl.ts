@@ -24,6 +24,7 @@ export const pl = {
   'common.reroll': 'Losuj',
   'common.decrease': 'Zmniejsz',
   'common.increase': 'Zwiększ',
+  'common.print': 'Drukuj',
 
   'character.unnamed': '(bez imienia)',
   'character.noCareer': 'Brak kariery',
@@ -38,6 +39,10 @@ export const pl = {
   'list.confirmDelete': 'Usunąć „{name}”? Tej operacji nie można cofnąć.',
   'list.copyName': '{name} (kopia)',
   'list.draft': 'Szkic',
+  'list.select': 'Zaznacz {name} do druku',
+  'list.printSelected': 'Drukuj zaznaczone ({count})',
+
+  'sheet.printCount': 'Kart do druku: {count}',
 
   'editor.newTitle': 'Nowa postać',
   'editor.editTitle': 'Edycja postaci',

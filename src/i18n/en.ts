@@ -23,6 +23,7 @@ export const en = {
   'common.reroll': 'Randomize',
   'common.decrease': 'Decrease',
   'common.increase': 'Increase',
+  'common.print': 'Print',
 
   'character.unnamed': '(unnamed)',
   'character.noCareer': 'No career',
@@ -37,6 +38,10 @@ export const en = {
   'list.confirmDelete': 'Delete “{name}”? This cannot be undone.',
   'list.copyName': '{name} (copy)',
   'list.draft': 'Draft',
+  'list.select': 'Select {name} for printing',
+  'list.printSelected': 'Print selected ({count})',
+
+  'sheet.printCount': 'Sheets to print: {count}',
 
   'editor.newTitle': 'New character',
   'editor.editTitle': 'Edit character',
