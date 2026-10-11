@@ -576,3 +576,20 @@ ul.plain {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
+
+/* Backup */
+.backup-dialog {
+  flex-basis: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 8px;
+}
+
+.backup-dialog p {
+  margin: 0;
+}
+
+.backup-dialog .toolbar {
+  margin: 0;
+}

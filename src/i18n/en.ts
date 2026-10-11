@@ -72,6 +72,23 @@ export const en = {
   'section.signatureItem': 'Signature item',
   'section.notes': 'Notes',
 
+  'backup.export': 'Export',
+  'backup.import': 'Import',
+  'backup.invalidJson': 'This file is not valid JSON.',
+  'backup.invalidFormat': 'This file is not a Crew Manifest backup.',
+  'backup.unsupportedVersion': 'This backup was made by a newer version of the app.',
+  'backup.found': 'Characters in file: {count}. Rejected: {rejected}.',
+  'backup.merge': 'Merge',
+  'backup.replace': 'Replace all',
+  'backup.modeHelp':
+    'Merge keeps your characters and overwrites those with the same id. Replace all deletes everything first.',
+  'backup.confirmReplace': 'Delete all current characters and replace them with the backup?',
+  'backup.report': 'Import finished. Loaded: {loaded}. Rejected: {rejected}.',
+  'backup.rejectedTitle': 'Rejected entries ({count})',
+  'backup.rejectedItem': '#{index} {name}: {reason}',
+  'backup.cancel': 'Cancel',
+  'backup.close': 'Close',
+
   'validation.name.required': 'Enter a name.',
   'validation.career.required': 'Choose a career.',
   'validation.career.unknown': 'Unknown career “{id}”.',

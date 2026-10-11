@@ -73,6 +73,23 @@ export const pl = {
   'section.signatureItem': 'Przedmiot osobisty',
   'section.notes': 'Notatki',
 
+  'backup.export': 'Eksport',
+  'backup.import': 'Import',
+  'backup.invalidJson': 'Ten plik nie jest poprawnym JSON-em.',
+  'backup.invalidFormat': 'Ten plik nie jest kopią zapasową Crew Manifest.',
+  'backup.unsupportedVersion': 'Ta kopia pochodzi z nowszej wersji aplikacji.',
+  'backup.found': 'Postaci w pliku: {count}. Odrzucone: {rejected}.',
+  'backup.merge': 'Scal',
+  'backup.replace': 'Zastąp wszystko',
+  'backup.modeHelp':
+    'Scalanie zachowuje twoje postacie i nadpisuje te o tym samym id. Zastąpienie najpierw usuwa wszystko.',
+  'backup.confirmReplace': 'Usunąć wszystkie obecne postacie i zastąpić je kopią zapasową?',
+  'backup.report': 'Import zakończony. Wczytane: {loaded}. Odrzucone: {rejected}.',
+  'backup.rejectedTitle': 'Odrzucone wpisy ({count})',
+  'backup.rejectedItem': '#{index} {name}: {reason}',
+  'backup.cancel': 'Anuluj',
+  'backup.close': 'Zamknij',
+
   'validation.name.required': 'Podaj imię.',
   'validation.career.required': 'Wybierz karierę.',
   'validation.career.unknown': 'Nieznana kariera „{id}”.',

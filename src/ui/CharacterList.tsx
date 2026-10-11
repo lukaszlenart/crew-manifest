@@ -4,6 +4,7 @@ import type { Character } from '../domain/types'
 import { ATTRIBUTES } from '../domain/types'
 import { validateCharacter } from '../domain/validation'
 import { lang, useLocalize, useT } from '../i18n'
+import { BackupControls } from './components/BackupControls'
 import { attributeShort, careerLabel } from './format'
 import { href } from './router'
 import { characters, deleteCharacter, duplicateCharacter, loaded } from './store'
@@ -47,6 +48,7 @@ export function CharacterList() {
         <h2>{t('list.title')}</h2>
         <span class="muted">{t('list.count', { count: all.length })}</span>
         <span class="spacer" />
+        <BackupControls />
         {selectedIds.length > 0 && (
           <a class="button" href={href.print(selectedIds)}>
             🖶 {t('list.printSelected', { count: selectedIds.length })}

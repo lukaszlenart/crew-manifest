@@ -52,15 +52,17 @@ export function migrate(raw: unknown): unknown {
   return raw
 }
 
+const MAX_REPORTED_ISSUES = 3
+
 export type ParseResult = { ok: true; value: Character } | { ok: false; error: string }
 
 export function parseCharacter(raw: unknown): ParseResult {
   const result = CharacterSchema.safeParse(migrate(raw))
   if (result.success) return { ok: true, value: result.data }
-  return {
-    ok: false,
-    error: result.error.issues
-      .map((i) => (i.path.length > 0 ? `${i.path.join('.')}: ${i.message}` : i.message))
-      .join('; '),
-  }
+  const issues = result.error.issues.map((i) =>
+    i.path.length > 0 ? `${i.path.join('.')}: ${i.message}` : i.message,
+  )
+  const shown = issues.slice(0, MAX_REPORTED_ISSUES).join('; ')
+  const more = issues.length - MAX_REPORTED_ISSUES
+  return { ok: false, error: more > 0 ? `${shown}; … (+${more})` : shown }
 }
