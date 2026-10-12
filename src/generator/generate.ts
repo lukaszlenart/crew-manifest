@@ -100,9 +100,16 @@ export function generateCharacter(options: GenerateOptions): Character {
   const buddy = text(general.buddy, undefined)
   const rival = text(general.rival, undefined)
   const rolledSignatureItem = text(general.signatureItem, careerTable?.signatureItem)
-  const rolledBonus = sample(rng, ATTRIBUTES, rules.limits.androidBonusAttributes)
+  const shuffledAttributes = sample(rng, ATTRIBUTES, ATTRIBUTES.length)
   const signatureItem = kind === 'android' ? '' : rolledSignatureItem
-  const androidBonus = kind === 'android' ? rolledBonus : []
+  const androidBonus =
+    kind === 'android'
+      ? completeBonus(
+          locked.androidBonus ?? [],
+          shuffledAttributes,
+          rules.limits.androidBonusAttributes,
+        )
+      : (locked.androidBonus ?? [])
 
   const generated: Character = {
     id: newId(),
@@ -126,7 +133,7 @@ export function generateCharacter(options: GenerateOptions): Character {
     createdAt: now,
     updatedAt: now,
   }
-  return { ...generated, ...definedOnly(locked) }
+  return { ...generated, ...definedOnly(locked), androidBonus }
 }
 
 /**
@@ -146,6 +153,20 @@ export function rerollSections(
   for (const s of reroll) delete locked[s]
   if (reroll.has('attributes')) delete locked.androidBonus
   return generateCharacter({ ...options, locked })
+}
+
+/** Keeps the distinct picks, then fills up to `count` from the shuffled attributes. */
+function completeBonus(
+  picked: readonly Attribute[],
+  shuffled: readonly Attribute[],
+  count: number,
+): Attribute[] {
+  const bonus = [...new Set(picked)].slice(0, count)
+  for (const a of shuffled) {
+    if (bonus.length >= count) break
+    if (!bonus.includes(a)) bonus.push(a)
+  }
+  return bonus
 }
 
 /** Always rolls two dice so the amount of randomness used does not depend on the career. */

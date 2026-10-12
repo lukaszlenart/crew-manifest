@@ -357,3 +357,41 @@ describe('rerollSections with an android', () => {
     }
   })
 })
+
+describe('an android with an incomplete bonus', () => {
+  const android = (androidBonus: Character['androidBonus']) =>
+    validCharacter({ kind: 'android', androidBonus, signatureItem: '' })
+
+  it('gets two bonus attributes when attributes are kept', () => {
+    const base = android([])
+    for (let seed = 0; seed < 50; seed++) {
+      const c = rerollSections(base, SECTIONS, { seed, rules: TEST_RULES, keep: ['attributes'] })
+      expect(c.attributes).toEqual(base.attributes)
+      expect(new Set(c.androidBonus).size).toBe(2)
+      expect(validateCharacter(c, TEST_RULES), `seed ${seed}`).toEqual([])
+    }
+  })
+
+  it('keeps a single pick and adds one more', () => {
+    for (let seed = 0; seed < 50; seed++) {
+      const c = rerollSections(android(['wits']), ['name'], { seed, rules: TEST_RULES })
+      expect(c.androidBonus).toHaveLength(2)
+      expect(c.androidBonus[0]).toBe('wits')
+      expect(c.androidBonus[1]).not.toBe('wits')
+    }
+  })
+
+  it('turns a duplicate pick into two distinct attributes', () => {
+    for (let seed = 0; seed < 50; seed++) {
+      const c = rerollSections(android(['wits', 'wits']), ['name'], { seed, rules: TEST_RULES })
+      expect(c.androidBonus[0]).toBe('wits')
+      expect(new Set(c.androidBonus).size).toBe(2)
+    }
+  })
+
+  it('keeps a leftover bonus on a human', () => {
+    const human = validCharacter({ androidBonus: ['wits'] })
+    const c = rerollSections(human, ['name'], { seed: 1, rules: TEST_RULES })
+    expect(c.androidBonus).toEqual(['wits'])
+  })
+})
