@@ -113,6 +113,9 @@ export const en = {
   'validation.talent.unknown': 'Unknown talent “{id}”.',
   'validation.talent.notInCareer': 'This talent does not belong to the career.',
   'validation.cash.invalid': 'Must be a whole number, 0 or more.',
+  'validation.androidBonus.count':
+    'Choose exactly {expected} different attributes for the android bonus.',
+  'validation.androidBonus.human': 'Only an android gets the attribute bonus.',
 } as const
 
 export type MessageKey = keyof typeof en
