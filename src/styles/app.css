@@ -54,6 +54,19 @@ h3 {
   padding: 0 16px 48px;
 }
 
+/* Footer */
+.app-footer {
+  margin-top: 32px;
+  padding-top: 12px;
+  border-top: 1px solid var(--panel-border);
+  color: var(--muted);
+  font-size: 0.75rem;
+}
+
+.app-footer p {
+  margin: 0 0 4px;
+}
+
 /* Header */
 .app-header {
   display: flex;

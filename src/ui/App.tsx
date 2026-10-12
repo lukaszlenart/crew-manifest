@@ -7,6 +7,8 @@ import { LangSwitch } from './components/LangSwitch'
 import { href, route, type Route } from './router'
 import { storageError } from './store'
 
+const SOURCE_URL = 'https://github.com/uit-soft/crew-manifest'
+
 export function App() {
   const t = useT()
 
@@ -41,6 +43,13 @@ export function App() {
       <main>
         <View route={current} />
       </main>
+      <footer class="app-footer no-print">
+        <p>{t('footer.unofficial')}</p>
+        <p>{t('footer.trademarks')}</p>
+        <p>
+          <a href={SOURCE_URL}>{t('footer.source')}</a> {t('footer.license')}
+        </p>
+      </footer>
     </div>
   )
 }

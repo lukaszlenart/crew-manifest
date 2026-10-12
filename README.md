@@ -132,3 +132,12 @@ See `CLAUDE.md` for the development conventions.
 - If the stored data is unreadable, it is copied to `crew-manifest/characters.corrupt` before
   anything is written over it.
 - Browser storage can be cleared by the browser or the user. Export a backup regularly.
+
+## Disclaimer
+
+Unofficial fan tool, free and non-commercial. Not affiliated with or endorsed by 20th Century
+Studios, Free League Publishing or Galakta. ALIEN™ & © 20th Century Studios. ALIEN: The
+Roleplaying Game is published by Free League Publishing; the Polish edition OBCY by Galakta.
+
+The source code is licensed under the [Apache License 2.0](LICENSE). The licence covers the code
+only, not the game's names or rules.

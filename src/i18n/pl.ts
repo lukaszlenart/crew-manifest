@@ -46,7 +46,7 @@ export const pl = {
   'sheet.cash': '{amount} $',
   'sheet.androidRules': 'Android',
   'sheet.androidRulesText':
-    'Nie może forsować rzutów. Nigdy nie wykonuje rzutów na panikę. Inaczej otrzymuje obrażenia (s. 111).',
+    'Nie może forsować testów. Nigdy nie wykonuje Testów Paniki. Inaczej otrzymuje obrażenia (s. 111).',
 
   'editor.newTitle': 'Nowa postać',
   'editor.editTitle': 'Edycja postaci',
@@ -103,6 +103,13 @@ export const pl = {
   'backup.rejectedItem': '#{index} {name}: {reason}',
   'backup.cancel': 'Anuluj',
   'backup.close': 'Zamknij',
+
+  'footer.unofficial':
+    'Nieoficjalne, darmowe narzędzie fanowskie. Niepowiązane z 20th Century Studios, Free League Publishing ani Galaktą i nieautoryzowane przez nie.',
+  'footer.trademarks':
+    'ALIEN™ & © 20th Century Studios. ALIEN: The Roleplaying Game wydaje Free League Publishing, polską edycję OBCY wydaje Galakta.',
+  'footer.source': 'Kod źródłowy',
+  'footer.license': 'na licencji Apache-2.0; licencja nie obejmuje nazw ani zasad gry.',
 
   'shortcuts.editor': 'Skróty: R — losuj wszystko (niezablokowane pola), Ctrl+S / ⌘S — zapisz.',
   'shortcuts.list': 'Skróty: N — nowa postać, / — szukaj.',

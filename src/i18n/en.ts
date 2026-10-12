@@ -103,6 +103,13 @@ export const en = {
   'backup.cancel': 'Cancel',
   'backup.close': 'Close',
 
+  'footer.unofficial':
+    'Unofficial fan tool, free and non-commercial. Not affiliated with or endorsed by 20th Century Studios, Free League Publishing or Galakta.',
+  'footer.trademarks':
+    'ALIEN™ & © 20th Century Studios. ALIEN: The Roleplaying Game is published by Free League Publishing; the Polish edition OBCY by Galakta.',
+  'footer.source': 'Source code',
+  'footer.license': 'under the Apache-2.0 licence; the licence does not cover game names or rules.',
+
   'shortcuts.editor': 'Shortcuts: R — randomize all (unlocked fields), Ctrl+S / ⌘S — save.',
   'shortcuts.list': 'Shortcuts: N — new character, / — search.',
 
