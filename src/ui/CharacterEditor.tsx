@@ -5,7 +5,7 @@ import { emptyCharacter } from '../domain/character'
 import { health } from '../domain/derived'
 import { RULES, findCareer, findTalent } from '../domain/rules'
 import type { Character } from '../domain/types'
-import { ATTRIBUTES, SKILLS } from '../domain/types'
+import { ATTRIBUTES, SEXES, SKILLS } from '../domain/types'
 import {
   attributeMax,
   issuesFor,
@@ -166,6 +166,22 @@ function EditorForm({ initial, isNew }: { initial: Character; isNew: boolean }) 
             onInput={(e) => update({ name: e.currentTarget.value })}
           />
           <IssueList issues={issuesFor(issues, 'name')} />
+
+          {header('sex')}
+          <div class="radio-row" role="radiogroup" aria-label={t('section.sex')}>
+            {SEXES.map((s) => (
+              <label key={s}>
+                <input
+                  type="radio"
+                  name="sex"
+                  value={s}
+                  checked={draft.sex === s}
+                  onChange={() => update({ sex: s })}
+                />{' '}
+                {t(`sex.${s}`)}
+              </label>
+            ))}
+          </div>
 
           {header('careerId')}
           <select
