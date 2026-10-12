@@ -77,7 +77,7 @@ const TALENTS: Talent[] = [
     },
     {
       en: 'When a Panic Roll gives a result of 11 or more and you can see enemies, you can replace that panic effect with Overkill. You must attack the enemies at once and keep attacking until you or every enemy you can see is Broken. Every other PC within Short range must make a Panic Roll right away.',
-      pl: 'Przy wyniku 11+ w Teście Paniki, gdy w polu widzenia są wrogowie, wolno ci wybrać Szał bojowy w miejsce efektu z tabeli. Wtedy od razu ruszasz do ataku i nie przerywasz go, aż padniesz ty albo każdy widoczny wróg (stan Pokonany). Pozostałe PG w bliskim zasięgu od razu testują Panikę.',
+      pl: 'Przy wyniku 11+ w Teście Paniki, gdy w polu widzenia są wrogowie, wolno ci wybrać Szał bojowy w miejsce efektu z tabeli. Wtedy od razu ruszasz do ataku i nie przerywasz go, aż padniesz ty albo każdy widoczny wróg (stan Pokonany). Pozostałe PG w bliskim zasięgu od razu wykonują Test Paniki.',
     },
   ),
   talent(
@@ -265,7 +265,7 @@ const TALENTS: Talent[] = [
   talent(
     'influence',
     76,
-    { en: 'Influence', pl: 'Wpływy' },
+    { en: 'Influence', pl: 'Wpływ' },
     {
       en: 'Push Empathy-based skill rolls twice. Each push adds 1 stress.',
       pl: 'Forsujesz testy umiejętności opartych na Empatii dwa razy. Każde forsowanie: +1 stres.',
@@ -375,8 +375,8 @@ const TALENTS: Talent[] = [
       pl: 'Po turze obserwacji obcego artefaktu lub istoty testujesz Spostrzegawczość; każdy sukces to jedno pytanie do MG.',
     },
     {
-      en: 'After studying a strange or alien artifact or creature for at least one turn, roll Observation. For each success, ask the GM one question: is it human or alien, dead or alive, how old is it, what is it for, how does it work, what trouble could it cause. The GM answers truthfully but may be vague. A successful roll also lowers the Stress Level of every PC within Short range by 1; a failed roll raises it by 1.',
-      pl: 'Gdy przez co najmniej turę przyglądasz się dziwnemu lub obcemu artefaktowi albo istocie, rzucasz na Spostrzegawczość. Każdy sukces to jedno pytanie do MG: ludzkie czy obce, martwe czy żywe, jak stare, do czego służy, jak działa, jakie kłopoty może sprawić. Odpowiedzi są prawdziwe, choć bywają mgliste. Sukces daje też wszystkim PG w bliskim zasięgu −1 do poziomu stresu, a porażka +1.',
+      en: 'After studying a strange or alien artifact or creature for at least one turn, roll Observation. For each success, ask the GM one question: is it human or alien, dead or alive, how old is it, what is it for, how does it work, what trouble could it cause. The GM answers truthfully but may be vague or incomplete. A successful roll also lowers the Stress Level of every PC within Short range by 1; a failed roll raises it by 1.',
+      pl: 'Gdy przez co najmniej turę przyglądasz się dziwnemu lub obcemu artefaktowi albo istocie, rzucasz na Spostrzegawczość. Każdy sukces to jedno pytanie do MG: ludzkie czy obce, martwe czy żywe, jak stare, do czego służy, jak działa, jakie kłopoty może sprawić. Odpowiedzi są prawdziwe, choć bywają mgliste lub niepełne. Sukces daje też wszystkim PG w bliskim zasięgu −1 do poziomu stresu, a porażka +1.',
     },
   ),
   talent(
@@ -432,11 +432,10 @@ const TALENTS: Talent[] = [
       pl: 'Gdy testujesz Sprawność, aby przemknąć niezauważony, dostajesz modyfikator +2 (patrz Walka).',
     },
   ),
-  // TODO: uzupełnić z podręcznika
   talent(
     'fullAuto',
     78,
-    { en: 'Full Auto', pl: 'Człowiek-demolka' },
+    { en: 'Machinegunner', pl: 'Człowiek-demolka' },
     {
       en: 'Firing full auto does not raise your Stress Level.',
       pl: 'Strzelanie ogniem ciągłym nie podnosi twojego poziomu stresu.',
@@ -528,11 +527,10 @@ const TALENTS: Talent[] = [
       pl: 'Śpisz przez jedną wachtę raz na dwa dni, a nie każdego dnia.',
     },
   ),
-  // TODO: uzupełnić z podręcznika
   talent(
     'shipMechanic',
     78,
-    { en: 'Ship Mechanic', pl: 'Mechanik okrętowy' },
+    { en: 'Spaceship Mechanic', pl: 'Mechanik okrętowy' },
     {
       en: '+2 to Heavy Machinery and Comtech when repairing damage to a spaceship.',
       pl: '+2 do Ciężkiego Sprzętu i Komputerów przy naprawie uszkodzeń statku kosmicznego.',
@@ -569,11 +567,10 @@ const TALENTS: Talent[] = [
       pl: 'Test Zapasów dla żywności wykonujesz pulą mniejszą o dwie kości od twojego stanu zapasów żywności. Pula nie może jednak spaść poniżej jednej kości.',
     },
   ),
-  // TODO: uzupełnić z podręcznika
   talent(
     'resistant',
     78,
-    { en: 'Resistant', pl: 'Niewzruszony' },
+    { en: 'Stoic', pl: 'Niewzruszony' },
     {
       en: 'You may roll Stamina with Wits in place of Strength.',
       pl: 'Do testów Kondycji możesz brać Spryt w miejsce Siły.',
@@ -596,11 +593,10 @@ const TALENTS: Talent[] = [
       pl: 'Gdy atak ma właśnie dosięgnąć kogoś w bliskim zasięgu od ciebie, możesz rzucić się na linię strzału lub ciosu. Testujesz Sprawność – to nie zużywa akcji w walce, a rzut wolno forsować. Wystarczy jeden sukces, by trafienie zamiast w pierwotny cel poszło w ciebie.',
     },
   ),
-  // TODO: uzupełnić z podręcznika
   talent(
     'heavyBlow',
     78,
-    { en: 'Heavy Blow', pl: 'Silny cios' },
+    { en: 'Haymaker', pl: 'Silny cios' },
     {
       en: '+2 to Close Combat if you spend a fast action on it.',
       pl: '+2 do Walki Wręcz kosztem akcji szybkiej.',
@@ -623,11 +619,10 @@ const TALENTS: Talent[] = [
       pl: 'Na początku każdej sesji masz przy sobie albo w bezpiecznym schowku jeden przedmiot więcej, który sam wybierasz. Powinien to być przedmiot realnie dla ciebie dostępny – rozstrzyga MG. Za jego zgodą wybór możesz odłożyć do najbardziej dramatycznej chwili sesji.',
     },
   ),
-  // TODO: uzupełnić z podręcznika
   talent(
     'deepBreather',
     79,
-    { en: 'Deep Breather', pl: 'Spokojny oddech' },
+    { en: 'Calm Breather', pl: 'Spokojny oddech' },
     {
       en: 'Roll two fewer dice on air Supply Rolls (minimum one).',
       pl: 'W Testach Zapasów tlenu rzucasz o dwie kości mniej (co najmniej jedną).',
@@ -650,11 +645,10 @@ const TALENTS: Talent[] = [
       pl: 'Każdy Test Paniki wykonujesz z modyfikatorem −2.',
     },
   ),
-  // TODO: uzupełnić z podręcznika
   talent(
     'shipGunner',
     79,
-    { en: 'Ship Gunner', pl: 'Strzelec okrętowy' },
+    { en: 'Gunner', pl: 'Strzelec okrętowy' },
     {
       en: '+2 to Ranged Combat as a gunner in space combat.',
       pl: '+2 do Walki Dystansowej, gdy obsługujesz działa w walce kosmicznej.',
@@ -769,11 +763,10 @@ const TALENTS: Talent[] = [
       pl: 'Przy bloku w walce wręcz możesz rzucać Zręcznością w miejsce Siły.',
     },
   ),
-  // TODO: uzupełnić z podręcznika
   talent(
     'spacewalker',
     79,
-    { en: 'Spacewalker', pl: 'Wyszkolony astronauta' },
+    { en: 'EVA Specialist', pl: 'Wyszkolony astronauta' },
     {
       en: '+2 to Heavy Machinery and Comtech during a spacewalk.',
       pl: '+2 do Ciężkiego Sprzętu i Komputerów podczas spaceru kosmicznego.',
