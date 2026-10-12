@@ -10,6 +10,7 @@ import { TABLES, type CareerTables, type GeneralTables, type LangTables } from '
 /** Fields that can be randomized and locked independently. */
 export type Section =
   | 'name'
+  | 'sex'
   | 'careerId'
   | 'attributes'
   | 'skills'
@@ -23,6 +24,7 @@ export type Section =
 
 export const SECTIONS: readonly Section[] = [
   'name',
+  'sex',
   'careerId',
   'attributes',
   'skills',
@@ -37,6 +39,9 @@ export const SECTIONS: readonly Section[] = [
 
 /** Fields that depend on the career and should follow it when it is re-rolled. */
 export const CAREER_DEPENDENT: readonly Section[] = ['attributes', 'skills', 'talentId', 'gear']
+
+/** Fields that should follow the sex when it is re-rolled. */
+export const SEX_DEPENDENT: readonly Section[] = ['name']
 
 /** Weight of key attributes/skills relative to the others when distributing points. */
 const KEY_WEIGHT = 4
@@ -117,6 +122,7 @@ export function rerollSections(
   const keep = new Set(options.keep ?? [])
   const reroll = new Set(sections.filter((s) => !keep.has(s)))
   if (reroll.has('careerId')) for (const s of CAREER_DEPENDENT) if (!keep.has(s)) reroll.add(s)
+  if (reroll.has('sex')) for (const s of SEX_DEPENDENT) if (!keep.has(s)) reroll.add(s)
   const locked: Partial<Character> = { ...base }
   for (const s of reroll) delete locked[s]
   return generateCharacter({ ...options, locked })

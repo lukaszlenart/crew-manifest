@@ -103,6 +103,29 @@ describe('rerollSections', () => {
       expect(validateCharacter(c, TEST_RULES)).toEqual([])
     }
   })
+
+  it('re-rolls the name with the sex unless the name is kept', () => {
+    const base = validCharacter({ name: 'Kept Name', sex: 'female' })
+    let nameChanged = false
+    let sexChanged = false
+    for (let seed = 0; seed < 50; seed++) {
+      const kept = rerollSections(base, ['sex'], { seed, rules: TEST_RULES, keep: ['name'] })
+      expect(kept.name).toBe('Kept Name')
+      const free = rerollSections(base, ['sex'], { seed, rules: TEST_RULES })
+      if (free.name !== base.name) nameChanged = true
+      if (free.sex !== base.sex) sexChanged = true
+      expect(free.careerId).toBe(base.careerId)
+    }
+    expect(nameChanged).toBe(true)
+    expect(sexChanged).toBe(true)
+  })
+
+  it('keeps the sex when only the name is re-rolled', () => {
+    const base = validCharacter({ sex: 'female' })
+    for (let seed = 0; seed < 50; seed++) {
+      expect(rerollSections(base, ['name'], { seed, rules: TEST_RULES }).sex).toBe('female')
+    }
+  })
 })
 
 const career = (prefix: string) => ({
