@@ -51,8 +51,9 @@ npm run typecheck && npm test && npm run lint
 
 ## Filling in the rulebook data
 
-The app ships **without rulebook content**. Careers, talents and gear are placeholders labelled
-`TODO: …`. Fill them in from your copy of the rulebook. Search the code for
+The nine careers, their talents and their starting gear come from the Polish edition of the
+rulebook. Talent descriptions are short summaries, not rulebook text. English names come from
+the English edition. Some data is still missing. Search the code for
 `TODO: uzupełnić z podręcznika` to find every spot.
 
 ### `src/domain/rules.ts`
@@ -61,7 +62,7 @@ The app ships **without rulebook content**. Careers, talents and gear are placeh
   of gear items picked by the generator). Correct them here if needed.
 - `ATTRIBUTES` and `SKILLS`: names in EN and PL. The skill → attribute mapping is fixed by the
   `Skill` type.
-- `TALENTS`: replace the placeholders with entries like this:
+- `TALENTS`: career talents, in entries like this:
 
   ```ts
   {
@@ -71,7 +72,7 @@ The app ships **without rulebook content**. Careers, talents and gear are placeh
   }
   ```
 
-- `CAREERS`: replace the `placeholderCareer(...)` calls with full entries:
+- `CAREERS`: entries like this. Each gear option is one rulebook line, `X / Y`:
 
   ```ts
   {
