@@ -1,4 +1,4 @@
-import type { Career, Localized, Rules, Talent } from './types'
+import type { Career, GearItem, GearOption, Localized, Rules, Talent } from './types'
 
 /**
  * Character creation limits. Keep every number here so it is easy to correct.
@@ -12,8 +12,8 @@ export const RULES_LIMITS = {
   skillMin: 0,
   keySkillMax: 3,
   otherSkillMax: 1,
-  // TODO: uzupełnić z podręcznika (number of gear items picked at creation)
   gearCount: 2,
+  startingReloads: 2,
 } as const satisfies Rules['limits']
 
 const ATTRIBUTES: Rules['attributes'] = {
@@ -261,7 +261,6 @@ const TALENTS: Talent[] = [
   ),
 ]
 
-// Each gear option is one rulebook line "X or Y"; see #11.
 const CAREERS: Career[] = [
   {
     id: 'colonialMarine',
@@ -270,16 +269,19 @@ const CAREERS: Career[] = [
     keySkills: ['closeCombat', 'stamina', 'rangedCombat'],
     talents: ['banter', 'overkill', 'pastTheLimit'],
     gearOptions: [
-      gear('M41A Pulse Rifle / M56A2 Smart Gun', 'Karabin impulsowy M41A / M56A2 Smart Gun'),
       gear(
-        'M314 Motion Tracker / 2 G2 Electroshock Grenades',
-        'Wykrywacz ruchu M314 / 2 granaty ogłuszające G2',
+        firearm('M41A Pulse Rifle', 'Karabin impulsowy M41A'),
+        firearm('M56A2 Smart Gun', 'M56A2 Smart Gun'),
       ),
       gear(
-        'IRC Mk.35 Pressure Suit / M3 Personnel Armor',
-        'Skafander ciśnieniowy IRC typ 35 / pancerz osobisty M3',
+        item('M314 Motion Tracker', 'Wykrywacz ruchu M314'),
+        item('2 G2 Electroshock Grenades', '2 granaty ogłuszające G2'),
       ),
-      gear('Signal Flare / Deck of Cards', 'Flara sygnałowa / talia kart'),
+      gear(
+        item('IRC Mk.35 Pressure Suit', 'Skafander ciśnieniowy IRC typ 35'),
+        item('M3 Personnel Armor', 'Pancerz osobisty M3'),
+      ),
+      gear(item('Signal Flare', 'Flara sygnałowa'), item('Deck of Cards', 'Talia kart')),
     ],
   },
   {
@@ -290,12 +292,15 @@ const CAREERS: Career[] = [
     talents: ['authority', 'investigator', 'subdue'],
     gearOptions: [
       gear(
-        '.357 Magnum Revolver / Armat Model 37A2 12-Gauge Shotgun',
-        'Rewolwer magnum .357 / strzelba Armat model 37A2 kaliber 12',
+        firearm('.357 Magnum Revolver', 'Rewolwer magnum .357'),
+        firearm('Armat Model 37A2 12-Gauge Shotgun', 'Strzelba Armat model 37A2 kaliber 12'),
       ),
-      gear('Binoculars / Flashlight', 'Lornetka / latarka'),
-      gear('Personal Medkit / Stun Baton', 'Osobista apteczka / paralizator'),
-      gear('D6 Doses of Neversleep / Walkie-Talkie', 'K6 dawek BezSnu / krótkofalówka'),
+      gear(item('Binoculars', 'Lornetka'), item('Flashlight', 'Latarka')),
+      gear(item('Personal Medkit', 'Osobista apteczka'), item('Stun Baton', 'Paralizator')),
+      gear(
+        item('D6 Doses of Neversleep', 'K6 dawek BezSnu'),
+        item('Walkie-Talkie', 'Krótkofalówka'),
+      ),
     ],
   },
   {
@@ -305,15 +310,21 @@ const CAREERS: Career[] = [
     keySkills: ['comtech', 'observation', 'manipulation'],
     talents: ['cunning', 'personalSafety', 'takeControl'],
     gearOptions: [
-      gear('Leather Briefcase / Chrome Briefcase', 'Skórzany neseser / chromowany neseser'),
-      gear('Gold-Plated Pen / Rolex Watch', 'Pozłacane pióro / zegarek Rolex'),
       gear(
-        'Data Transfer Card with Corporate Access / M4A3 Service Pistol',
-        'Karta przekazu danych z dostępem korporacyjnym / pistolet służbowy M4A3',
+        item('Leather Briefcase', 'Skórzany neseser'),
+        item('Chrome Briefcase', 'Chromowany neseser'),
+      ),
+      gear(item('Gold-Plated Pen', 'Pozłacane pióro'), item('Rolex Watch', 'Zegarek Rolex')),
+      gear(
+        item(
+          'Data Transfer Card with Corporate Access',
+          'Karta przekazu danych z dostępem korporacyjnym',
+        ),
+        firearm('M4A3 Service Pistol', 'Pistolet służbowy M4A3'),
       ),
       gear(
-        'D6 Doses of Neversleep / D6 Doses of Naproleve',
-        'K6 dawek BezSnu / k6 dawek Naproleve',
+        item('D6 Doses of Neversleep', 'K6 dawek BezSnu'),
+        item('D6 Doses of Naproleve', 'K6 dawek Naproleve'),
       ),
     ],
   },
@@ -324,10 +335,13 @@ const CAREERS: Career[] = [
     keySkills: ['mobility', 'survival', 'observation'],
     talents: ['beneathNotice', 'dodge', 'nimble'],
     gearOptions: [
-      gear('Fishing Line / Laser Pointer', 'Żyłka wędkarska / wskaźnik laserowy'),
-      gear('Magnet / Remote-Controlled Car', 'Magnes / zdalnie sterowany samochodzik'),
-      gear('Yo-Yo / Handheld Game Console', 'Jo-jo / przenośna konsola'),
-      gear('Personal Locator / Markers', 'Osobisty lokalizator / pisaki'),
+      gear(item('Fishing Line', 'Żyłka wędkarska'), item('Laser Pointer', 'Wskaźnik laserowy')),
+      gear(
+        item('Magnet', 'Magnes'),
+        item('Remote-Controlled Car', 'Zdalnie sterowany samochodzik'),
+      ),
+      gear(item('Yo-Yo', 'Jo-jo'), item('Handheld Game Console', 'Przenośna konsola')),
+      gear(item('Personal Locator', 'Osobisty lokalizator'), item('Markers', 'Pisaki')),
     ],
   },
   {
@@ -338,18 +352,21 @@ const CAREERS: Career[] = [
     talents: ['calmingPresence', 'compassion', 'fieldSurgeon'],
     gearOptions: [
       gear(
-        'Surgical Kit / IRC Mk.50 Compression Suit',
-        'Zestaw chirurgiczny / skafander kompresyjny IRC typ 50',
+        item('Surgical Kit', 'Zestaw chirurgiczny'),
+        item('IRC Mk.50 Compression Suit', 'Skafander kompresyjny IRC typ 50'),
       ),
       gear(
-        'D6 Doses of Neversleep / D6 Doses of Naproleve',
-        'K6 dawek BezSnu / k6 dawek Naproleve',
+        item('D6 Doses of Neversleep', 'K6 dawek BezSnu'),
+        item('D6 Doses of Naproleve', 'K6 dawek Naproleve'),
       ),
       gear(
-        'Personal Medkit / D6 Doses of Experimental Drug X',
-        'Osobista apteczka / k6 dawek eksperymentalnych narkotyków X',
+        item('Personal Medkit', 'Osobista apteczka'),
+        item('D6 Doses of Experimental Drug X', 'K6 dawek eksperymentalnych narkotyków X'),
       ),
-      gear('Samani E-Series Watch / Walkie-Talkie', 'Zegarek Samani seria E / krótkofalówka'),
+      gear(
+        item('Samani E-Series Watch', 'Zegarek Samani seria E'),
+        item('Walkie-Talkie', 'Krótkofalówka'),
+      ),
     ],
   },
   {
@@ -360,15 +377,18 @@ const CAREERS: Career[] = [
     talents: ['fieldCommander', 'influence', 'pullRank'],
     gearOptions: [
       gear(
-        'M4A3 Service Pistol / Rexim RXF-M5 EVA Pistol',
-        'Pistolet służbowy M4A3 / pistolet laserowy Rexim RXF-M5',
+        firearm('M4A3 Service Pistol', 'Pistolet służbowy M4A3'),
+        firearm('Rexim RXF-M5 EVA Pistol', 'Pistolet laserowy Rexim RXF-M5'),
       ),
-      gear('Samani E-Series Watch / Binoculars', 'Zegarek Samani seria E / lornetka'),
+      gear(item('Samani E-Series Watch', 'Zegarek Samani seria E'), item('Binoculars', 'Lornetka')),
       gear(
-        'M314 Motion Tracker / IRC Mk.50 Compression Suit',
-        'Wykrywacz ruchu M314 / skafander kompresyjny IRC typ 50',
+        item('M314 Motion Tracker', 'Wykrywacz ruchu M314'),
+        item('IRC Mk.50 Compression Suit', 'Skafander kompresyjny IRC typ 50'),
       ),
-      gear('Seegson P-DAT / IFF Transponder', 'Tablet Seegson P-DAT / transponder IFF'),
+      gear(
+        item('Seegson P-DAT', 'Tablet Seegson P-DAT'),
+        item('IFF Transponder', 'Transponder IFF'),
+      ),
     ],
   },
   {
@@ -379,14 +399,17 @@ const CAREERS: Career[] = [
     talents: ['fullThrottle', 'likeTheBackOfYourHand', 'reckless'],
     gearOptions: [
       gear(
-        'M4A3 Service Pistol / PR-PUT Uplink Terminal',
-        'Pistolet służbowy M4A3 / terminal PR-PUT',
+        firearm('M4A3 Service Pistol', 'Pistolet służbowy M4A3'),
+        item('PR-PUT Uplink Terminal', 'Terminal PR-PUT'),
       ),
-      gear('Walkie-Talkie / D6 Flares', 'Krótkofalówka / k6 flar'),
-      gear('Maintenance Jack / Seegson P-DAT', 'Klucz uniwersalny / tablet Seegson P-DAT'),
+      gear(item('Walkie-Talkie', 'Krótkofalówka'), item('D6 Flares', 'K6 flar')),
       gear(
-        'Seegson System Diagnostic Device / IRC Mk.50 Compression Suit',
-        'Narzędzie Diagnostyczne Seegson / skafander kompresyjny IRC typ 50',
+        item('Maintenance Jack', 'Klucz uniwersalny'),
+        item('Seegson P-DAT', 'Tablet Seegson P-DAT'),
+      ),
+      gear(
+        item('Seegson System Diagnostic Device', 'Narzędzie Diagnostyczne Seegson'),
+        item('IRC Mk.50 Compression Suit', 'Skafander kompresyjny IRC typ 50'),
       ),
     ],
   },
@@ -397,15 +420,21 @@ const CAREERS: Career[] = [
     keySkills: ['heavyMachinery', 'stamina', 'closeCombat'],
     talents: ['resilient', 'theLongHaul', 'trueGrit'],
     gearOptions: [
-      gear('Cutting Torch / Watatsumi DV-303 Bolt Gun', 'Palnik / kołkownica Watatsumi DV-303'),
-      gear('D6 Doses of Hydr8tion / Maintenance Jack', 'K6 dawek Naw0dnienia / klucz uniwersalny'),
       gear(
-        'Stash of Hard Liquor / IRC Mk.50 Compression Suit',
-        'Zapas mocnego alkoholu / skafander kompresyjny IRC typ 50',
+        item('Cutting Torch', 'Palnik'),
+        firearm('Watatsumi DV-303 Bolt Gun', 'Kołkownica Watatsumi DV-303'),
       ),
       gear(
-        'Flashlight / Seegson C-Series Magnetic Tape Recorder',
-        'Latarka / magnetofon szpulowy Seegson seria C',
+        item('D6 Doses of Hydr8tion', 'K6 dawek Naw0dnienia'),
+        item('Maintenance Jack', 'Klucz uniwersalny'),
+      ),
+      gear(
+        item('Stash of Hard Liquor', 'Zapas mocnego alkoholu'),
+        item('IRC Mk.50 Compression Suit', 'Skafander kompresyjny IRC typ 50'),
+      ),
+      gear(
+        item('Flashlight', 'Latarka'),
+        item('Seegson C-Series Magnetic Tape Recorder', 'Magnetofon szpulowy Seegson seria C'),
       ),
     ],
   },
@@ -416,13 +445,22 @@ const CAREERS: Career[] = [
     keySkills: ['observation', 'survival', 'comtech'],
     talents: ['analysis', 'breakthrough', 'inquisitive'],
     gearOptions: [
-      gear('Digital Video Camera / Walkie-Talkie', 'Cyfrowa kamera wideo / krótkofalówka'),
-      gear('Seegson P-DAT / Neurovisual Helmet', 'Tablet Seegson P-DAT / hełm neurowizyjny'),
       gear(
-        'Seegson System Diagnostic Device / Personal Data Transmitter',
-        'Narzędzie Diagnostyczne Seegson / osobisty przekaźnik danych',
+        item('Digital Video Camera', 'Cyfrowa kamera wideo'),
+        item('Walkie-Talkie', 'Krótkofalówka'),
       ),
-      gear('M314 Motion Tracker / Personal Medkit', 'Wykrywacz ruchu M314 / osobista apteczka'),
+      gear(
+        item('Seegson P-DAT', 'Tablet Seegson P-DAT'),
+        item('Neurovisual Helmet', 'Hełm neurowizyjny'),
+      ),
+      gear(
+        item('Seegson System Diagnostic Device', 'Narzędzie Diagnostyczne Seegson'),
+        item('Personal Data Transmitter', 'Osobisty przekaźnik danych'),
+      ),
+      gear(
+        item('M314 Motion Tracker', 'Wykrywacz ruchu M314'),
+        item('Personal Medkit', 'Osobista apteczka'),
+      ),
     ],
   },
 ]
@@ -447,6 +485,14 @@ function talent(id: string, label: Localized, description: Localized): Talent {
   return { id, label, description }
 }
 
-function gear(en: string, pl: string): Localized {
-  return { en, pl }
+function gear(a: GearItem, b: GearItem): GearOption {
+  return [a, b]
+}
+
+function item(en: string, pl: string): GearItem {
+  return { label: { en, pl } }
+}
+
+function firearm(en: string, pl: string): GearItem {
+  return { label: { en, pl }, firearm: true }
 }

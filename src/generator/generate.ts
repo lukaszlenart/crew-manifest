@@ -1,3 +1,4 @@
+import { gearItemText } from '../domain/gear'
 import { newId } from '../domain/id'
 import { RULES, findCareer } from '../domain/rules'
 import type { Attribute, Career, Character, Lang, Rules, Sex, Skill } from '../domain/types'
@@ -76,7 +77,9 @@ export function generateCharacter(options: GenerateOptions): Character {
   const skills = distributeSkills(rng, rules, career)
   const talentId = career && career.talents.length > 0 ? pick(rng, career.talents) : ''
   const gear = career
-    ? sample(rng, career.gearOptions, rules.limits.gearCount).map((g) => g[lang])
+    ? sample(rng, career.gearOptions, rules.limits.gearCount).map((line) =>
+        gearItemText(pick(rng, line), lang),
+      )
     : []
   const careerTable: CareerTables | undefined = careers[careerId]
   const text = (fromGeneral: readonly string[], fromCareer: readonly string[] | undefined) =>

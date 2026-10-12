@@ -1,6 +1,8 @@
 import { describe, expect, it } from 'vitest'
+import { gearItemText } from '../domain/gear'
 import { RULES } from '../domain/rules'
 import { TEST_RULES, validCharacter } from '../domain/testing'
+import type { Rules } from '../domain/types'
 import { validateCharacter } from '../domain/validation'
 import { generateCharacter, rerollSections } from './generate'
 import { mulberry32 } from './rng'
@@ -36,6 +38,44 @@ describe('generateCharacter', () => {
       }
     })
   }
+
+  it('takes one item from each of gearCount different lines', () => {
+    for (let seed = 0; seed < 200; seed++) {
+      for (const lang of ['en', 'pl'] as const) {
+        const c = generateCharacter({ seed, rules: RULES, lang })
+        const career = RULES.careers.find((k) => k.id === c.careerId)
+        const lines = c.gear.map((g) =>
+          career?.gearOptions.findIndex((line) =>
+            line.some((item) => gearItemText(item, lang) === g),
+          ),
+        )
+        expect(lines, `seed ${seed} ${lang}: ${c.gear.join(', ')}`).not.toContain(-1)
+        expect(new Set(lines).size).toBe(c.gear.length)
+      }
+    }
+  })
+
+  it('gives firearms their starting reloads', () => {
+    const rules: Rules = {
+      ...TEST_RULES,
+      careers: TEST_RULES.careers.map((k) => ({
+        ...k,
+        gearOptions: [
+          [
+            { label: { en: 'Pistol', pl: 'Pistolet' }, firearm: true },
+            { label: { en: 'Rifle', pl: 'Karabin' }, firearm: true },
+          ],
+          [
+            { label: { en: 'Revolver', pl: 'Rewolwer' }, firearm: true },
+            { label: { en: 'Shotgun', pl: 'Strzelba' }, firearm: true },
+          ],
+        ],
+      })),
+    }
+    const c = generateCharacter({ seed: 1, rules })
+    expect(c.gear).toHaveLength(2)
+    for (const g of c.gear) expect(g).toMatch(/ \(2 reloads\)$/)
+  })
 
   it('gives the same result for the same seed', () => {
     const a = generateCharacter({ seed: 7, rules: TEST_RULES, locked: fixed })

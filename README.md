@@ -59,7 +59,8 @@ the English edition. Some data is still missing. Search the code for
 ### `src/domain/rules.ts`
 
 - `RULES_LIMITS`: all numeric limits (attribute total and caps, skill total and caps, number
-  of gear items picked by the generator). Correct them here if needed.
+  of gear items picked at creation, reloads that come with a firearm). Correct them here if
+  needed.
 - `ATTRIBUTES` and `SKILLS`: names in EN and PL. The skill → attribute mapping is fixed by the
   `Skill` type.
 - `TALENTS`: career talents, in entries like this:
@@ -72,7 +73,8 @@ the English edition. Some data is still missing. Search the code for
   }
   ```
 
-- `CAREERS`: entries like this. Each gear option is one rulebook line, `X / Y`:
+- `CAREERS`: entries like this. Each gear option is one rulebook line, "X or Y"; mark firearms
+  with `firearm()` so they come with their starting reloads:
 
   ```ts
   {
@@ -81,7 +83,9 @@ the English edition. Some data is still missing. Search the code for
     keyAttribute: 'wits',
     keySkills: ['observation', 'survival', 'comtech'],
     talents: ['myTalent', 'otherTalent'],
-    gearOptions: [{ en: 'Item', pl: 'Przedmiot' }],
+    gearOptions: [
+      gear(item('Flashlight', 'Latarka'), firearm('M4A3 Service Pistol', 'Pistolet służbowy M4A3')),
+    ],
   }
   ```
 
