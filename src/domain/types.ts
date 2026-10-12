@@ -5,6 +5,10 @@ export const LANGS: readonly Lang[] = ['en', 'pl']
 /** User-visible text from the rulebook, in every supported language. */
 export type Localized = Record<Lang, string>
 
+export type Sex = 'female' | 'male'
+
+export const SEXES: readonly Sex[] = ['female', 'male']
+
 export type Attribute = 'strength' | 'agility' | 'wits' | 'empathy'
 
 export const ATTRIBUTES: readonly Attribute[] = ['strength', 'agility', 'wits', 'empathy']
@@ -84,6 +88,7 @@ export interface Character {
   id: string
   schemaVersion: 1
   name: string
+  sex: Sex
   careerId: CareerId
   attributes: Record<Attribute, number>
   skills: Record<Skill, number>

@@ -36,6 +36,7 @@ export function validCharacter(overrides: Partial<Character> = {}): Character {
     id: 'test-id',
     schemaVersion: 1,
     name: 'Ellen',
+    sex: 'female',
     careerId: career.id,
     attributes: { strength: 5, agility: 3, wits: 3, empathy: 3 },
     skills: {

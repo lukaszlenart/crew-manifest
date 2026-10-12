@@ -1,7 +1,7 @@
 import { newId } from '../domain/id'
 import { RULES, findCareer } from '../domain/rules'
 import type { Attribute, Career, Character, Lang, Rules, Skill } from '../domain/types'
-import { ATTRIBUTES, SKILLS } from '../domain/types'
+import { ATTRIBUTES, SEXES, SKILLS } from '../domain/types'
 import { attributeMax, skillMax, validateAttributes, validateSkills } from '../domain/validation'
 import { mulberry32, pick, sample, weightedIndex, type Rng } from './rng'
 import { TABLES, type RandomTables } from './tables'
@@ -54,6 +54,7 @@ export interface GenerateOptions {
 export function generateCharacter(options: GenerateOptions): Character {
   const { seed, locked = {}, rules = RULES, lang = 'en', tables = TABLES } = options
   const rng = mulberry32(seed)
+  const sex = pick(rng, SEXES)
   const table = tables[lang]
   const now = options.now ?? new Date().toISOString()
 
@@ -81,6 +82,7 @@ export function generateCharacter(options: GenerateOptions): Character {
     id: newId(),
     schemaVersion: 1,
     name,
+    sex,
     careerId,
     attributes,
     skills,
