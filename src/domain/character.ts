@@ -8,6 +8,8 @@ export function emptyCharacter(rules: Rules, id: string, now: string): Character
     schemaVersion: 1,
     name: '',
     sex: 'male',
+    kind: 'human',
+    androidBonus: [],
     careerId: '',
     attributes: Object.fromEntries(
       ATTRIBUTES.map((a) => [a, rules.limits.attributeMin]),

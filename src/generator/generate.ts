@@ -105,6 +105,8 @@ export function generateCharacter(options: GenerateOptions): Character {
     schemaVersion: 1,
     name,
     sex,
+    kind: locked.kind ?? 'human',
+    androidBonus: [],
     careerId,
     attributes,
     skills,

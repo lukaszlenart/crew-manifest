@@ -29,4 +29,23 @@ describe('parseCharacter', () => {
     const result = parseCharacter(withoutCash)
     expect(result).toEqual({ ok: false, error: expect.stringContaining('cash') })
   })
+
+  it('round-trips an android', () => {
+    const android = validCharacter({ kind: 'android', androidBonus: ['strength', 'wits'] })
+    expect(parseCharacter(android)).toEqual({ ok: true, value: android })
+  })
+
+  it('rejects a character without kind', () => {
+    const withoutKind: Partial<Character> = validCharacter()
+    delete withoutKind.kind
+    expect(parseCharacter(withoutKind)).toEqual({
+      ok: false,
+      error: expect.stringContaining('kind'),
+    })
+  })
+
+  it('rejects an unknown bonus attribute', () => {
+    const result = parseCharacter({ ...validCharacter(), androidBonus: ['luck'] })
+    expect(result).toEqual({ ok: false, error: expect.stringContaining('androidBonus') })
+  })
 })
