@@ -89,7 +89,7 @@ export function SheetCard({ character: c }: { character: Character }) {
         {isDraft && <span class="badge draft">{t('list.draft')}</span>}
         <div class="sheet-health">
           <span>{t('editor.health')}</span>
-          <strong>{health(c)}</strong>
+          <strong>{health(c, RULES)}</strong>
         </div>
       </header>
 

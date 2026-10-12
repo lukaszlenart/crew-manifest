@@ -255,7 +255,7 @@ function EditorForm({ initial, isNew }: { initial: Character; isNew: boolean }) 
             </tbody>
           </table>
           <p class="muted small">
-            {t('editor.health')}: <strong>{health(draft)}</strong>
+            {t('editor.health')}: <strong>{health(draft, RULES)}</strong>
           </p>
           <IssueList issues={issuesFor(issues, 'attributes')} />
         </section>

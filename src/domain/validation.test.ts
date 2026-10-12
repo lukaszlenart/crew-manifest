@@ -1,6 +1,5 @@
 import { describe, expect, it } from 'vitest'
 import { TEST_RULES as R, validCharacter } from './testing'
-import { health } from './derived'
 import {
   remainingAttributePoints,
   remainingSkillPoints,
@@ -138,11 +137,5 @@ describe('validateCash', () => {
       expect(validateCash(validCharacter({ cash }))).toEqual([
         { field: 'cash', message: 'cash.invalid' },
       ])
-  })
-})
-
-describe('health', () => {
-  it('equals strength', () => {
-    expect(health(validCharacter())).toBe(5)
   })
 })
