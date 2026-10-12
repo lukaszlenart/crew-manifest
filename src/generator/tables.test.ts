@@ -64,3 +64,20 @@ describe('TABLES', () => {
     })
   }
 })
+
+describe('Polish feminine forms', () => {
+  const pl = TABLES.pl
+  const resolvedFemale = (entries: string[]) => entries.map((e) => resolveGender(e, 'female'))
+
+  it('alternates the verb stem where Polish requires it', () => {
+    const kid = resolvedFemale(pl.careers.kid?.personalAgenda ?? [])
+    const medic = resolvedFemale(pl.careers.medic?.personalAgenda ?? [])
+    expect(kid.join('\n')).toContain('mogłabyś')
+    expect(medic.join('\n')).toContain('Poprzysięgłaś')
+  })
+
+  it('uses a feminine relative pronoun after a feminine demonstrative', () => {
+    const agenda = resolvedFemale(pl.general.personalAgenda)
+    expect(agenda).toContain('Nigdy nie zostać tą, którą zostawiono w tyle')
+  })
+})

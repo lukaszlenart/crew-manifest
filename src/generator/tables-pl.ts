@@ -82,7 +82,7 @@ export const PL_TABLES: LangTables = {
       'Spłacić dług, zanim wierzyciel się o niego upomni',
       'Przekazać wiadomość komuś, kogo zostawił{eś|aś} na Ziemi',
       'Przemycić niewielką paczkę tak, by nikt nie zauważył',
-      'Nigdy nie zostać {tym|tą}, kogo zostawiono w tyle',
+      'Nigdy nie zostać {tym, kogo|tą, którą} zostawiono w tyle',
     ],
     buddy: [
       'Członek załogi, który kiedyś cię krył',
@@ -215,7 +215,7 @@ export const PL_TABLES: LangTables = {
         'Czapka z daszkiem',
       ],
       personalAgenda: [
-        'Chcesz znaleźć dorosłego, któremu mógł{byś|abyś} zaufać. Naprawdę zaufać…',
+        'Chcesz znaleźć dorosłego, któremu {mógłbyś|mogłabyś} zaufać. Naprawdę zaufać…',
         'Stracił{eś|aś} całą rodzinę. Zadbaj o to, żeby już nigdy nie zostać {samemu|samej}.',
         'Nikt nie daje ci niczego do roboty, więc odkrywaj, eksperymentuj i szukaj sobie zajęcia.',
       ],
@@ -244,7 +244,7 @@ export const PL_TABLES: LangTables = {
       personalAgenda: [
         'Jesteś uzależnion{y|a} od mocnego środka przeciwbólowego. Chroń swoje zapasy… I tajemnicę.',
         'Znajdujesz się w posiadaniu niezwykłych (i utajnionych) sprawozdań medycznych, których poszukuje firma. Dowiedz się, czemu są tak ważne.',
-        'Poprzysiągł{eś|aś} sobie, że nigdy nie pozbawisz nikogo życia, i masz zamiar się tego trzymać.',
+        '{Poprzysiągłeś|Poprzysięgłaś} sobie, że nigdy nie pozbawisz nikogo życia, i masz zamiar się tego trzymać.',
       ],
       signatureItem: [
         'Podrobiony dyplom lekarski',
