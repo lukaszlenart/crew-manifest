@@ -3,6 +3,7 @@ import type { ComponentChildren } from 'preact'
 import { useEffect, useMemo, useState } from 'preact/hooks'
 import { emptyCharacter } from '../domain/character'
 import { health } from '../domain/derived'
+import { gearItemText } from '../domain/gear'
 import { RULES, findCareer, findTalent } from '../domain/rules'
 import type { Character } from '../domain/types'
 import { ATTRIBUTES, SEXES, SKILLS } from '../domain/types'
@@ -311,16 +312,19 @@ function EditorForm({ initial, isNew }: { initial: Character; isNew: boolean }) 
           {career && career.gearOptions.length > 0 && (
             <div class="chips">
               <span class="muted small">{t('editor.gearOptions')}</span>
-              {career.gearOptions.map((g, i) => (
-                <button
-                  key={i}
-                  type="button"
-                  class="chip"
-                  onClick={() => update({ gear: [...cleanGear(draft.gear), loc(g)] })}
-                >
-                  + {loc(g)}
-                </button>
-              ))}
+              {career.gearOptions.flat().map((item, i) => {
+                const text = gearItemText(item, lang.value)
+                return (
+                  <button
+                    key={i}
+                    type="button"
+                    class="chip"
+                    onClick={() => update({ gear: [...cleanGear(draft.gear), text] })}
+                  >
+                    + {text}
+                  </button>
+                )
+              })}
             </div>
           )}
         </section>

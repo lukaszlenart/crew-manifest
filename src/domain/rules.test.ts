@@ -32,4 +32,17 @@ describe('RULES', () => {
     expect(l.attributeMin * 4).toBeLessThanOrEqual(l.attributeTotal)
     expect(l.attributeMax * 3 + l.keyAttributeMax).toBeGreaterThanOrEqual(l.attributeTotal)
   })
+
+  it('has two named alternatives in every gear line', () => {
+    for (const career of RULES.careers) {
+      for (const line of career.gearOptions) {
+        expect(line).toHaveLength(2)
+        for (const item of line) {
+          expect(item.label.en.trim()).not.toBe('')
+          expect(item.label.pl.trim()).not.toBe('')
+          expect(item.label.en).not.toContain(' / ')
+        }
+      }
+    }
+  })
 })

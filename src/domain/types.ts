@@ -55,8 +55,16 @@ export interface Career {
   keyAttribute: Attribute
   keySkills: Skill[]
   talents: TalentId[]
-  gearOptions: Localized[]
+  gearOptions: GearOption[]
 }
+
+export interface GearItem {
+  label: Localized
+  firearm?: boolean
+}
+
+/** One rulebook gear line: the character takes one of the two items. */
+export type GearOption = [GearItem, GearItem]
 
 export interface Talent {
   id: TalentId
@@ -74,6 +82,7 @@ export interface RuleLimits {
   keySkillMax: number
   otherSkillMax: number
   gearCount: number
+  startingReloads: number
 }
 
 export interface Rules {

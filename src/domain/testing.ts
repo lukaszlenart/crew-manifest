@@ -1,9 +1,14 @@
 import { RULES } from './rules'
-import type { Career, Character, Rules, Talent } from './types'
+import type { Career, Character, GearOption, Rules, Talent } from './types'
 
 const loc = (s: string) => ({ en: s, pl: s })
 const talent = (id: string): Talent => ({ id, label: loc(id), description: loc(id) })
-const gear = [loc('g1'), loc('g2'), loc('g3')]
+const item = (s: string) => ({ label: loc(s) })
+const gear: GearOption[] = [
+  [item('g1a'), item('g1b')],
+  [item('g2a'), item('g2b')],
+  [item('g3a'), item('g3b')],
+]
 
 /** Fixed rules for tests, independent of the (GM-edited) data in `rules.ts`. */
 export const TEST_RULES: Rules = {
