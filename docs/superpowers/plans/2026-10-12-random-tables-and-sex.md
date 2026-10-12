@@ -33,6 +33,7 @@
 ### Task 1: `sex` field in the domain and the schema
 
 **Files:**
+
 - Modify: `src/domain/types.ts`
 - Modify: `src/domain/character.ts:5-28`
 - Modify: `src/domain/testing.ts` (`validCharacter`)
@@ -41,6 +42,7 @@
 - Create: `src/storage/schema.test.ts`
 
 **Interfaces:**
+
 - Produces: `type Sex = 'female' | 'male'`, `const SEXES: readonly Sex[]` (from `src/domain/types.ts`); `Character.sex: Sex`.
 
 - [ ] **Step 1: Write the failing schema test**
@@ -91,7 +93,7 @@ export const SEXES: readonly Sex[] = ['female', 'male']
 In `interface Character`, after `name: string`:
 
 ```ts
-  sex: Sex
+sex: Sex
 ```
 
 - [ ] **Step 4: Add it to the schema**
@@ -119,7 +121,7 @@ In `src/storage/schema.ts`, after `name: z.string(),`:
 `src/generator/generate.ts`: import `SEXES` from `'../domain/types'` (extend the existing `import { ATTRIBUTES, SKILLS } from '../domain/types'`). In `generateCharacter`, directly after `const rng = mulberry32(seed)`:
 
 ```ts
-  const sex = pick(rng, SEXES)
+const sex = pick(rng, SEXES)
 ```
 
 and in the `generated` object after `name,`:
@@ -147,10 +149,12 @@ git commit -m "feat: add sex to the character model"
 ### Task 2: `resolveGender`
 
 **Files:**
+
 - Create: `src/generator/gender.ts`
 - Create: `src/generator/gender.test.ts`
 
 **Interfaces:**
+
 - Consumes: `Sex` from `src/domain/types.ts`.
 - Produces: `resolveGender(text: string, sex: Sex): string` and `GENDER_MARKER: RegExp` (a global regex matching one `{masculine|feminine}` marker).
 
@@ -228,6 +232,7 @@ git commit -m "feat: resolve Polish gender markers"
 ### Task 3: General and per-career tables, and the generator picking from them
 
 **Files:**
+
 - Modify: `src/generator/tables.ts` (replace the whole file)
 - Create: `src/generator/tables-en.ts`
 - Create: `src/generator/tables-pl.ts`
@@ -237,8 +242,10 @@ git commit -m "feat: resolve Polish gender markers"
 - Modify: `README.md` (the `src/generator/tables.ts` section)
 
 **Interfaces:**
+
 - Consumes: `Sex`, `SEXES`, `resolveGender`, `GENDER_MARKER`.
 - Produces:
+
   ```ts
   interface GeneralTables {
     firstNames: Record<Sex, string[]>
@@ -261,6 +268,7 @@ git commit -m "feat: resolve Polish gender markers"
   }
   const TABLES: Record<Lang, LangTables>
   ```
+
   `GenerateOptions.tables` becomes `Record<Lang, LangTables>`.
 
 - [ ] **Step 1: Write the failing tables test**
@@ -387,18 +395,61 @@ export const EN_TABLES: LangTables = {
   general: {
     firstNames: {
       female: [
-        'Ada', 'Bianca', 'Carmen', 'Dana', 'Ellen', 'Freya', 'Grace', 'Hana',
-        'Imani', 'Jun', 'Kira', 'Lena', 'Marta', 'Noor', 'Tess',
+        'Ada',
+        'Bianca',
+        'Carmen',
+        'Dana',
+        'Ellen',
+        'Freya',
+        'Grace',
+        'Hana',
+        'Imani',
+        'Jun',
+        'Kira',
+        'Lena',
+        'Marta',
+        'Noor',
+        'Tess',
       ],
       male: [
-        'Ash', 'Bruno', 'Caleb', 'Dmitri', 'Elias', 'Felix', 'Gabriel', 'Hiro',
-        'Isaac', 'Jonah', 'Kofi', 'Leon', 'Mateo', 'Reed', 'Tomas',
+        'Ash',
+        'Bruno',
+        'Caleb',
+        'Dmitri',
+        'Elias',
+        'Felix',
+        'Gabriel',
+        'Hiro',
+        'Isaac',
+        'Jonah',
+        'Kofi',
+        'Leon',
+        'Mateo',
+        'Reed',
+        'Tomas',
       ],
     },
     lastNames: [
-      'Abara', 'Brandt', 'Cho', 'Delgado', 'Engel', 'Farrow', 'Hale', 'Kowal', 'Lindqvist',
-      'Mbeki', 'Novak', 'Okafor', 'Park', 'Quinn', 'Rios', 'Sato', 'Tanaka', 'Varga',
-      'Weller', 'Yilmaz',
+      'Abara',
+      'Brandt',
+      'Cho',
+      'Delgado',
+      'Engel',
+      'Farrow',
+      'Hale',
+      'Kowal',
+      'Lindqvist',
+      'Mbeki',
+      'Novak',
+      'Okafor',
+      'Park',
+      'Quinn',
+      'Rios',
+      'Sato',
+      'Tanaka',
+      'Varga',
+      'Weller',
+      'Yilmaz',
     ],
     appearance: [
       'Shaved head, burn scar on the neck',
@@ -701,18 +752,61 @@ export const PL_TABLES: LangTables = {
   general: {
     firstNames: {
       female: [
-        'Agata', 'Barbara', 'Dana', 'Ewa', 'Hanna', 'Iga', 'Joanna', 'Kaja',
-        'Lena', 'Marta', 'Nora', 'Ola', 'Teresa', 'Weronika', 'Zofia',
+        'Agata',
+        'Barbara',
+        'Dana',
+        'Ewa',
+        'Hanna',
+        'Iga',
+        'Joanna',
+        'Kaja',
+        'Lena',
+        'Marta',
+        'Nora',
+        'Ola',
+        'Teresa',
+        'Weronika',
+        'Zofia',
       ],
       male: [
-        'Adam', 'Bartosz', 'Damian', 'Eliasz', 'Filip', 'Jakub', 'Jonasz', 'Kacper',
-        'Marek', 'Oskar', 'Paweł', 'Robert', 'Szymon', 'Tomasz', 'Wiktor',
+        'Adam',
+        'Bartosz',
+        'Damian',
+        'Eliasz',
+        'Filip',
+        'Jakub',
+        'Jonasz',
+        'Kacper',
+        'Marek',
+        'Oskar',
+        'Paweł',
+        'Robert',
+        'Szymon',
+        'Tomasz',
+        'Wiktor',
       ],
     },
     lastNames: [
-      'Baran', 'Brandt', 'Cho', 'Delgado', 'Duda', 'Hale', 'Kaczmarek', 'Kowal', 'Król',
-      'Kubiak', 'Lis', 'Mazur', 'Nowak', 'Okafor', 'Quinn', 'Sowa', 'Varga', 'Wieczorek',
-      'Wójcik', 'Zając',
+      'Baran',
+      'Brandt',
+      'Cho',
+      'Delgado',
+      'Duda',
+      'Hale',
+      'Kaczmarek',
+      'Kowal',
+      'Król',
+      'Kubiak',
+      'Lis',
+      'Mazur',
+      'Nowak',
+      'Okafor',
+      'Quinn',
+      'Sowa',
+      'Varga',
+      'Wieczorek',
+      'Wójcik',
+      'Zając',
     ],
     appearance: [
       'Ogolona głowa, blizna po oparzeniu na szyi',
@@ -1065,7 +1159,12 @@ describe('generateCharacter tables', () => {
   it('falls back to the general pool when the career has no table', () => {
     for (let seed = 0; seed < 100; seed++) {
       for (const careerId of ['scientist', '']) {
-        const c = generateCharacter({ seed, rules: TEST_RULES, tables: testTables, locked: { careerId } })
+        const c = generateCharacter({
+          seed,
+          rules: TEST_RULES,
+          tables: testTables,
+          locked: { careerId },
+        })
         expect(['GF L', 'GM L']).toContain(c.name)
         expect(['ga-m', 'ga-f']).toContain(c.appearance)
         expect(c.personalAgenda).toBe('gp')
@@ -1091,7 +1190,14 @@ describe('generateCharacter tables', () => {
   it('never leaves markers in text generated from the real tables', () => {
     for (let seed = 0; seed < 300; seed++) {
       const c = generateCharacter({ seed, lang: 'pl' })
-      for (const text of [c.name, c.appearance, c.personalAgenda, c.buddy, c.rival, c.signatureItem]) {
+      for (const text of [
+        c.name,
+        c.appearance,
+        c.personalAgenda,
+        c.buddy,
+        c.rival,
+        c.signatureItem,
+      ]) {
         expect(text, `seed ${seed}`).not.toMatch(/[{}|]/)
         expect(text.trim(), `seed ${seed}`).not.toBe('')
       }
@@ -1122,28 +1228,28 @@ import { TABLES, type CareerTables, type GeneralTables, type LangTables } from '
 4. In `generateCharacter`, replace `const table = tables[lang]` with:
 
 ```ts
-  const { general, careers } = tables[lang]
+const { general, careers } = tables[lang]
 ```
 
 and replace `const sex = pick(rng, SEXES)` (from Task 1) with the lines below. The roll stays unconditional so a locked sex doesn't shift later rolls, and text must use the locked sex, not the rolled one:
 
 ```ts
-  const rolledSex = pick(rng, SEXES)
-  const sex = locked.sex ?? rolledSex
+const rolledSex = pick(rng, SEXES)
+const sex = locked.sex ?? rolledSex
 ```
 
 5. Replace the six narrative lines (from `const name = ...` through `const signatureItem = ...`) with:
 
 ```ts
-  const careerTable: CareerTables | undefined = careers[careerId]
-  const text = (fromGeneral: readonly string[], fromCareer: readonly string[] | undefined) =>
-    resolveGender(pickMixed(rng, fromGeneral, fromCareer), sex)
-  const name = resolveGender(pickName(rng, general, careerTable, sex), sex)
-  const appearance = text(general.appearance, careerTable?.appearance)
-  const personalAgenda = text(general.personalAgenda, careerTable?.personalAgenda)
-  const buddy = text(general.buddy, undefined)
-  const rival = text(general.rival, undefined)
-  const signatureItem = text(general.signatureItem, careerTable?.signatureItem)
+const careerTable: CareerTables | undefined = careers[careerId]
+const text = (fromGeneral: readonly string[], fromCareer: readonly string[] | undefined) =>
+  resolveGender(pickMixed(rng, fromGeneral, fromCareer), sex)
+const name = resolveGender(pickName(rng, general, careerTable, sex), sex)
+const appearance = text(general.appearance, careerTable?.appearance)
+const personalAgenda = text(general.personalAgenda, careerTable?.personalAgenda)
+const buddy = text(general.buddy, undefined)
+const rival = text(general.rival, undefined)
+const signatureItem = text(general.signatureItem, careerTable?.signatureItem)
 ```
 
 6. Replace the `pickOr` function at the bottom with:
@@ -1211,10 +1317,12 @@ git commit -m "feat: per-career and general random tables with Polish gender for
 ### Task 4: `sex` as a generator section that pulls the name along
 
 **Files:**
+
 - Modify: `src/generator/generate.ts` (`Section`, `SECTIONS`, `rerollSections`)
 - Modify: `src/generator/generate.test.ts`
 
 **Interfaces:**
+
 - Produces: `'sex'` in `Section` and `SECTIONS`; `SEX_DEPENDENT: readonly Section[] = ['name']`.
 
 - [ ] **Step 1: Write the failing tests**
@@ -1222,28 +1330,28 @@ git commit -m "feat: per-career and general random tables with Polish gender for
 Append to the `describe('rerollSections', ...)` block in `src/generator/generate.test.ts`:
 
 ```ts
-  it('re-rolls the name with the sex unless the name is kept', () => {
-    const base = validCharacter({ name: 'Kept Name', sex: 'female' })
-    let nameChanged = false
-    let sexChanged = false
-    for (let seed = 0; seed < 50; seed++) {
-      const kept = rerollSections(base, ['sex'], { seed, rules: TEST_RULES, keep: ['name'] })
-      expect(kept.name).toBe('Kept Name')
-      const free = rerollSections(base, ['sex'], { seed, rules: TEST_RULES })
-      if (free.name !== base.name) nameChanged = true
-      if (free.sex !== base.sex) sexChanged = true
-      expect(free.careerId).toBe(base.careerId)
-    }
-    expect(nameChanged).toBe(true)
-    expect(sexChanged).toBe(true)
-  })
+it('re-rolls the name with the sex unless the name is kept', () => {
+  const base = validCharacter({ name: 'Kept Name', sex: 'female' })
+  let nameChanged = false
+  let sexChanged = false
+  for (let seed = 0; seed < 50; seed++) {
+    const kept = rerollSections(base, ['sex'], { seed, rules: TEST_RULES, keep: ['name'] })
+    expect(kept.name).toBe('Kept Name')
+    const free = rerollSections(base, ['sex'], { seed, rules: TEST_RULES })
+    if (free.name !== base.name) nameChanged = true
+    if (free.sex !== base.sex) sexChanged = true
+    expect(free.careerId).toBe(base.careerId)
+  }
+  expect(nameChanged).toBe(true)
+  expect(sexChanged).toBe(true)
+})
 
-  it('keeps the sex when only the name is re-rolled', () => {
-    const base = validCharacter({ sex: 'female' })
-    for (let seed = 0; seed < 50; seed++) {
-      expect(rerollSections(base, ['name'], { seed, rules: TEST_RULES }).sex).toBe('female')
-    }
-  })
+it('keeps the sex when only the name is re-rolled', () => {
+  const base = validCharacter({ sex: 'female' })
+  for (let seed = 0; seed < 50; seed++) {
+    expect(rerollSections(base, ['name'], { seed, rules: TEST_RULES }).sex).toBe('female')
+  }
+})
 ```
 
 - [ ] **Step 2: Run them and see them fail**
@@ -1263,13 +1371,13 @@ export const SEX_DEPENDENT: readonly Section[] = ['name']
 In `rerollSections`, after the `CAREER_DEPENDENT` line, add:
 
 ```ts
-  if (reroll.has('sex')) for (const s of SEX_DEPENDENT) if (!keep.has(s)) reroll.add(s)
+if (reroll.has('sex')) for (const s of SEX_DEPENDENT) if (!keep.has(s)) reroll.add(s)
 ```
 
 - [ ] **Step 4: Run the checks**
 
 Run: `npm run typecheck && npm test && npm run lint`
-Expected: all pass. The typecheck flags `src/ui/CharacterEditor.tsx` only if it does exhaustive work over `Section`; it doesn't today (it calls `t(\`section.${s}\`)` only for sections it renders). If `section.sex` is reported missing, it is Task 5's key; add it there and re-run.
+Expected: all pass. The typecheck flags `src/ui/CharacterEditor.tsx` only if it does exhaustive work over `Section`; it doesn't today (it calls `t(\`section.${s}\`)`only for sections it renders). If`section.sex` is reported missing, it is Task 5's key; add it there and re-run.
 
 - [ ] **Step 5: Commit**
 
@@ -1283,6 +1391,7 @@ git commit -m "feat: make sex a lockable section that re-rolls the name"
 ### Task 5: Editor toggle, sheet field and translations
 
 **Files:**
+
 - Modify: `src/i18n/en.ts` (section keys)
 - Modify: `src/i18n/pl.ts` (section keys)
 - Modify: `src/ui/CharacterEditor.tsx` (name panel)
@@ -1290,6 +1399,7 @@ git commit -m "feat: make sex a lockable section that re-rolls the name"
 - Modify: `src/styles/app.css`
 
 **Interfaces:**
+
 - Consumes: `SEXES`, `Sex`, `'sex'` section.
 - Produces: i18n keys `section.sex`, `sex.female`, `sex.male`.
 
@@ -1322,21 +1432,23 @@ import { ATTRIBUTES, SEXES, SKILLS } from '../domain/types'
 Directly after the name block's `<IssueList issues={issuesFor(issues, 'name')} />`, add:
 
 ```tsx
-          {header('sex')}
-          <div class="radio-row" role="radiogroup" aria-label={t('section.sex')}>
-            {SEXES.map((s) => (
-              <label key={s}>
-                <input
-                  type="radio"
-                  name="sex"
-                  value={s}
-                  checked={draft.sex === s}
-                  onChange={() => update({ sex: s })}
-                />{' '}
-                {t(`sex.${s}`)}
-              </label>
-            ))}
-          </div>
+{
+  header('sex')
+}
+;<div class="radio-row" role="radiogroup" aria-label={t('section.sex')}>
+  {SEXES.map((s) => (
+    <label key={s}>
+      <input
+        type="radio"
+        name="sex"
+        value={s}
+        checked={draft.sex === s}
+        onChange={() => update({ sex: s })}
+      />{' '}
+      {t(`sex.${s}`)}
+    </label>
+  ))}
+</div>
 ```
 
 - [ ] **Step 3: Show it on the sheet**
@@ -1344,15 +1456,15 @@ Directly after the name block's `<IssueList issues={issuesFor(issues, 'name')} /
 In `src/ui/CharacterSheet.tsx`, replace:
 
 ```tsx
-          <div class="sheet-career">{career ? loc(career.label) : t('character.noCareer')}</div>
+<div class="sheet-career">{career ? loc(career.label) : t('character.noCareer')}</div>
 ```
 
 with:
 
 ```tsx
-          <div class="sheet-career">
-            {career ? loc(career.label) : t('character.noCareer')} · {t(`sex.${c.sex}`)}
-          </div>
+<div class="sheet-career">
+  {career ? loc(career.label) : t('character.noCareer')} · {t(`sex.${c.sex}`)}
+</div>
 ```
 
 - [ ] **Step 4: Style the radio row**
@@ -1375,6 +1487,7 @@ Expected: all pass.
 - [ ] **Step 6: Check it in the browser**
 
 Run: `npm run dev`, open http://localhost:5173/#/new and check:
+
 - Randomize all (R) fills sex, name and text; with "Kobieta" in PL, the agenda uses feminine forms (re-roll the agenda a few times on a kid or a roughneck).
 - Locking the name and re-rolling the sex keeps the name; unlocked, the name changes with the sex.
 - Save, open the sheet: the header shows `Career · Sex`.
