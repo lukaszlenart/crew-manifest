@@ -105,5 +105,15 @@ describe('RULES', () => {
 
   it('maps unknown and general talents to no career', () => {
     expect(careersOf(RULES, 'nope')).toEqual([])
+    expect(careersOf(RULES, 'killer')).toEqual([])
+  })
+
+  it('lists the 31 general talents on pages 78-79', () => {
+    const general = RULES.talents.filter((t) => careersOf(RULES, t.id).length === 0)
+    expect(general).toHaveLength(31)
+    for (const t of general) {
+      expect(t.page, t.id).toBeGreaterThanOrEqual(78)
+      expect(t.page, t.id).toBeLessThanOrEqual(79)
+    }
   })
 })

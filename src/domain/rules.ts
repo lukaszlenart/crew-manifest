@@ -52,7 +52,7 @@ const SKILLS: Rules['skills'] = {
   medicalAid: { attribute: 'empathy', label: { en: 'Medical Aid', pl: 'Pomoc Medyczna' } },
 }
 
-// Career talents only; general talents are gained later through experience.
+// Career talents first, then general talents (gained later through experience).
 const TALENTS: Talent[] = [
   talent(
     'banter',
@@ -403,6 +403,423 @@ const TALENTS: Talent[] = [
     {
       en: 'You may push any skill roll based on Wits twice instead of once. Each push raises your Stress Level by 1.',
       pl: 'Testy umiejętności opartych na Sprycie forsujesz do dwóch razy; każde forsowanie to +1 do poziomu stresu.',
+    },
+  ),
+  talent(
+    'merciless',
+    78,
+    { en: 'Merciless', pl: 'Bezlitosny' },
+    {
+      en: 'Perform a coup de grâce without an Empathy roll; your stress drops by 1 whenever you Break an enemy.',
+      pl: 'Dobijasz bez testu Empatii, a każdy wróg, którego Pokonasz, obniża twój stres o 1.',
+    },
+    {
+      en: 'You can perform a coup de grâce without first rolling Empathy (see Combat). Each time you make an enemy Broken, your Stress Level drops by 1.',
+      pl: 'Dobicie (patrz Walka) nie wymaga od ciebie wcześniejszego testu Empatii. Ilekroć sprawisz, że wróg zostanie Pokonany, twój poziom stresu maleje o 1.',
+    },
+  ),
+  // TODO: uzupełnić z podręcznika
+  talent(
+    'stealthy',
+    78,
+    { en: 'Stealthy', pl: 'Cichy' },
+    {
+      en: '+2 to Mobility when you use it to sneak.',
+      pl: '+2 do Sprawności, gdy się skradasz.',
+    },
+    {
+      en: 'Whenever you roll Mobility to move unseen and unheard, you get a +2 modifier (see Combat).',
+      pl: 'Gdy testujesz Sprawność, aby przemknąć niezauważony, dostajesz modyfikator +2 (patrz Walka).',
+    },
+  ),
+  // TODO: uzupełnić z podręcznika
+  talent(
+    'fullAuto',
+    78,
+    { en: 'Full Auto', pl: 'Człowiek-demolka' },
+    {
+      en: 'Firing full auto does not raise your Stress Level.',
+      pl: 'Strzelanie ogniem ciągłym nie podnosi twojego poziomu stresu.',
+    },
+    {
+      en: 'When you fire full auto, your Stress Level does not go up from it (see Combat).',
+      pl: 'Prowadzenie ognia ciągłego nie dokłada ci ani punktu do poziomu stresu (patrz Walka).',
+    },
+  ),
+  // TODO: uzupełnić z podręcznika
+  talent(
+    'counselor',
+    78,
+    { en: 'Counselor', pl: 'Doradca' },
+    {
+      en: 'Once per turn, roll Command to calm another character at Short range; each success removes 1 more stress.',
+      pl: 'Raz na turę testujesz Dowodzenie, by uspokoić kogoś w bliskim zasięgu; każdy sukces to −1 stresu więcej.',
+    },
+    {
+      en: 'Once per turn you can roll Command to lower the Stress Level of another character within Short range. On top of the usual reduction of 1, each success lowers their Stress Level by 1 more. It works only on others, never on you.',
+      pl: 'Raz na turę możesz uspokajać inną postać w bliskim zasięgu, testując Dowodzenie. Poza zwykłym spadkiem o 1, jej poziom stresu maleje o kolejny punkt za każdy sukces. Działa wyłącznie na innych – ty sam z niego nie skorzystasz.',
+    },
+  ),
+  // TODO: uzupełnić z podręcznika
+  talent(
+    'captain',
+    78,
+    { en: 'Captain', pl: 'Dowódca okrętu' },
+    {
+      en: 'As captain in space combat, draw two initiative cards and keep the one you want.',
+      pl: 'Jako kapitan w walce kosmicznej dobierasz dwie karty inicjatywy i wybierasz jedną.',
+    },
+    {
+      en: 'When you act as the captain of a spaceship in space combat (see Space Combat), you draw two initiative cards instead of one and choose which to use.',
+      pl: 'Gdy w walce kosmicznej dowodzisz statkiem jako kapitan (patrz Walka kosmiczna), przy ustalaniu inicjatywy ciągniesz dwie karty, a nie jedną, i sam decydujesz, którą zatrzymać.',
+    },
+  ),
+  talent(
+    'secondWind',
+    78,
+    { en: 'Second Wind', pl: 'Drugi oddech' },
+    {
+      en: 'When Broken, roll Stamina to get back up at once; each success restores 1 Health.',
+      pl: 'Gdy zostaniesz Pokonany, test Kondycji pozwala ci od razu wstać; każdy sukces to 1 punkt Zdrowia.',
+    },
+    {
+      en: 'When you are Broken, you can get back on your feet right away instead of waiting for someone to give you first aid (see Combat). Roll Stamina: each success restores 1 Health. Usable once per turn; it does not help against critical injuries.',
+      pl: 'Stan Pokonany nie musi cię unieruchomić do czasu pierwszej pomocy (patrz Walka) – możesz od razu spróbować wstać. Rzucasz na Kondycję i odzyskujesz 1 punkt Zdrowia za każdy sukces. Talent działa raz na turę i nie pomaga przy ranach ciężkich.',
+    },
+  ),
+  talent(
+    'menacing',
+    78,
+    { en: 'Menacing', pl: 'Groźny' },
+    {
+      en: 'Intimidate with Manipulation based on Strength instead of Empathy; a cowed target gets nothing in return.',
+      pl: 'Zastraszając, testujesz Manipulację na Sile zamiast Empatii; ustępujący cel nic w zamian nie dostaje.',
+    },
+    {
+      en: 'When you intimidate someone to make them do what you want, you may roll Manipulation using Strength instead of Empathy. If you succeed, they cannot ask for anything in return, though they may still choose to attack you rather than give in.',
+      pl: 'Gdy groźbą chcesz kogoś do czegoś zmusić, test Manipulacji możesz oprzeć na Sile, a nie na Empatii. Po sukcesie ofiara nie stawia ci żadnych warunków, choć wciąż może wybrać atak zamiast uległości.',
+    },
+  ),
+  // TODO: uzupełnić z podręcznika
+  talent(
+    'fastHealer',
+    78,
+    { en: 'Fast Healer', pl: 'Jak na psie' },
+    {
+      en: 'Your critical injuries take half the usual time to heal.',
+      pl: 'Rany ciężkie goją się u ciebie dwa razy szybciej.',
+    },
+    {
+      en: 'The healing time of each of your critical injuries is halved (see Combat).',
+      pl: 'Czas potrzebny na wyleczenie każdej twojej rany ciężkiej skraca się o połowę (patrz Walka).',
+    },
+  ),
+  // TODO: uzupełnić z podręcznika
+  talent(
+    'shortSleeper',
+    78,
+    { en: 'Short Sleeper', pl: 'Krótki sen' },
+    {
+      en: 'You need to sleep only one shift every two days, not every day.',
+      pl: 'Wystarcza ci jedna wachta snu na dwie doby zamiast codziennie.',
+    },
+    {
+      en: 'You get by on less sleep than most people: you must sleep one shift every other day rather than one shift each day.',
+      pl: 'Potrzebujesz mniej snu niż inni – śpisz przez jedną wachtę raz na dwa dni, a nie każdego dnia.',
+    },
+  ),
+  // TODO: uzupełnić z podręcznika
+  talent(
+    'shipMechanic',
+    78,
+    { en: 'Ship Mechanic', pl: 'Mechanik okrętowy' },
+    {
+      en: '+2 to Heavy Machinery and Comtech when repairing damage to a spaceship.',
+      pl: '+2 do Ciężkiego Sprzętu i Komputerów przy naprawie uszkodzeń statku kosmicznego.',
+    },
+    {
+      en: 'Whenever you roll Heavy Machinery or Comtech to fix damage to a spaceship, you get a +2 modifier (see Space Combat).',
+      pl: 'Naprawiając uszkodzony statek kosmiczny za pomocą Ciężkiego Sprzętu albo Komputerów, rzucasz z modyfikatorem +2 (patrz Walka kosmiczna).',
+    },
+  ),
+  // TODO: uzupełnić z podręcznika
+  talent(
+    'rebellious',
+    78,
+    { en: 'Rebellious', pl: 'Narwaniec' },
+    {
+      en: '+2 to opposed Manipulation rolls whenever someone tries to order you around.',
+      pl: '+2 do spornych testów Manipulacji, gdy ktoś próbuje ci rozkazywać.',
+    },
+    {
+      en: 'You hate being told what to do: when someone tries to give you orders, you get +2 to opposed Manipulation rolls. This also helps you resist the Officer talent Pull Rank.',
+      pl: 'Każda próba wydania ci rozkazu daje ci +2 do spornego testu Manipulacji. Bonus działa również przeciwko Wyższej szarży, talentowi Oficera.',
+    },
+  ),
+  talent(
+    'lightEater',
+    78,
+    { en: 'Light Eater', pl: 'Niejadek' },
+    {
+      en: 'Roll two fewer dice on food Supply Rolls (minimum one).',
+      pl: 'W Testach Zapasów żywności rzucasz o dwie kości mniej (co najmniej jedną).',
+    },
+    {
+      en: 'When you make a Supply Roll for food, you roll two dice fewer than your food supply rating, but always at least one die.',
+      pl: 'Test Zapasów dla żywności wykonujesz pulą mniejszą o dwie kości od twojego stanu zapasów żywności. Pula nie może jednak spaść poniżej jednej kości.',
+    },
+  ),
+  // TODO: uzupełnić z podręcznika
+  talent(
+    'resistant',
+    78,
+    { en: 'Resistant', pl: 'Niewzruszony' },
+    {
+      en: 'Roll Stamina using Wits instead of Strength.',
+      pl: 'Testy Kondycji wykonujesz na Sprycie zamiast na Sile.',
+    },
+    {
+      en: 'Your Stamina rolls may be based on Wits rather than Strength.',
+      pl: 'Przy teście Kondycji wolno ci dodać do puli Spryt w miejsce Siły.',
+    },
+  ),
+  talent(
+    'bodyguard',
+    78,
+    { en: 'Bodyguard', pl: 'Ochroniarz' },
+    {
+      en: 'Roll Mobility to take a hit aimed at someone within Short range of you.',
+      pl: 'Test Sprawności pozwala ci przyjąć trafienie wymierzone w kogoś w bliskim zasięgu.',
+    },
+    {
+      en: 'When someone within Short range of you is about to be hit by an attack, you can throw yourself in the way. Roll Mobility; it does not count as an action in combat and you may push it. With at least one success, the attack hits you instead of the original target.',
+      pl: 'Gdy atak ma właśnie dosięgnąć kogoś w bliskim zasięgu od ciebie, możesz rzucić się na linię strzału lub ciosu. Testujesz Sprawność – to nie zużywa akcji w walce, a rzut wolno forsować. Wystarczy jeden sukces, by trafienie zamiast w pierwotny cel poszło w ciebie.',
+    },
+  ),
+  // TODO: uzupełnić z podręcznika
+  talent(
+    'heavyBlow',
+    78,
+    { en: 'Heavy Blow', pl: 'Silny cios' },
+    {
+      en: '+2 to Close Combat if you spend a fast action on it.',
+      pl: '+2 do Walki Wręcz kosztem akcji szybkiej.',
+    },
+    {
+      en: 'By spending a fast action, you get a +2 modifier to a Close Combat roll.',
+      pl: 'Gdy przeznaczysz na to akcję szybką, twój test Walki Wręcz zyskuje modyfikator +2.',
+    },
+  ),
+  talent(
+    'stash',
+    78,
+    { en: 'Stash', pl: 'Skrytka' },
+    {
+      en: 'Start each session with an extra hidden item of your choice.',
+      pl: 'Każdą sesję zaczynasz z dodatkowym, ukrytym przedmiotem według własnego wyboru.',
+    },
+    {
+      en: 'At the start of each session you have one extra item of your choice, hidden on you or somewhere safe. It must be something you could normally get hold of, and the GM has the final say. If the GM allows, you can wait until the most dramatic moment of the session to decide what the item is.',
+      pl: 'Na początku każdej sesji masz przy sobie albo w bezpiecznym schowku jeden przedmiot więcej, który sam wybierasz. Powinien to być przedmiot realnie dla ciebie dostępny – rozstrzyga MG. Za jego zgodą wybór możesz odłożyć do najbardziej dramatycznej chwili sesji.',
+    },
+  ),
+  // TODO: uzupełnić z podręcznika
+  talent(
+    'deepBreather',
+    79,
+    { en: 'Deep Breather', pl: 'Spokojny oddech' },
+    {
+      en: 'Roll two fewer dice on air Supply Rolls (minimum one).',
+      pl: 'W Testach Zapasów tlenu rzucasz o dwie kości mniej (co najmniej jedną).',
+    },
+    {
+      en: 'When you make a Supply Roll for air, you roll two dice fewer than your air supply rating, but always at least one die.',
+      pl: 'Test Zapasów dla tlenu wykonujesz pulą mniejszą o dwie kości od twojego stanu zapasów tlenu. Pula nie może jednak spaść poniżej jednej kości.',
+    },
+  ),
+  talent(
+    'nervesOfSteel',
+    79,
+    { en: 'Nerves of Steel', pl: 'Stalowe nerwy' },
+    {
+      en: '−2 to all your Panic Rolls.',
+      pl: '−2 do wszystkich twoich Testów Paniki.',
+    },
+    {
+      en: 'You keep calm whatever happens: every Panic Roll you make gets a −2 modifier.',
+      pl: 'Zachowujesz spokój bez względu na okoliczności: każdy twój Test Paniki dostaje modyfikator −2.',
+    },
+  ),
+  // TODO: uzupełnić z podręcznika
+  talent(
+    'shipGunner',
+    79,
+    { en: 'Ship Gunner', pl: 'Strzelec okrętowy' },
+    {
+      en: '+2 to Ranged Combat as a gunner in space combat.',
+      pl: '+2 do Walki Dystansowej, gdy obsługujesz działa w walce kosmicznej.',
+    },
+    {
+      en: "When you serve as a spaceship's gunner in space combat (see Space Combat), your Ranged Combat rolls get a +2 modifier.",
+      pl: 'Zajmując stanowisko strzelca na statku kosmicznym podczas walki kosmicznej (patrz Walka kosmiczna), testujesz Walkę Dystansową z modyfikatorem +2.',
+    },
+  ),
+  talent(
+    'quickdraw',
+    79,
+    { en: 'Quickdraw', pl: 'Szybkie dobywanie' },
+    {
+      en: 'Drawing a weapon costs you no action.',
+      pl: 'Dobycie broni nie zużywa żadnej twojej akcji.',
+    },
+    {
+      en: 'You draw your weapon so fast that it does not take an action.',
+      pl: 'Wyciągasz broń w mgnieniu oka, nie poświęcając na to akcji.',
+    },
+  ),
+  talent(
+    'rapidReload',
+    79,
+    { en: 'Rapid Reload', pl: 'Szybkie przeładowanie' },
+    {
+      en: 'Reload a weapon as a fast action instead of a slow action.',
+      pl: 'Przeładowanie broni to dla ciebie akcja szybka, nie wolna.',
+    },
+    {
+      en: 'Reloading takes you a fast action rather than a slow action.',
+      pl: 'Na przeładowanie broni wydajesz akcję szybką zamiast wolnej.',
+    },
+  ),
+  talent(
+    'fastReflexes',
+    79,
+    { en: 'Fast Reflexes', pl: 'Szybki refleks' },
+    {
+      en: 'Draw two initiative cards and keep the one you prefer.',
+      pl: 'Dobierasz dwie karty inicjatywy i zatrzymujesz wybraną.',
+    },
+    {
+      en: 'When initiative is drawn (see Combat), you draw two cards instead of one. Keep the one you want and shuffle the other back into the deck before the other players draw.',
+      pl: 'Przy ustalaniu inicjatywy (patrz Walka) ciągniesz dwie karty, a nie jedną. Jedną zostawiasz sobie, a drugą wtasowujesz z powrotem do talii, nim pozostali gracze wezmą swoje.',
+    },
+  ),
+  talent(
+    'rapidFire',
+    79,
+    { en: 'Rapid Fire', pl: 'Szybkostrzelność' },
+    {
+      en: 'Fire a pistol or rifle as a fast action instead of a slow action, at −2.',
+      pl: 'Strzelasz z pistoletu lub karabinu w ramach akcji szybkiej, ale z modyfikatorem −2.',
+    },
+    {
+      en: 'You can shoot a pistol or a rifle (see Gear) as a fast action rather than a slow action, but such a shot gets a −2 modifier.',
+      pl: 'Strzał z pistoletu albo karabinu (patrz Ekwipunek) może cię kosztować tylko akcję szybką zamiast wolnej. Płacisz za to modyfikatorem −2 do rzutu.',
+    },
+  ),
+  talent(
+    'packMule',
+    79,
+    { en: 'Pack Mule', pl: 'Tragarz' },
+    {
+      en: 'You can carry twice the normal number of items without being encumbered.',
+      pl: 'Udźwigniesz dwa razy więcej przedmiotów niż zwykle, nie będąc przeciążonym.',
+    },
+    {
+      en: 'Your carrying capacity is doubled: you can carry twice as many items as normal before you become encumbered.',
+      pl: 'Limit przedmiotów, które nosisz bez przeciążenia, jest u ciebie dwukrotnie wyższy niż normalnie.',
+    },
+  ),
+  talent(
+    'zeroGTraining',
+    79,
+    { en: 'Zero-G Training', pl: 'Trening w stanie nieważkości' },
+    {
+      en: '+2 to Mobility in zero gravity.',
+      pl: '+2 do Sprawności w stanie nieważkości.',
+    },
+    {
+      en: 'Your sense of balance has adapted to weightlessness: in zero-G, every Mobility roll you make gets a +2 modifier.',
+      pl: 'W warunkach braku grawitacji każdy twój test Sprawności zyskuje modyfikator +2.',
+    },
+  ),
+  talent(
+    'tough',
+    79,
+    { en: 'Tough', pl: 'Twardziel' },
+    {
+      en: 'Your maximum Health is Strength + 2.',
+      pl: 'Twoje maksymalne Zdrowie wynosi Siła + 2.',
+    },
+    {
+      en: 'Your Health increases by 2, so your maximum Health equals your Strength plus 2.',
+      pl: 'Zdrowie rośnie ci o 2 – jego maksimum to od teraz twoja Siła powiększona o 2.',
+    },
+  ),
+  // TODO: uzupełnić z podręcznika
+  talent(
+    'lightweight',
+    79,
+    { en: 'Lightweight', pl: 'Waga lekka' },
+    {
+      en: 'Block in close combat using Agility instead of Strength.',
+      pl: 'Blokując w walce wręcz, używasz Zręczności zamiast Siły.',
+    },
+    {
+      en: 'When you block an attack in close combat, you may roll with Agility instead of Strength.',
+      pl: 'Przy bloku w walce wręcz możesz rzucać Zręcznością w miejsce Siły.',
+    },
+  ),
+  // TODO: uzupełnić z podręcznika
+  talent(
+    'spacewalker',
+    79,
+    { en: 'Spacewalker', pl: 'Wyszkolony astronauta' },
+    {
+      en: '+2 to Heavy Machinery and Comtech during a spacewalk.',
+      pl: '+2 do Ciężkiego Sprzętu i Komputerów podczas spaceru kosmicznego.',
+    },
+    {
+      en: 'While you are on a spacewalk, your Heavy Machinery and Comtech rolls get a +2 modifier.',
+      pl: 'Na spacerze kosmicznym testy Ciężkiego Sprzętu oraz Komputerów wykonujesz z modyfikatorem +2.',
+    },
+  ),
+  talent(
+    'weaponSpecialist',
+    79,
+    { en: 'Weapon Specialist', pl: 'Ulubiona broń' },
+    {
+      en: '+2 when you use one chosen weapon model.',
+      pl: '+2, gdy walczysz wybranym modelem broni.',
+    },
+    {
+      en: 'Pick one specific weapon model from the weapon list (see Gear); you get +2 whenever you use it. You can take this talent several times, each time for a different model, and you may choose unarmed attacks instead of a weapon.',
+      pl: 'Wybierasz z listy broni (patrz Ekwipunek) jeden konkretny model i dostajesz +2 za każdym razem, gdy z niego korzystasz. Talent da się wziąć wielokrotnie, zawsze dla innego modelu; zamiast broni możesz też wskazać walkę bez broni.',
+    },
+  ),
+  talent(
+    'watchful',
+    79,
+    { en: 'Watchful', pl: 'Uważny' },
+    {
+      en: '+2 to Observation to spot a surprise attack.',
+      pl: '+2 do Spostrzegawczości, by dostrzec atak z zaskoczenia.',
+    },
+    {
+      en: 'You sense when enemies lurk nearby: you get +2 to Observation when you try to notice a surprise attack.',
+      pl: 'Masz nosa do czających się w pobliżu wrogów. Wypatrując ataku z zaskoczenia, testujesz Spostrzegawczość z modyfikatorem +2.',
+    },
+  ),
+  talent(
+    'killer',
+    79,
+    { en: 'Killer', pl: 'Zabójca' },
+    {
+      en: 'When a human opponent suffers a critical injury, you may swap the two D66 dice.',
+      pl: 'Gdy ludzki przeciwnik otrzymuje ranę ciężką, możesz zamienić kości rzutu k66 miejscami.',
+    },
+    {
+      en: 'When your opponent suffers a critical injury (see Combat), you may swap the D66 dice so the ones die becomes the tens die and vice versa. This works only against humans.',
+      pl: 'Ranę ciężką twojego przeciwnika (patrz Walka) losuje się rzutem k66 – ty możesz zamienić w nim kości rolami, tak by jedności stały się dziesiątkami, a dziesiątki jednościami. Talent działa tylko na ludzi.',
     },
   ),
 ]
