@@ -668,3 +668,34 @@ ul.plain {
   margin: 0;
   accent-color: var(--accent);
 }
+
+/* Talents */
+.talents .panel + .panel {
+  margin-top: 16px;
+}
+
+.talent-group h4 {
+  margin: 16px 0 4px;
+}
+
+.talent {
+  padding: 8px 0;
+  border-top: 1px solid var(--panel-border);
+}
+
+.talent summary {
+  cursor: pointer;
+}
+
+.talent summary > * + * {
+  margin-left: 8px;
+}
+
+.talent summary > .talent-summary {
+  display: block;
+  margin: 2px 0 0;
+}
+
+.talent p {
+  margin: 8px 0 0 16px;
+}
