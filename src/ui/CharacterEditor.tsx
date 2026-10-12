@@ -276,8 +276,10 @@ function EditorForm({ initial, isNew }: { initial: Character; isNew: boolean }) 
                         onChange={(v) => update({ attributes: { ...draft.attributes, [a]: v } })}
                       />
                       <IssueList issues={fieldIssues} />
-                      {isAndroid && (
-                        <label class="android-bonus">
+                    </td>
+                    {isAndroid && (
+                      <td class="android-bonus">
+                        <label>
                           <input
                             type="checkbox"
                             checked={draft.androidBonus.includes(a)}
@@ -293,8 +295,8 @@ function EditorForm({ initial, isNew }: { initial: Character; isNew: boolean }) 
                           />{' '}
                           {t('editor.androidBonus', { bonus })} → <strong>{effective[a]}</strong>
                         </label>
-                      )}
-                    </td>
+                      </td>
+                    )}
                   </tr>
                 )
               })}
