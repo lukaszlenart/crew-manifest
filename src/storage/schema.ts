@@ -9,6 +9,7 @@ export const CharacterSchema = z.object({
   id: z.string().min(1),
   schemaVersion: z.literal(CURRENT_SCHEMA_VERSION),
   name: z.string(),
+  sex: z.enum(['female', 'male']),
   careerId: z.string(),
   attributes: z.object({ strength: int, agility: int, wits: int, empathy: int }),
   skills: z.object({

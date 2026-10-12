@@ -82,7 +82,9 @@ export function SheetCard({ character: c }: { character: Character }) {
       <header class="sheet-header">
         <div>
           <h2 class="sheet-name">{c.name.trim() || t('character.unnamed')}</h2>
-          <div class="sheet-career">{career ? loc(career.label) : t('character.noCareer')}</div>
+          <div class="sheet-career">
+            {career ? loc(career.label) : t('character.noCareer')} · {t(`sex.${c.sex}`)}
+          </div>
         </div>
         {isDraft && <span class="badge draft">{t('list.draft')}</span>}
         <div class="sheet-health">

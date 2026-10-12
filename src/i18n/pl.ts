@@ -61,6 +61,9 @@ export const pl = {
   'editor.gearOptions': 'Ekwipunek zawodu:',
 
   'section.name': 'Imię',
+  'section.sex': 'Płeć',
+  'sex.female': 'Kobieta',
+  'sex.male': 'Mężczyzna',
   'section.careerId': 'Zawód',
   'section.attributes': 'Cechy',
   'section.skills': 'Umiejętności',

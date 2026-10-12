@@ -4,6 +4,7 @@ import { TEST_RULES, validCharacter } from '../domain/testing'
 import { validateCharacter } from '../domain/validation'
 import { generateCharacter, rerollSections } from './generate'
 import { mulberry32 } from './rng'
+import type { LangTables } from './tables'
 
 const fixed = { id: 'fixed-id', createdAt: 'T', updatedAt: 'T' }
 
@@ -100,6 +101,120 @@ describe('rerollSections', () => {
       expect(c.talentId).toBe(base.talentId)
       expect(c.name).toBe(base.name)
       expect(validateCharacter(c, TEST_RULES)).toEqual([])
+    }
+  })
+
+  it('re-rolls the name with the sex unless the name is kept', () => {
+    const base = validCharacter({ name: 'Kept Name', sex: 'female' })
+    let nameChanged = false
+    let sexChanged = false
+    for (let seed = 0; seed < 50; seed++) {
+      const kept = rerollSections(base, ['sex'], { seed, rules: TEST_RULES, keep: ['name'] })
+      expect(kept.name).toBe('Kept Name')
+      const free = rerollSections(base, ['sex'], { seed, rules: TEST_RULES })
+      if (free.name !== base.name) nameChanged = true
+      if (free.sex !== base.sex) sexChanged = true
+      expect(free.careerId).toBe(base.careerId)
+    }
+    expect(nameChanged).toBe(true)
+    expect(sexChanged).toBe(true)
+  })
+
+  it('keeps the sex when only the name is re-rolled', () => {
+    const base = validCharacter({ sex: 'female' })
+    for (let seed = 0; seed < 50; seed++) {
+      expect(rerollSections(base, ['name'], { seed, rules: TEST_RULES }).sex).toBe('female')
+    }
+  })
+})
+
+const career = (prefix: string) => ({
+  names: { female: [`${prefix}F`], male: [`${prefix}M`] },
+  appearance: [`${prefix}a`],
+  personalAgenda: [`${prefix}p`],
+  signatureItem: [`${prefix}s`],
+})
+const testLangTables: LangTables = {
+  general: {
+    firstNames: { female: ['GF'], male: ['GM'] },
+    lastNames: ['L'],
+    appearance: ['{ga-m|ga-f}'],
+    personalAgenda: ['gp'],
+    buddy: ['gb'],
+    rival: ['gr'],
+    signatureItem: ['gs'],
+  },
+  careers: { roughneck: career('C') },
+}
+const testTables = { en: testLangTables, pl: testLangTables }
+
+describe('generateCharacter tables', () => {
+  it('mixes career and general entries, with names matching the sex', () => {
+    const seen = new Set<string>()
+    for (let seed = 0; seed < 200; seed++) {
+      const c = generateCharacter({
+        seed,
+        rules: TEST_RULES,
+        tables: testTables,
+        locked: { careerId: 'roughneck' },
+      })
+      const expectedNames = c.sex === 'female' ? ['GF L', 'CF'] : ['GM L', 'CM']
+      expect(expectedNames).toContain(c.name)
+      seen.add(c.name)
+      seen.add(c.appearance)
+      expect(c.buddy).toBe('gb')
+      expect(c.rival).toBe('gr')
+    }
+    for (const value of ['GF L', 'CF', 'GM L', 'CM', 'Ca', 'ga-m', 'ga-f']) {
+      expect(seen, value).toContain(value)
+    }
+  })
+
+  it('falls back to the general pool when the career has no table', () => {
+    for (let seed = 0; seed < 100; seed++) {
+      for (const careerId of ['scientist', '']) {
+        const c = generateCharacter({
+          seed,
+          rules: TEST_RULES,
+          tables: testTables,
+          locked: { careerId },
+        })
+        expect(['GF L', 'GM L']).toContain(c.name)
+        expect(['ga-m', 'ga-f']).toContain(c.appearance)
+        expect(c.personalAgenda).toBe('gp')
+        expect(c.signatureItem).toBe('gs')
+      }
+    }
+  })
+
+  it('resolves gender markers for the rolled or locked sex', () => {
+    for (let seed = 0; seed < 50; seed++) {
+      const female = generateCharacter({
+        seed,
+        rules: TEST_RULES,
+        tables: testTables,
+        locked: { careerId: 'scientist', sex: 'female' },
+      })
+      expect(female.sex).toBe('female')
+      expect(female.appearance).toBe('ga-f')
+      expect(female.name).toBe('GF L')
+    }
+  })
+
+  it('never leaves markers in text generated from the real tables', () => {
+    for (let seed = 0; seed < 300; seed++) {
+      const c = generateCharacter({ seed, lang: 'pl' })
+      for (const text of [
+        c.name,
+        c.appearance,
+        c.personalAgenda,
+        c.buddy,
+        c.rival,
+        c.signatureItem,
+      ]) {
+        expect(text, `seed ${seed}`).not.toMatch(/[{}|]/)
+        expect(text.trim(), `seed ${seed}`).not.toBe('')
+      }
     }
   })
 })

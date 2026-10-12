@@ -60,6 +60,9 @@ export const en = {
   'editor.gearOptions': 'Career gear:',
 
   'section.name': 'Name',
+  'section.sex': 'Sex',
+  'sex.female': 'Female',
+  'sex.male': 'Male',
   'section.careerId': 'Career',
   'section.attributes': 'Attributes',
   'section.skills': 'Skills',

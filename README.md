@@ -94,11 +94,17 @@ Characters store only career and talent **ids**. Switching the language translat
 sheet. Changing an id in `rules.ts` turns existing characters that use it into drafts, with an
 "unknown career/talent" message.
 
-### `src/generator/tables.ts`
+### `src/generator/tables-en.ts` and `tables-pl.ts`
 
-Random tables for names, appearance, personal agenda, buddy, rival and signature item. Each
-language has its own table, and the generator uses the one for the current UI language. The
-entries are short samples; extend them freely.
+Random tables for names, appearance, personal agenda, buddy, rival and signature item, per
+language. `tables-en.ts` and `tables-pl.ts` each hold a `general` pool (original entries) and a
+`careers` table per career id, taken from the rulebook career pages. For names, appearance,
+agenda and signature item the generator flips a coin between the career list and the general
+pool; buddy and rival always come from the general pool.
+
+Polish entries mark gendered words as `{masculine|feminine}`, e.g. `pomogł{eś|aś}`. The
+generator picks the form for the character's sex. `src/generator/tables.test.ts` fails if any
+entry leaves a marker behind.
 
 ## Project layout
 

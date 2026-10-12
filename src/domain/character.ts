@@ -7,6 +7,7 @@ export function emptyCharacter(rules: Rules, id: string, now: string): Character
     id,
     schemaVersion: 1,
     name: '',
+    sex: 'male',
     careerId: '',
     attributes: Object.fromEntries(
       ATTRIBUTES.map((a) => [a, rules.limits.attributeMin]),

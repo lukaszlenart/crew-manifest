@@ -1,14 +1,16 @@
 import { newId } from '../domain/id'
 import { RULES, findCareer } from '../domain/rules'
-import type { Attribute, Career, Character, Lang, Rules, Skill } from '../domain/types'
-import { ATTRIBUTES, SKILLS } from '../domain/types'
+import type { Attribute, Career, Character, Lang, Rules, Sex, Skill } from '../domain/types'
+import { ATTRIBUTES, SEXES, SKILLS } from '../domain/types'
 import { attributeMax, skillMax, validateAttributes, validateSkills } from '../domain/validation'
 import { mulberry32, pick, sample, weightedIndex, type Rng } from './rng'
-import { TABLES, type RandomTables } from './tables'
+import { resolveGender } from './gender'
+import { TABLES, type CareerTables, type GeneralTables, type LangTables } from './tables'
 
 /** Fields that can be randomized and locked independently. */
 export type Section =
   | 'name'
+  | 'sex'
   | 'careerId'
   | 'attributes'
   | 'skills'
@@ -22,6 +24,7 @@ export type Section =
 
 export const SECTIONS: readonly Section[] = [
   'name',
+  'sex',
   'careerId',
   'attributes',
   'skills',
@@ -37,6 +40,9 @@ export const SECTIONS: readonly Section[] = [
 /** Fields that depend on the career and should follow it when it is re-rolled. */
 export const CAREER_DEPENDENT: readonly Section[] = ['attributes', 'skills', 'talentId', 'gear']
 
+/** Fields that should follow the sex when it is re-rolled. */
+export const SEX_DEPENDENT: readonly Section[] = ['name']
+
 /** Weight of key attributes/skills relative to the others when distributing points. */
 const KEY_WEIGHT = 4
 
@@ -46,7 +52,7 @@ export interface GenerateOptions {
   locked?: Partial<Character>
   rules?: Rules
   lang?: Lang
-  tables?: Record<Lang, RandomTables>
+  tables?: Record<Lang, LangTables>
   /** ISO timestamp used for createdAt/updatedAt when not locked. */
   now?: string
 }
@@ -54,7 +60,9 @@ export interface GenerateOptions {
 export function generateCharacter(options: GenerateOptions): Character {
   const { seed, locked = {}, rules = RULES, lang = 'en', tables = TABLES } = options
   const rng = mulberry32(seed)
-  const table = tables[lang]
+  const rolledSex = pick(rng, SEXES)
+  const sex = locked.sex ?? rolledSex
+  const { general, careers } = tables[lang]
   const now = options.now ?? new Date().toISOString()
 
   const career =
@@ -70,17 +78,21 @@ export function generateCharacter(options: GenerateOptions): Character {
   const gear = career
     ? sample(rng, career.gearOptions, rules.limits.gearCount).map((g) => g[lang])
     : []
-  const name = `${pickOr(rng, table.firstNames)} ${pickOr(rng, table.lastNames)}`.trim()
-  const appearance = pickOr(rng, table.appearance)
-  const personalAgenda = pickOr(rng, table.personalAgenda)
-  const buddy = pickOr(rng, table.buddy)
-  const rival = pickOr(rng, table.rival)
-  const signatureItem = pickOr(rng, table.signatureItem)
+  const careerTable: CareerTables | undefined = careers[careerId]
+  const text = (fromGeneral: readonly string[], fromCareer: readonly string[] | undefined) =>
+    resolveGender(pickMixed(rng, fromGeneral, fromCareer), sex)
+  const name = resolveGender(pickName(rng, general, careerTable, sex), sex)
+  const appearance = text(general.appearance, careerTable?.appearance)
+  const personalAgenda = text(general.personalAgenda, careerTable?.personalAgenda)
+  const buddy = text(general.buddy, undefined)
+  const rival = text(general.rival, undefined)
+  const signatureItem = text(general.signatureItem, careerTable?.signatureItem)
 
   const generated: Character = {
     id: newId(),
     schemaVersion: 1,
     name,
+    sex,
     careerId,
     attributes,
     skills,
@@ -110,6 +122,7 @@ export function rerollSections(
   const keep = new Set(options.keep ?? [])
   const reroll = new Set(sections.filter((s) => !keep.has(s)))
   if (reroll.has('careerId')) for (const s of CAREER_DEPENDENT) if (!keep.has(s)) reroll.add(s)
+  if (reroll.has('sex')) for (const s of SEX_DEPENDENT) if (!keep.has(s)) reroll.add(s)
   const locked: Partial<Character> = { ...base }
   for (const s of reroll) delete locked[s]
   return generateCharacter({ ...options, locked })
@@ -193,8 +206,32 @@ function distribute<K extends string>(
   return values
 }
 
+/** Always consumes exactly one random number, so an empty list does not shift later rolls. */
 function pickOr(rng: Rng, items: readonly string[]): string {
-  return items.length > 0 ? pick(rng, items) : ''
+  const r = rng()
+  return items.length > 0 ? (items[Math.floor(r * items.length)] as string) : ''
+}
+
+/** Coin flip between the career list and the general list; general when the career has none. */
+function pickMixed(
+  rng: Rng,
+  fromGeneral: readonly string[],
+  fromCareer: readonly string[] | undefined,
+): string {
+  const useCareer = rng() < 0.5
+  const general = pickOr(rng, fromGeneral)
+  const career = pickOr(rng, fromCareer ?? [])
+  return useCareer && career !== '' ? career : general
+}
+
+function pickName(
+  rng: Rng,
+  general: GeneralTables,
+  career: CareerTables | undefined,
+  sex: Sex,
+): string {
+  const generalName = `${pickOr(rng, general.firstNames[sex])} ${pickOr(rng, general.lastNames)}`
+  return pickMixed(rng, [generalName.trim()], career?.names[sex])
 }
 
 function definedOnly<T extends object>(obj: Partial<T>): Partial<T> {
