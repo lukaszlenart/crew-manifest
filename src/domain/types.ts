@@ -46,6 +46,10 @@ export const SKILLS: readonly Skill[] = [
   'medicalAid',
 ]
 
+export function isSkill(id: string): id is Skill {
+  return (SKILLS as readonly string[]).includes(id)
+}
+
 /**
  * Career and talent ids are plain strings so that stored characters survive edits of
  * `rules.ts`; an unknown id is reported by validation instead of breaking the app.
@@ -100,10 +104,18 @@ export interface RuleLimits {
   androidBonusAttributes: number
 }
 
+export interface SkillInfo {
+  attribute: Attribute
+  page: number
+  label: Localized
+  description: Localized
+  details: Localized
+}
+
 export interface Rules {
   limits: RuleLimits
   attributes: Record<Attribute, { label: Localized }>
-  skills: Record<Skill, { attribute: Attribute; label: Localized }>
+  skills: Record<Skill, SkillInfo>
   careers: Career[]
   talents: Talent[]
 }
