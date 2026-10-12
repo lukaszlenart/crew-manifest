@@ -6,6 +6,7 @@ export type Route =
   | { name: 'edit'; id: string }
   | { name: 'sheet'; id: string }
   | { name: 'print'; ids: string[] }
+  | { name: 'talents'; id?: string }
 
 export function parseRoute(hash: string): Route {
   const parts = hash
@@ -19,6 +20,7 @@ export function parseRoute(hash: string): Route {
   if (head === 'sheet' && arg) return { name: 'sheet', id: arg }
   if (head === 'print' && arg)
     return { name: 'print', ids: arg.split(',').filter((id) => id !== '') }
+  if (head === 'talents') return arg ? { name: 'talents', id: arg } : { name: 'talents' }
   return { name: 'list' }
 }
 
@@ -28,6 +30,7 @@ export const href = {
   edit: (id: string) => `#/edit/${encodeURIComponent(id)}`,
   sheet: (id: string) => `#/sheet/${encodeURIComponent(id)}`,
   print: (ids: string[]) => `#/print/${encodeURIComponent(ids.join(','))}`,
+  talents: (id?: string) => (id ? `#/talents/${encodeURIComponent(id)}` : '#/talents'),
 }
 
 export const route = signal<Route>(parseRoute(globalThis.location?.hash ?? ''))

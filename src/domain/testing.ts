@@ -2,7 +2,13 @@ import { RULES } from './rules'
 import type { Career, Character, GearOption, Rules, Talent } from './types'
 
 const loc = (s: string) => ({ en: s, pl: s })
-const talent = (id: string): Talent => ({ id, label: loc(id), description: loc(id) })
+const talent = (id: string): Talent => ({
+  id,
+  label: loc(id),
+  description: loc(id),
+  details: loc(id),
+  page: 74,
+})
 const item = (s: string) => ({ label: loc(s) })
 const gear: GearOption[] = [
   [item('g1a'), item('g1b')],

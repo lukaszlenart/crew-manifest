@@ -6,6 +6,7 @@ export const en = {
 
   'nav.list': 'Characters',
   'nav.new': 'New character',
+  'nav.talents': 'Talents',
 
   'storage.writeError':
     'Could not save to browser storage. Export a backup before closing this tab.',
@@ -40,6 +41,19 @@ export const en = {
   'list.draft': 'Draft',
   'list.select': 'Select {name} for printing',
   'list.printSelected': 'Print selected ({count})',
+
+  'talents.title': 'Talents',
+  'talents.search': 'Search talents',
+  'talents.filter': 'Filter talents',
+  'talents.filter.all': 'All talents',
+  'talents.filter.general': 'General talents',
+  'talents.group.career': 'Career talents',
+  'talents.group.general': 'General talents',
+  'talents.generalNote': 'Gained through experience during play.',
+  'talents.page': 'p. {page}',
+  'talents.empty': 'No talents match the search.',
+  'talents.more': 'More →',
+  'talents.moreLabel': 'More about {name} (opens in a new tab)',
 
   'sheet.printCount': 'Sheets to print: {count}',
   'sheet.cash': '{amount} $',

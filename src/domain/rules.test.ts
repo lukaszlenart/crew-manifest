@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { RULES, RULES_LIMITS, cashRange } from './rules'
+import { RULES, RULES_LIMITS, careersOf, cashRange } from './rules'
 import { ATTRIBUTES, SKILLS } from './types'
 
 describe('RULES', () => {
@@ -64,5 +64,56 @@ describe('RULES', () => {
     expect(RULES_LIMITS.keyAttributeMax + RULES_LIMITS.androidAttributeBonus).toBe(8)
     expect(RULES_LIMITS.attributeMax + RULES_LIMITS.androidAttributeBonus).toBe(7)
     expect(RULES_LIMITS.androidBonusAttributes).toBe(2)
+  })
+
+  it('has complete text and a chapter 4 page for every talent', () => {
+    for (const t of RULES.talents) {
+      for (const field of [t.label, t.description, t.details]) {
+        expect(field.en.trim(), t.id).not.toBe('')
+        expect(field.pl.trim(), t.id).not.toBe('')
+      }
+      expect(Number.isInteger(t.page), t.id).toBe(true)
+      expect(t.page, t.id).toBeGreaterThanOrEqual(74)
+      expect(t.page, t.id).toBeLessThanOrEqual(79)
+    }
+  })
+
+  it('keeps talent summaries to one short line', () => {
+    for (const t of RULES.talents) {
+      expect(t.description.en.length, t.id).toBeLessThanOrEqual(140)
+      expect(t.description.pl.length, t.id).toBeLessThanOrEqual(140)
+    }
+  })
+
+  it('places career talents on the career talent pages', () => {
+    for (const career of RULES.careers) {
+      for (const id of career.talents) {
+        const page = RULES.talents.find((t) => t.id === id)?.page ?? 0
+        expect(page, id).toBeGreaterThanOrEqual(74)
+        expect(page, id).toBeLessThanOrEqual(77)
+      }
+    }
+  })
+
+  it('maps each career talent back to exactly its career', () => {
+    for (const career of RULES.careers) {
+      for (const id of career.talents) {
+        expect(careersOf(RULES, id).map((c) => c.id)).toEqual([career.id])
+      }
+    }
+  })
+
+  it('maps unknown and general talents to no career', () => {
+    expect(careersOf(RULES, 'nope')).toEqual([])
+    expect(careersOf(RULES, 'killer')).toEqual([])
+  })
+
+  it('lists the 31 general talents on pages 78-79', () => {
+    const general = RULES.talents.filter((t) => careersOf(RULES, t.id).length === 0)
+    expect(general).toHaveLength(31)
+    for (const t of general) {
+      expect(t.page, t.id).toBeGreaterThanOrEqual(78)
+      expect(t.page, t.id).toBeLessThanOrEqual(79)
+    }
   })
 })
