@@ -22,4 +22,11 @@ describe('parseCharacter', () => {
     const result = parseCharacter({ ...validCharacter(), sex: 'other' })
     expect(result).toEqual({ ok: false, error: expect.stringContaining('sex') })
   })
+
+  it('rejects a character without cash', () => {
+    const withoutCash: Partial<Character> = validCharacter()
+    delete withoutCash.cash
+    const result = parseCharacter(withoutCash)
+    expect(result).toEqual({ ok: false, error: expect.stringContaining('cash') })
+  })
 })

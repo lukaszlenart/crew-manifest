@@ -42,6 +42,7 @@ export const en = {
   'list.printSelected': 'Print selected ({count})',
 
   'sheet.printCount': 'Sheets to print: {count}',
+  'sheet.cash': '{amount} $',
 
   'editor.newTitle': 'New character',
   'editor.editTitle': 'Edit character',
@@ -58,6 +59,7 @@ export const en = {
   'editor.key': 'Key for the career',
   'editor.gearPlaceholder': 'One item per line',
   'editor.gearOptions': 'Career gear:',
+  'editor.cashRoll': 'Career roll: {min}–{max} $',
 
   'section.name': 'Name',
   'section.sex': 'Sex',
@@ -68,6 +70,7 @@ export const en = {
   'section.skills': 'Skills',
   'section.talentId': 'Talent',
   'section.gear': 'Gear',
+  'section.cash': 'Cash',
   'section.appearance': 'Appearance',
   'section.personalAgenda': 'Personal agenda',
   'section.buddy': 'Buddy',
@@ -109,6 +112,7 @@ export const en = {
   'validation.talent.required': 'Choose a talent.',
   'validation.talent.unknown': 'Unknown talent “{id}”.',
   'validation.talent.notInCareer': 'This talent does not belong to the career.',
+  'validation.cash.invalid': 'Must be a whole number, 0 or more.',
 } as const
 
 export type MessageKey = keyof typeof en

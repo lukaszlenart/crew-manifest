@@ -17,6 +17,7 @@ export type IssueCode =
   | 'talent.required'
   | 'talent.unknown'
   | 'talent.notInCareer'
+  | 'cash.invalid'
 
 /**
  * `message` is a stable code; the UI translates it (`validation.<code>`) using `params`.
@@ -132,6 +133,10 @@ export function validateTalent(
   return []
 }
 
+export function validateCash(c: Pick<Character, 'cash'>): ValidationIssue[] {
+  return Number.isInteger(c.cash) && c.cash >= 0 ? [] : [{ field: 'cash', message: 'cash.invalid' }]
+}
+
 export function validateCharacter(c: Character, rules: Rules): ValidationIssue[] {
   return [
     ...validateName(c),
@@ -139,6 +144,7 @@ export function validateCharacter(c: Character, rules: Rules): ValidationIssue[]
     ...validateAttributes(c, rules),
     ...validateSkills(c, rules),
     ...validateTalent(c, rules),
+    ...validateCash(c),
   ]
 }
 

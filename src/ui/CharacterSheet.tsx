@@ -140,6 +140,7 @@ export function SheetCard({ character: c }: { character: Character }) {
             '—'
           )}
         </SheetField>
+        <SheetField label={t('section.cash')}>{t('sheet.cash', { amount: c.cash })}</SheetField>
         <SheetField label={t('section.signatureItem')}>{c.signatureItem || '—'}</SheetField>
         <SheetField label={t('section.personalAgenda')}>{c.personalAgenda || '—'}</SheetField>
         <SheetField label={t('section.buddy')}>{c.buddy || '—'}</SheetField>

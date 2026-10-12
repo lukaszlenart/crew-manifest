@@ -4,7 +4,7 @@ import { useEffect, useMemo, useState } from 'preact/hooks'
 import { emptyCharacter } from '../domain/character'
 import { health } from '../domain/derived'
 import { gearItemText } from '../domain/gear'
-import { RULES, findCareer, findTalent } from '../domain/rules'
+import { RULES, cashRange, findCareer, findTalent } from '../domain/rules'
 import type { Character } from '../domain/types'
 import { ATTRIBUTES, SEXES, SKILLS } from '../domain/types'
 import {
@@ -327,6 +327,23 @@ function EditorForm({ initial, isNew }: { initial: Character; isNew: boolean }) 
               })}
             </div>
           )}
+
+          {header('cash')}
+          <input
+            type="number"
+            inputMode="numeric"
+            min={0}
+            value={draft.cash}
+            aria-invalid={issuesFor(issues, 'cash').length > 0}
+            onInput={(e) => {
+              const n = Number.parseInt(e.currentTarget.value, 10)
+              if (!Number.isNaN(n)) update({ cash: n })
+            }}
+          />
+          {career && (
+            <span class="muted small"> {t('editor.cashRoll', cashRange(career.cash))}</span>
+          )}
+          <IssueList issues={issuesFor(issues, 'cash')} />
         </section>
 
         <section class="panel">

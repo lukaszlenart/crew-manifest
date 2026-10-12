@@ -1,4 +1,4 @@
-import type { Career, GearItem, GearOption, Localized, Rules, Talent } from './types'
+import type { Career, CashRoll, GearItem, GearOption, Localized, Rules, Talent } from './types'
 
 /**
  * Character creation limits. Keep every number here so it is easy to correct.
@@ -283,6 +283,7 @@ const CAREERS: Career[] = [
       ),
       gear(item('Signal Flare', 'Flara sygnałowa'), item('Deck of Cards', 'Talia kart')),
     ],
+    cash: { dice: 1, multiplier: 100 },
   },
   {
     id: 'colonialMarshal',
@@ -302,6 +303,7 @@ const CAREERS: Career[] = [
         item('Walkie-Talkie', 'Krótkofalówka'),
       ),
     ],
+    cash: { dice: 1, multiplier: 100 },
   },
   {
     id: 'companyAgent',
@@ -327,6 +329,7 @@ const CAREERS: Career[] = [
         item('D6 Doses of Naproleve', 'K6 dawek Naproleve'),
       ),
     ],
+    cash: { dice: 2, multiplier: 100 },
   },
   {
     id: 'kid',
@@ -343,6 +346,7 @@ const CAREERS: Career[] = [
       gear(item('Yo-Yo', 'Jo-jo'), item('Handheld Game Console', 'Przenośna konsola')),
       gear(item('Personal Locator', 'Osobisty lokalizator'), item('Markers', 'Pisaki')),
     ],
+    cash: { dice: 1, multiplier: 1 },
   },
   {
     id: 'medic',
@@ -368,6 +372,7 @@ const CAREERS: Career[] = [
         item('Walkie-Talkie', 'Krótkofalówka'),
       ),
     ],
+    cash: { dice: 1, multiplier: 100 },
   },
   {
     id: 'officer',
@@ -390,6 +395,7 @@ const CAREERS: Career[] = [
         item('IFF Transponder', 'Transponder IFF'),
       ),
     ],
+    cash: { dice: 2, multiplier: 100 },
   },
   {
     id: 'pilot',
@@ -412,6 +418,7 @@ const CAREERS: Career[] = [
         item('IRC Mk.50 Compression Suit', 'Skafander kompresyjny IRC typ 50'),
       ),
     ],
+    cash: { dice: 1, multiplier: 100 },
   },
   {
     id: 'roughneck',
@@ -437,6 +444,7 @@ const CAREERS: Career[] = [
         item('Seegson C-Series Magnetic Tape Recorder', 'Magnetofon szpulowy Seegson seria C'),
       ),
     ],
+    cash: { dice: 1, multiplier: 100 },
   },
   {
     id: 'scientist',
@@ -462,6 +470,7 @@ const CAREERS: Career[] = [
         item('Personal Medkit', 'Osobista apteczka'),
       ),
     ],
+    cash: { dice: 1, multiplier: 100 },
   },
 ]
 
@@ -475,6 +484,10 @@ export const RULES: Rules = {
 
 export function findCareer(rules: Rules, id: string): Career | undefined {
   return rules.careers.find((c) => c.id === id)
+}
+
+export function cashRange(cash: CashRoll): { min: number; max: number } {
+  return { min: cash.dice * cash.multiplier, max: cash.dice * 6 * cash.multiplier }
 }
 
 export function findTalent(rules: Rules, id: string): Talent | undefined {

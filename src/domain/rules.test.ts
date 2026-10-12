@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { RULES } from './rules'
+import { RULES, cashRange } from './rules'
 import { ATTRIBUTES, SKILLS } from './types'
 
 describe('RULES', () => {
@@ -44,5 +44,19 @@ describe('RULES', () => {
         }
       }
     }
+  })
+
+  it('has a valid starting cash roll for every career', () => {
+    for (const career of RULES.careers) {
+      expect([1, 2]).toContain(career.cash.dice)
+      expect(Number.isInteger(career.cash.multiplier)).toBe(true)
+      expect(career.cash.multiplier).toBeGreaterThan(0)
+    }
+  })
+
+  it('gives the cash range of a career', () => {
+    expect(cashRange({ dice: 1, multiplier: 100 })).toEqual({ min: 100, max: 600 })
+    expect(cashRange({ dice: 2, multiplier: 100 })).toEqual({ min: 200, max: 1200 })
+    expect(cashRange({ dice: 1, multiplier: 1 })).toEqual({ min: 1, max: 6 })
   })
 })

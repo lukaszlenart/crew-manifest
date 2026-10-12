@@ -86,6 +86,7 @@ the English edition. Some data is still missing. Search the code for
     gearOptions: [
       gear(item('Flashlight', 'Latarka'), firearm('M4A3 Service Pistol', 'Pistolet służbowy M4A3')),
     ],
+    cash: { dice: 1, multiplier: 100 }, // D6 × $100
   }
   ```
 

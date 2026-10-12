@@ -17,6 +17,7 @@ export type Section =
   | 'skills'
   | 'talentId'
   | 'gear'
+  | 'cash'
   | 'appearance'
   | 'personalAgenda'
   | 'buddy'
@@ -31,6 +32,7 @@ export const SECTIONS: readonly Section[] = [
   'skills',
   'talentId',
   'gear',
+  'cash',
   'appearance',
   'personalAgenda',
   'buddy',
@@ -39,7 +41,13 @@ export const SECTIONS: readonly Section[] = [
 ]
 
 /** Fields that depend on the career and should follow it when it is re-rolled. */
-export const CAREER_DEPENDENT: readonly Section[] = ['attributes', 'skills', 'talentId', 'gear']
+export const CAREER_DEPENDENT: readonly Section[] = [
+  'attributes',
+  'skills',
+  'talentId',
+  'gear',
+  'cash',
+]
 
 /** Fields that should follow the sex when it is re-rolled. */
 export const SEX_DEPENDENT: readonly Section[] = ['name']
@@ -81,6 +89,7 @@ export function generateCharacter(options: GenerateOptions): Character {
         gearItemText(pick(rng, line), lang),
       )
     : []
+  const cash = rollCash(rng, career)
   const careerTable: CareerTables | undefined = careers[careerId]
   const text = (fromGeneral: readonly string[], fromCareer: readonly string[] | undefined) =>
     resolveGender(pickMixed(rng, fromGeneral, fromCareer), sex)
@@ -106,6 +115,7 @@ export function generateCharacter(options: GenerateOptions): Character {
     rival,
     signatureItem,
     gear,
+    cash,
     notes: '',
     createdAt: now,
     updatedAt: now,
@@ -129,6 +139,18 @@ export function rerollSections(
   const locked: Partial<Character> = { ...base }
   for (const s of reroll) delete locked[s]
   return generateCharacter({ ...options, locked })
+}
+
+/** Always rolls two dice so the amount of randomness used does not depend on the career. */
+function rollCash(rng: Rng, career: Career | undefined): number {
+  const rolls = [rollD6(rng), rollD6(rng)]
+  if (!career) return 0
+  const sum = rolls.slice(0, career.cash.dice).reduce((a, b) => a + b, 0)
+  return sum * career.cash.multiplier
+}
+
+function rollD6(rng: Rng): number {
+  return Math.floor(rng() * 6) + 1
 }
 
 /** Picks a career compatible with the locked attributes, skills and talent, if any. */
