@@ -249,7 +249,14 @@ function EditorForm({ initial, isNew }: { initial: Character; isNew: boolean }) 
               <option value={draft.talentId}>{talent ? loc(talent.label) : draft.talentId}</option>
             )}
           </select>
-          {talent && <p class="muted small">{loc(talent.description)}</p>}
+          {talent && (
+            <p class="muted small">
+              {loc(talent.description)}{' '}
+              <a href={href.talents(talent.id)} target="_blank" rel="noopener">
+                {t('talents.more')}
+              </a>
+            </p>
+          )}
           <IssueList issues={issuesFor(issues, 'talentId')} />
         </section>
 

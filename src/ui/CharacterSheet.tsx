@@ -125,7 +125,9 @@ export function SheetCard({ character: c }: { character: Character }) {
         <SheetField label={t('section.talentId')}>
           {talent ? (
             <>
-              <strong>{loc(talent.label)}</strong>
+              <a class="talent-link" href={href.talents(talent.id)}>
+                <strong>{loc(talent.label)}</strong>
+              </a>
               <div class="small">{loc(talent.description)}</div>
             </>
           ) : (
