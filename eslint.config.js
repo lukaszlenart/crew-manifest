@@ -16,6 +16,10 @@ export default tseslint.config(
     },
   },
   {
+    files: ['src/pwa/sw.js'],
+    languageOptions: { globals: globals.serviceworker },
+  },
+  {
     // Domain logic must stay independent of the UI layer.
     files: ['src/domain/**', 'src/generator/**', 'src/storage/**'],
     rules: {

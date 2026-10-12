@@ -41,6 +41,9 @@ GitHub Pages.
   repository write (errors become a `storageError` banner, then the list reloads). `router.ts`
   is a hash router: `#/`, `#/new`, `#/edit/:id`, `#/sheet/:id`, `#/print/:ids`.
 - `src/styles/` — plain CSS; `print.css` lays out A4, one character per page.
+- `src/pwa/` — hand-written service worker `sw.js` for offline use. A plugin in `vite.config.ts`
+  prepends the precache list (built + `public/` files) and a content-hashed cache name at build
+  time; it is registered only in production builds. Manifest and icons live in `public/`.
 
 Characters store career and talent **ids**, not text, so switching language translates the whole
 sheet. Renaming an id in `rules.ts` turns existing characters into drafts.
