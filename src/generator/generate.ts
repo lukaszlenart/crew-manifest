@@ -2,7 +2,7 @@ import { gearItemText } from '../domain/gear'
 import { newId } from '../domain/id'
 import { RULES, findCareer } from '../domain/rules'
 import type { Attribute, Career, Character, Lang, Rules, Sex, Skill } from '../domain/types'
-import { ATTRIBUTES, SEXES, SKILLS } from '../domain/types'
+import { ATTRIBUTES, SKILLS } from '../domain/types'
 import { attributeMax, skillMax, validateAttributes, validateSkills } from '../domain/validation'
 import { mulberry32, pick, sample, weightedIndex, type Rng } from './rng'
 import { resolveGender } from './gender'
@@ -11,7 +11,6 @@ import { TABLES, type CareerTables, type GeneralTables, type LangTables } from '
 /** Fields that can be randomized and locked independently. */
 export type Section =
   | 'name'
-  | 'sex'
   | 'careerId'
   | 'attributes'
   | 'skills'
@@ -26,7 +25,6 @@ export type Section =
 
 export const SECTIONS: readonly Section[] = [
   'name',
-  'sex',
   'careerId',
   'attributes',
   'skills',
@@ -49,9 +47,6 @@ export const CAREER_DEPENDENT: readonly Section[] = [
   'cash',
 ]
 
-/** Fields that should follow the sex when it is re-rolled. */
-export const SEX_DEPENDENT: readonly Section[] = ['name']
-
 /** Weight of key attributes/skills relative to the others when distributing points. */
 const KEY_WEIGHT = 4
 
@@ -69,8 +64,7 @@ export interface GenerateOptions {
 export function generateCharacter(options: GenerateOptions): Character {
   const { seed, locked = {}, rules = RULES, lang = 'en', tables = TABLES } = options
   const rng = mulberry32(seed)
-  const rolledSex = pick(rng, SEXES)
-  const sex = locked.sex ?? rolledSex
+  const sex = locked.sex ?? 'male'
   const kind = locked.kind ?? 'human'
   const { general, careers } = tables[lang]
   const now = options.now ?? new Date().toISOString()
@@ -148,7 +142,6 @@ export function rerollSections(
   const keep = new Set(options.keep ?? [])
   const reroll = new Set(sections.filter((s) => !keep.has(s)))
   if (reroll.has('careerId')) for (const s of CAREER_DEPENDENT) if (!keep.has(s)) reroll.add(s)
-  if (reroll.has('sex')) for (const s of SEX_DEPENDENT) if (!keep.has(s)) reroll.add(s)
   const locked: Partial<Character> = { ...base }
   for (const s of reroll) delete locked[s]
   if (reroll.has('attributes')) delete locked.androidBonus

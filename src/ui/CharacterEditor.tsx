@@ -170,6 +170,43 @@ function EditorForm({ initial, isNew }: { initial: Character; isNew: boolean }) 
 
       <div class="editor-grid">
         <section class="panel">
+          <div class="identity-row">
+            <div class="identity-group">
+              <h3>{t('section.kind')}</h3>
+              <div class="radio-row" role="radiogroup" aria-label={t('section.kind')}>
+                {KINDS.map((k) => (
+                  <label key={k}>
+                    <input
+                      type="radio"
+                      name="kind"
+                      value={k}
+                      checked={draft.kind === k}
+                      onChange={() => setKind(k)}
+                    />{' '}
+                    {t(`kind.${k}`)}
+                  </label>
+                ))}
+              </div>
+            </div>
+            <div class="identity-group">
+              <h3>{t('section.sex')}</h3>
+              <div class="radio-row" role="radiogroup" aria-label={t('section.sex')}>
+                {SEXES.map((s) => (
+                  <label key={s}>
+                    <input
+                      type="radio"
+                      name="sex"
+                      value={s}
+                      checked={draft.sex === s}
+                      onChange={() => update({ sex: s })}
+                    />{' '}
+                    {t(`sex.${s}`)}
+                  </label>
+                ))}
+              </div>
+            </div>
+          </div>
+
           {header('name')}
           <input
             id="field-name"
@@ -179,38 +216,6 @@ function EditorForm({ initial, isNew }: { initial: Character; isNew: boolean }) 
             onInput={(e) => update({ name: e.currentTarget.value })}
           />
           <IssueList issues={issuesFor(issues, 'name')} />
-
-          {header('sex')}
-          <div class="radio-row" role="radiogroup" aria-label={t('section.sex')}>
-            {SEXES.map((s) => (
-              <label key={s}>
-                <input
-                  type="radio"
-                  name="sex"
-                  value={s}
-                  checked={draft.sex === s}
-                  onChange={() => update({ sex: s })}
-                />{' '}
-                {t(`sex.${s}`)}
-              </label>
-            ))}
-          </div>
-
-          <h3>{t('section.kind')}</h3>
-          <div class="radio-row" role="radiogroup" aria-label={t('section.kind')}>
-            {KINDS.map((k) => (
-              <label key={k}>
-                <input
-                  type="radio"
-                  name="kind"
-                  value={k}
-                  checked={draft.kind === k}
-                  onChange={() => setKind(k)}
-                />{' '}
-                {t(`kind.${k}`)}
-              </label>
-            ))}
-          </div>
 
           {header('careerId')}
           <select

@@ -3,6 +3,7 @@ import { gearItemText } from '../domain/gear'
 import { RULES, cashRange, findCareer } from '../domain/rules'
 import { TEST_RULES, validCharacter } from '../domain/testing'
 import type { Character, Rules } from '../domain/types'
+import { SEXES } from '../domain/types'
 import { validateCharacter } from '../domain/validation'
 import { SECTIONS, generateCharacter, rerollSections, type Section } from './generate'
 import { mulberry32 } from './rng'
@@ -131,10 +132,11 @@ describe('generateCharacter', () => {
     }
   })
 
-  it('generates humans by default', () => {
+  it('generates male humans by default', () => {
     for (let seed = 0; seed < 50; seed++) {
       const c = generateCharacter({ seed, rules: TEST_RULES })
       expect(c.kind).toBe('human')
+      expect(c.sex).toBe('male')
       expect(c.androidBonus).toEqual([])
     }
   })
@@ -199,26 +201,10 @@ describe('rerollSections', () => {
     expect(changed).toBe(true)
   })
 
-  it('re-rolls the name with the sex unless the name is kept', () => {
-    const base = validCharacter({ name: 'Kept Name', sex: 'female' })
-    let nameChanged = false
-    let sexChanged = false
-    for (let seed = 0; seed < 50; seed++) {
-      const kept = rerollSections(base, ['sex'], { seed, rules: TEST_RULES, keep: ['name'] })
-      expect(kept.name).toBe('Kept Name')
-      const free = rerollSections(base, ['sex'], { seed, rules: TEST_RULES })
-      if (free.name !== base.name) nameChanged = true
-      if (free.sex !== base.sex) sexChanged = true
-      expect(free.careerId).toBe(base.careerId)
-    }
-    expect(nameChanged).toBe(true)
-    expect(sexChanged).toBe(true)
-  })
-
-  it('keeps the sex when only the name is re-rolled', () => {
+  it('keeps the sex on randomize all', () => {
     const base = validCharacter({ sex: 'female' })
     for (let seed = 0; seed < 50; seed++) {
-      expect(rerollSections(base, ['name'], { seed, rules: TEST_RULES }).sex).toBe('female')
+      expect(rerollSections(base, SECTIONS, { seed, rules: TEST_RULES }).sex).toBe('female')
     }
   })
 })
@@ -246,19 +232,21 @@ const testTables = { en: testLangTables, pl: testLangTables }
 describe('generateCharacter tables', () => {
   it('mixes career and general entries, with names matching the sex', () => {
     const seen = new Set<string>()
-    for (let seed = 0; seed < 200; seed++) {
-      const c = generateCharacter({
-        seed,
-        rules: TEST_RULES,
-        tables: testTables,
-        locked: { careerId: 'roughneck' },
-      })
-      const expectedNames = c.sex === 'female' ? ['GF L', 'CF'] : ['GM L', 'CM']
-      expect(expectedNames).toContain(c.name)
-      seen.add(c.name)
-      seen.add(c.appearance)
-      expect(c.buddy).toBe('gb')
-      expect(c.rival).toBe('gr')
+    for (let seed = 0; seed < 100; seed++) {
+      for (const sex of SEXES) {
+        const c = generateCharacter({
+          seed,
+          rules: TEST_RULES,
+          tables: testTables,
+          locked: { careerId: 'roughneck', sex },
+        })
+        const expectedNames = sex === 'female' ? ['GF L', 'CF'] : ['GM L', 'CM']
+        expect(expectedNames).toContain(c.name)
+        seen.add(c.name)
+        seen.add(c.appearance)
+        expect(c.buddy).toBe('gb')
+        expect(c.rival).toBe('gr')
+      }
     }
     for (const value of ['GF L', 'CF', 'GM L', 'CM', 'Ca', 'ga-m', 'ga-f']) {
       expect(seen, value).toContain(value)
@@ -274,15 +262,15 @@ describe('generateCharacter tables', () => {
           tables: testTables,
           locked: { careerId },
         })
-        expect(['GF L', 'GM L']).toContain(c.name)
-        expect(['ga-m', 'ga-f']).toContain(c.appearance)
+        expect(c.name).toBe('GM L')
+        expect(c.appearance).toBe('ga-m')
         expect(c.personalAgenda).toBe('gp')
         expect(c.signatureItem).toBe('gs')
       }
     }
   })
 
-  it('resolves gender markers for the rolled or locked sex', () => {
+  it('resolves gender markers for the locked sex', () => {
     for (let seed = 0; seed < 50; seed++) {
       const female = generateCharacter({
         seed,
@@ -298,7 +286,7 @@ describe('generateCharacter tables', () => {
 
   it('never leaves markers in text generated from the real tables', () => {
     for (let seed = 0; seed < 300; seed++) {
-      const c = generateCharacter({ seed, lang: 'pl' })
+      const c = generateCharacter({ seed, lang: 'pl', locked: { sex: SEXES[seed % 2] } })
       for (const text of [
         c.name,
         c.appearance,
@@ -416,21 +404,26 @@ describe('generateCharacter golden output', () => {
     },
     careers: { roughneck: careerTables('roughneck'), scientist: careerTables('scientist') },
   }
-  const generate = (seed: number, kind: Character['kind']) =>
+  const generate = (seed: number, sex: Character['sex'], kind: Character['kind']) =>
     generateCharacter({
       seed,
       rules: TEST_RULES,
       tables: { en: goldenLangTables, pl: goldenLangTables },
       now: 'T',
-      locked: { id: 'golden', kind },
+      locked: { id: 'golden', sex, kind },
     })
 
   it('keeps the output for fixed seeds', () => {
-    const output = [1, 8].flatMap((seed) =>
+    const output = (
+      [
+        [1, 'male'],
+        [8, 'female'],
+      ] as const
+    ).flatMap(([seed, sex]) =>
       (['human', 'android'] as const).map((kind) => ({
         seed,
         kind,
-        character: generate(seed, kind),
+        character: generate(seed, sex, kind),
       })),
     )
     expect(output).toMatchInlineSnapshot(`
@@ -438,45 +431,45 @@ describe('generateCharacter golden output', () => {
         {
           "character": {
             "androidBonus": [],
-            "appearance": "appearance-2",
+            "appearance": "appearance-5",
             "attributes": {
-              "agility": 2,
+              "agility": 3,
               "empathy": 4,
-              "strength": 5,
-              "wits": 3,
+              "strength": 3,
+              "wits": 4,
             },
-            "buddy": "buddy-5",
-            "careerId": "roughneck",
-            "cash": 300,
+            "buddy": "buddy-2",
+            "careerId": "scientist",
+            "cash": 100,
             "createdAt": "T",
             "gear": [
-              "g2a",
               "g1a",
+              "g3a",
             ],
             "id": "golden",
             "kind": "human",
-            "name": "roughneck-name-m-4",
+            "name": "scientist-name-m-4",
             "notes": "",
-            "personalAgenda": "roughneck-agenda-6",
-            "rival": "rival-3",
+            "personalAgenda": "agenda-3",
+            "rival": "rival-2",
             "schemaVersion": 1,
             "sex": "male",
-            "signatureItem": "roughneck-item-4",
+            "signatureItem": "scientist-item-5",
             "skills": {
-              "closeCombat": 3,
+              "closeCombat": 1,
               "command": 0,
-              "comtech": 0,
-              "heavyMachinery": 3,
+              "comtech": 1,
+              "heavyMachinery": 0,
               "manipulation": 0,
               "medicalAid": 1,
-              "mobility": 0,
-              "observation": 0,
+              "mobility": 1,
+              "observation": 3,
               "piloting": 1,
               "rangedCombat": 0,
-              "stamina": 2,
-              "survival": 0,
+              "stamina": 0,
+              "survival": 2,
             },
-            "talentId": "t1",
+            "talentId": "t3",
             "updatedAt": "T",
           },
           "kind": "human",
@@ -486,31 +479,128 @@ describe('generateCharacter golden output', () => {
           "character": {
             "androidBonus": [
               "agility",
-              "wits",
+              "empathy",
             ],
-            "appearance": "appearance-2",
+            "appearance": "appearance-5",
             "attributes": {
-              "agility": 2,
+              "agility": 3,
               "empathy": 4,
-              "strength": 5,
-              "wits": 3,
+              "strength": 3,
+              "wits": 4,
             },
-            "buddy": "buddy-5",
-            "careerId": "roughneck",
-            "cash": 300,
+            "buddy": "buddy-2",
+            "careerId": "scientist",
+            "cash": 100,
             "createdAt": "T",
             "gear": [
-              "g2a",
               "g1a",
+              "g3a",
             ],
             "id": "golden",
             "kind": "android",
-            "name": "roughneck-name-m-4",
+            "name": "scientist-name-m-4",
             "notes": "",
-            "personalAgenda": "roughneck-agenda-6",
-            "rival": "rival-3",
+            "personalAgenda": "agenda-3",
+            "rival": "rival-2",
             "schemaVersion": 1,
             "sex": "male",
+            "signatureItem": "",
+            "skills": {
+              "closeCombat": 1,
+              "command": 0,
+              "comtech": 1,
+              "heavyMachinery": 0,
+              "manipulation": 0,
+              "medicalAid": 1,
+              "mobility": 1,
+              "observation": 3,
+              "piloting": 1,
+              "rangedCombat": 0,
+              "stamina": 0,
+              "survival": 2,
+            },
+            "talentId": "t3",
+            "updatedAt": "T",
+          },
+          "kind": "android",
+          "seed": 1,
+        },
+        {
+          "character": {
+            "androidBonus": [],
+            "appearance": "appearance-1",
+            "attributes": {
+              "agility": 4,
+              "empathy": 3,
+              "strength": 5,
+              "wits": 2,
+            },
+            "buddy": "buddy-5",
+            "careerId": "roughneck",
+            "cash": 500,
+            "createdAt": "T",
+            "gear": [
+              "g2b",
+              "g3a",
+            ],
+            "id": "golden",
+            "kind": "human",
+            "name": "roughneck-name-f-2",
+            "notes": "",
+            "personalAgenda": "roughneck-agenda-6",
+            "rival": "rival-2",
+            "schemaVersion": 1,
+            "sex": "female",
+            "signatureItem": "roughneck-item-6",
+            "skills": {
+              "closeCombat": 3,
+              "command": 0,
+              "comtech": 0,
+              "heavyMachinery": 3,
+              "manipulation": 0,
+              "medicalAid": 1,
+              "mobility": 0,
+              "observation": 0,
+              "piloting": 0,
+              "rangedCombat": 0,
+              "stamina": 2,
+              "survival": 1,
+            },
+            "talentId": "t1",
+            "updatedAt": "T",
+          },
+          "kind": "human",
+          "seed": 8,
+        },
+        {
+          "character": {
+            "androidBonus": [
+              "empathy",
+              "strength",
+            ],
+            "appearance": "appearance-1",
+            "attributes": {
+              "agility": 4,
+              "empathy": 3,
+              "strength": 5,
+              "wits": 2,
+            },
+            "buddy": "buddy-5",
+            "careerId": "roughneck",
+            "cash": 500,
+            "createdAt": "T",
+            "gear": [
+              "g2b",
+              "g3a",
+            ],
+            "id": "golden",
+            "kind": "android",
+            "name": "roughneck-name-f-2",
+            "notes": "",
+            "personalAgenda": "roughneck-agenda-6",
+            "rival": "rival-2",
+            "schemaVersion": 1,
+            "sex": "female",
             "signatureItem": "",
             "skills": {
               "closeCombat": 3,
@@ -521,109 +611,12 @@ describe('generateCharacter golden output', () => {
               "medicalAid": 1,
               "mobility": 0,
               "observation": 0,
-              "piloting": 1,
+              "piloting": 0,
               "rangedCombat": 0,
               "stamina": 2,
-              "survival": 0,
+              "survival": 1,
             },
             "talentId": "t1",
-            "updatedAt": "T",
-          },
-          "kind": "android",
-          "seed": 1,
-        },
-        {
-          "character": {
-            "androidBonus": [],
-            "appearance": "scientist-appearance-2",
-            "attributes": {
-              "agility": 3,
-              "empathy": 3,
-              "strength": 3,
-              "wits": 5,
-            },
-            "buddy": "buddy-5",
-            "careerId": "scientist",
-            "cash": 500,
-            "createdAt": "T",
-            "gear": [
-              "g3a",
-              "g2b",
-            ],
-            "id": "golden",
-            "kind": "human",
-            "name": "first-f-3 last-3",
-            "notes": "",
-            "personalAgenda": "agenda-6",
-            "rival": "rival-2",
-            "schemaVersion": 1,
-            "sex": "female",
-            "signatureItem": "scientist-item-4",
-            "skills": {
-              "closeCombat": 1,
-              "command": 0,
-              "comtech": 1,
-              "heavyMachinery": 0,
-              "manipulation": 0,
-              "medicalAid": 1,
-              "mobility": 1,
-              "observation": 0,
-              "piloting": 1,
-              "rangedCombat": 1,
-              "stamina": 1,
-              "survival": 3,
-            },
-            "talentId": "t3",
-            "updatedAt": "T",
-          },
-          "kind": "human",
-          "seed": 8,
-        },
-        {
-          "character": {
-            "androidBonus": [
-              "empathy",
-              "wits",
-            ],
-            "appearance": "scientist-appearance-2",
-            "attributes": {
-              "agility": 3,
-              "empathy": 3,
-              "strength": 3,
-              "wits": 5,
-            },
-            "buddy": "buddy-5",
-            "careerId": "scientist",
-            "cash": 500,
-            "createdAt": "T",
-            "gear": [
-              "g3a",
-              "g2b",
-            ],
-            "id": "golden",
-            "kind": "android",
-            "name": "first-f-3 last-3",
-            "notes": "",
-            "personalAgenda": "agenda-6",
-            "rival": "rival-2",
-            "schemaVersion": 1,
-            "sex": "female",
-            "signatureItem": "",
-            "skills": {
-              "closeCombat": 1,
-              "command": 0,
-              "comtech": 1,
-              "heavyMachinery": 0,
-              "manipulation": 0,
-              "medicalAid": 1,
-              "mobility": 1,
-              "observation": 0,
-              "piloting": 1,
-              "rangedCombat": 1,
-              "stamina": 1,
-              "survival": 3,
-            },
-            "talentId": "t3",
             "updatedAt": "T",
           },
           "kind": "android",
