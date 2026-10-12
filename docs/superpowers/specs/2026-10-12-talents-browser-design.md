@@ -36,6 +36,7 @@ exists but cannot be browsed, and it covers career talents only.
   ```
 
   `description` stays a one-liner so the one-page A4 print layout is unaffected.
+
 - `TALENTS` in `src/domain/rules.ts` gains the general talents. All 27 career talents get
   `details` and `page`. The `talent()` helper takes the new arguments. The "Career talents only"
   comment is removed.
@@ -60,7 +61,7 @@ function filterTalents(
 ```
 
 - Matching is case-insensitive and ignores diacritics (NFD, combining marks removed, `ł`→`l`):
-  `zabojca` finds *Zabójca*.
+  `zabojca` finds _Zabójca_.
 - The query is split on whitespace; every word must appear in the label, description or details
   of the current language. Other languages are not searched.
 - An empty query returns all talents passing the filter.
@@ -77,9 +78,9 @@ function filterTalents(
 
 `src/ui/TalentBrowser.tsx`, kept thin; logic lives in `talentSearch.ts`.
 
-- Top: a search input and a filter `<select>` (*All*, *General*, then the 9 careers).
-- List: grouped as *Career talents* (subheading per career, in `RULES.careers` order) and *General
-  talents*. With a career filter only that career's group shows; with *General* only the general
+- Top: a search input and a filter `<select>` (_All_, _General_, then the 9 careers).
+- List: grouped as _Career talents_ (subheading per career, in `RULES.careers` order) and _General
+  talents_. With a career filter only that career's group shows; with _General_ only the general
   group.
 - Each entry is a native `<details>`: the summary shows the label, the one-line description,
   career badges and the page ("p. 78" / "s. 78"); the body shows `details`.

@@ -34,7 +34,7 @@ thin `src/ui/TalentBrowser.tsx` renders them on new `#/talents` and `#/talents/:
 ## Review Focus
 
 - Polish input with or without diacritics, including `ł` (NFD does not decompose it): `zabojca`,
-  `ZABÓJCA` and `Zabójca` all find *Zabójca*; `lapiac` finds text containing *łapiąc*. Pinned
+  `ZABÓJCA` and `Zabójca` all find _Zabójca_; `lapiac` finds text containing _łapiąc_. Pinned
   in Task 4.
 - Queries with regex metacharacters or extra whitespace (`+2`, `(`, `  unik  `) are matched as
   plain text, never thrown or treated as empty words. Pinned in Task 4.
@@ -49,24 +49,24 @@ thin `src/ui/TalentBrowser.tsx` renders them on new `#/talents` and `#/talents/:
 
 ## File structure
 
-| File | Responsibility |
-|---|---|
-| `src/domain/types.ts` | `Talent` gains `details`, `page` |
-| `src/domain/rules.ts` | talent content; `careersOf()` |
-| `src/domain/rules.test.ts` | talent content integrity, `careersOf` |
-| `src/domain/talentSearch.ts` (new) | fold, filter, sort, group, filter `<select>` encoding |
-| `src/domain/talentSearch.test.ts` (new) | search behaviour |
-| `src/ui/router.ts` / `router.test.ts` | `talents` route |
-| `src/i18n/en.ts`, `pl.ts` | new keys |
-| `src/ui/TalentBrowser.tsx` (new) | the tab |
-| `src/ui/App.tsx` | nav link, view switch |
-| `src/ui/CharacterSheet.tsx`, `CharacterEditor.tsx` | links to the tab |
-| `src/styles/app.css`, `print.css` | tab styles, plain links in print |
+| File                                               | Responsibility                                        |
+| -------------------------------------------------- | ----------------------------------------------------- |
+| `src/domain/types.ts`                              | `Talent` gains `details`, `page`                      |
+| `src/domain/rules.ts`                              | talent content; `careersOf()`                         |
+| `src/domain/rules.test.ts`                         | talent content integrity, `careersOf`                 |
+| `src/domain/talentSearch.ts` (new)                 | fold, filter, sort, group, filter `<select>` encoding |
+| `src/domain/talentSearch.test.ts` (new)            | search behaviour                                      |
+| `src/ui/router.ts` / `router.test.ts`              | `talents` route                                       |
+| `src/i18n/en.ts`, `pl.ts`                          | new keys                                              |
+| `src/ui/TalentBrowser.tsx` (new)                   | the tab                                               |
+| `src/ui/App.tsx`                                   | nav link, view switch                                 |
+| `src/ui/CharacterSheet.tsx`, `CharacterEditor.tsx` | links to the tab                                      |
+| `src/styles/app.css`, `print.css`                  | tab styles, plain links in print                      |
 
 ## Rulebook source (Tasks 1 and 3)
 
-The Polish rulebook is `~/Downloads/OBCY_Gra_fabularna_REPRINT_web_PL.pdf`. Printed page *p* is
-PDF page *p + 4*; chapter 4 talents are printed pp. 74–79 (PDF 78–83). Extract into the session
+The Polish rulebook is `~/Downloads/OBCY_Gra_fabularna_REPRINT_web_PL.pdf`. Printed page _p_ is
+PDF page _p + 4_; chapter 4 talents are printed pp. 74–79 (PDF 78–83). Extract into the session
 scratchpad, never into the repo:
 
 ```bash
@@ -97,11 +97,13 @@ Company Agent 75, Kid 75, Medic 75, Officer 76, Pilot 76, Roughneck 76, Scientis
 ### Task 1: Talent `details` and `page` for career talents
 
 **Files:**
+
 - Modify: `src/domain/types.ts:80-84`
 - Modify: `src/domain/rules.ts:46-264` (all `talent(...)` calls), `:499-501` (helper)
 - Test: `src/domain/rules.test.ts`
 
 **Interfaces:**
+
 - Produces: `Talent = { id: TalentId; label: Localized; description: Localized; details: Localized; page: number }`
 
 - [ ] **Step 1: Write the failing tests**
@@ -109,34 +111,34 @@ Company Agent 75, Kid 75, Medic 75, Officer 76, Pilot 76, Roughneck 76, Scientis
 Add inside `describe('RULES', ...)` in `src/domain/rules.test.ts`:
 
 ```ts
-  it('has complete text and a chapter 4 page for every talent', () => {
-    for (const t of RULES.talents) {
-      for (const field of [t.label, t.description, t.details]) {
-        expect(field.en.trim(), t.id).not.toBe('')
-        expect(field.pl.trim(), t.id).not.toBe('')
-      }
-      expect(Number.isInteger(t.page), t.id).toBe(true)
-      expect(t.page, t.id).toBeGreaterThanOrEqual(74)
-      expect(t.page, t.id).toBeLessThanOrEqual(79)
+it('has complete text and a chapter 4 page for every talent', () => {
+  for (const t of RULES.talents) {
+    for (const field of [t.label, t.description, t.details]) {
+      expect(field.en.trim(), t.id).not.toBe('')
+      expect(field.pl.trim(), t.id).not.toBe('')
     }
-  })
+    expect(Number.isInteger(t.page), t.id).toBe(true)
+    expect(t.page, t.id).toBeGreaterThanOrEqual(74)
+    expect(t.page, t.id).toBeLessThanOrEqual(79)
+  }
+})
 
-  it('keeps talent summaries to one short line', () => {
-    for (const t of RULES.talents) {
-      expect(t.description.en.length, t.id).toBeLessThanOrEqual(140)
-      expect(t.description.pl.length, t.id).toBeLessThanOrEqual(140)
-    }
-  })
+it('keeps talent summaries to one short line', () => {
+  for (const t of RULES.talents) {
+    expect(t.description.en.length, t.id).toBeLessThanOrEqual(140)
+    expect(t.description.pl.length, t.id).toBeLessThanOrEqual(140)
+  }
+})
 
-  it('places career talents on the career talent pages', () => {
-    for (const career of RULES.careers) {
-      for (const id of career.talents) {
-        const page = RULES.talents.find((t) => t.id === id)?.page ?? 0
-        expect(page, id).toBeGreaterThanOrEqual(74)
-        expect(page, id).toBeLessThanOrEqual(77)
-      }
+it('places career talents on the career talent pages', () => {
+  for (const career of RULES.careers) {
+    for (const id of career.talents) {
+      const page = RULES.talents.find((t) => t.id === id)?.page ?? 0
+      expect(page, id).toBeGreaterThanOrEqual(74)
+      expect(page, id).toBeLessThanOrEqual(77)
     }
-  })
+  }
+})
 ```
 
 - [ ] **Step 2: Run to verify it fails**
@@ -194,7 +196,7 @@ Follow "Rulebook source" and "Wording rules" above. Each call gets the page afte
 ```
 
 While doing this, compare each existing PL `label` with the heading in the book. Do not change
-labels; record each mismatch (e.g. `pastTheLimit` is *Determinacja* in `rules.ts` — check the
+labels; record each mismatch (e.g. `pastTheLimit` is _Determinacja_ in `rules.ts` — check the
 Marine section) on the PR-notes list for Task 8.
 
 - [ ] **Step 5: Run tests**
@@ -215,10 +217,12 @@ git commit -m "feat(rules): add details and page to career talents" -m "Co-Autho
 ### Task 2: `careersOf`
 
 **Files:**
+
 - Modify: `src/domain/rules.ts` (after `findTalent`)
 - Test: `src/domain/rules.test.ts`
 
 **Interfaces:**
+
 - Consumes: `Rules`, `Career`, `TalentId` from `types.ts`
 - Produces: `careersOf(rules: Rules, talentId: TalentId): Career[]` — careers in `rules.careers`
   order; empty array means a general talent.
@@ -228,17 +232,17 @@ git commit -m "feat(rules): add details and page to career talents" -m "Co-Autho
 Import `careersOf` alongside `RULES` in `rules.test.ts` and add:
 
 ```ts
-  it('maps each career talent back to exactly its career', () => {
-    for (const career of RULES.careers) {
-      for (const id of career.talents) {
-        expect(careersOf(RULES, id).map((c) => c.id)).toEqual([career.id])
-      }
+it('maps each career talent back to exactly its career', () => {
+  for (const career of RULES.careers) {
+    for (const id of career.talents) {
+      expect(careersOf(RULES, id).map((c) => c.id)).toEqual([career.id])
     }
-  })
+  }
+})
 
-  it('maps unknown and general talents to no career', () => {
-    expect(careersOf(RULES, 'nope')).toEqual([])
-  })
+it('maps unknown and general talents to no career', () => {
+  expect(careersOf(RULES, 'nope')).toEqual([])
+})
 ```
 
 - [ ] **Step 2: Run to verify it fails**
@@ -259,30 +263,32 @@ Add `TalentId` to the type import at the top of `rules.ts`.
 - [ ] **Step 4: Run tests** — `fnm exec --using=24.15 -- npx vitest run src/domain/rules.test.ts` → PASS
 
 - [ ] **Step 5: Commit** — full check, then
-`git commit -m "feat(rules): find the careers that offer a talent"` with the co-author line.
+      `git commit -m "feat(rules): find the careers that offer a talent"` with the co-author line.
 
 ---
 
 ### Task 3: General talents
 
 **Files:**
+
 - Modify: `src/domain/rules.ts` (`TALENTS`, the comment above it)
 - Test: `src/domain/rules.test.ts`
 
 **Interfaces:**
+
 - Consumes: `talent(id, page, label, description, details)` from Task 1, `careersOf` from Task 2
 
 - [ ] **Step 1: Write the failing test**
 
 ```ts
-  it('lists the 31 general talents on pages 78-79', () => {
-    const general = RULES.talents.filter((t) => careersOf(RULES, t.id).length === 0)
-    expect(general).toHaveLength(31)
-    for (const t of general) {
-      expect(t.page, t.id).toBeGreaterThanOrEqual(78)
-      expect(t.page, t.id).toBeLessThanOrEqual(79)
-    }
-  })
+it('lists the 31 general talents on pages 78-79', () => {
+  const general = RULES.talents.filter((t) => careersOf(RULES, t.id).length === 0)
+  expect(general).toHaveLength(31)
+  for (const t of general) {
+    expect(t.page, t.id).toBeGreaterThanOrEqual(78)
+    expect(t.page, t.id).toBeLessThanOrEqual(79)
+  }
+})
 ```
 
 - [ ] **Step 2: Run to verify it fails** — expected `expected [] to have a length of 31 but got 0`.
@@ -297,39 +303,39 @@ as recalled, **not verified**: rows marked `?` get `// TODO: uzupełnić z podr�
 above the call and go on the PR-notes list. Ids follow the EN label; general talents are never
 stored on characters, so renaming an id later is safe.
 
-| PL (book) | id | EN label | page |
-|---|---|---|---|
-| Bezlitosny | `merciless` | Merciless | 78 |
-| Cichy | `stealthy` | Stealthy ? | 78 |
-| Człowiek-demolka | `fullAuto` | Full Auto ? | 78 |
-| Doradca | `counselor` | Counselor ? | 78 |
-| Dowódca okrętu | `captain` | Captain ? | 78 |
-| Drugi oddech | `secondWind` | Second Wind | 78 |
-| Groźny | `menacing` | Menacing | 78 |
-| Jak na psie | `fastHealer` | Fast Healer ? | 78 |
-| Krótki sen | `shortSleeper` | Short Sleeper ? | 78 |
-| Mechanik okrętowy | `shipMechanic` | Ship Mechanic ? | 78 |
-| Narwaniec | `rebellious` | Rebellious ? | 78 |
-| Niejadek | `lightEater` | Light Eater | 78 |
-| Niewzruszony | `resistant` | Resistant ? | 78 |
-| Ochroniarz | `bodyguard` | Bodyguard | 78 |
-| Silny cios | `heavyBlow` | Heavy Blow ? | 78 |
-| Skrytka | `stash` | Stash | 78 |
-| Spokojny oddech | `deepBreather` | Deep Breather ? | 79 |
-| Stalowe nerwy | `nervesOfSteel` | Nerves of Steel | 79 |
-| Strzelec okrętowy | `shipGunner` | Ship Gunner ? | 79 |
-| Szybkie dobywanie | `quickdraw` | Quickdraw | 79 |
-| Szybkie przeładowanie | `rapidReload` | Rapid Reload | 79 |
-| Szybki refleks | `fastReflexes` | Fast Reflexes | 79 |
-| Szybkostrzelność | `rapidFire` | Rapid Fire | 79 |
-| Tragarz | `packMule` | Pack Mule | 79 |
-| Trening w stanie nieważkości | `zeroGTraining` | Zero-G Training | 79 |
-| Twardziel | `tough` | Tough | 79 |
-| Waga lekka | `lightweight` | Lightweight ? | 79 |
-| Wyszkolony astronauta | `spacewalker` | Spacewalker ? | 79 |
-| Ulubiona broń | `weaponSpecialist` | Weapon Specialist | 79 |
-| Uważny | `watchful` | Watchful | 79 |
-| Zabójca | `killer` | Killer | 79 |
+| PL (book)                    | id                 | EN label          | page |
+| ---------------------------- | ------------------ | ----------------- | ---- |
+| Bezlitosny                   | `merciless`        | Merciless         | 78   |
+| Cichy                        | `stealthy`         | Stealthy ?        | 78   |
+| Człowiek-demolka             | `fullAuto`         | Full Auto ?       | 78   |
+| Doradca                      | `counselor`        | Counselor ?       | 78   |
+| Dowódca okrętu               | `captain`          | Captain ?         | 78   |
+| Drugi oddech                 | `secondWind`       | Second Wind       | 78   |
+| Groźny                       | `menacing`         | Menacing          | 78   |
+| Jak na psie                  | `fastHealer`       | Fast Healer ?     | 78   |
+| Krótki sen                   | `shortSleeper`     | Short Sleeper ?   | 78   |
+| Mechanik okrętowy            | `shipMechanic`     | Ship Mechanic ?   | 78   |
+| Narwaniec                    | `rebellious`       | Rebellious ?      | 78   |
+| Niejadek                     | `lightEater`       | Light Eater       | 78   |
+| Niewzruszony                 | `resistant`        | Resistant ?       | 78   |
+| Ochroniarz                   | `bodyguard`        | Bodyguard         | 78   |
+| Silny cios                   | `heavyBlow`        | Heavy Blow ?      | 78   |
+| Skrytka                      | `stash`            | Stash             | 78   |
+| Spokojny oddech              | `deepBreather`     | Deep Breather ?   | 79   |
+| Stalowe nerwy                | `nervesOfSteel`    | Nerves of Steel   | 79   |
+| Strzelec okrętowy            | `shipGunner`       | Ship Gunner ?     | 79   |
+| Szybkie dobywanie            | `quickdraw`        | Quickdraw         | 79   |
+| Szybkie przeładowanie        | `rapidReload`      | Rapid Reload      | 79   |
+| Szybki refleks               | `fastReflexes`     | Fast Reflexes     | 79   |
+| Szybkostrzelność             | `rapidFire`        | Rapid Fire        | 79   |
+| Tragarz                      | `packMule`         | Pack Mule         | 79   |
+| Trening w stanie nieważkości | `zeroGTraining`    | Zero-G Training   | 79   |
+| Twardziel                    | `tough`            | Tough             | 79   |
+| Waga lekka                   | `lightweight`      | Lightweight ?     | 79   |
+| Wyszkolony astronauta        | `spacewalker`      | Spacewalker ?     | 79   |
+| Ulubiona broń                | `weaponSpecialist` | Weapon Specialist | 79   |
+| Uważny                       | `watchful`         | Watchful          | 79   |
+| Zabójca                      | `killer`           | Killer            | 79   |
 
 `Skrytka` starts at the bottom of p. 78 and continues on p. 79; it stays on 78. If the book shows
 a talent missing from this table, or vice versa, stop and report it: the count of 31 in the test
@@ -351,20 +357,22 @@ Worked example:
 ```
 
 - [ ] **Step 4: Run tests** — `fnm exec --using=24.15 -- npx vitest run src/domain src/generator`
-→ PASS, golden test unchanged.
+      → PASS, golden test unchanged.
 
 - [ ] **Step 5: Commit** — full check, then
-`git commit -m "feat(rules): add the general talents"` with the co-author line.
+      `git commit -m "feat(rules): add the general talents"` with the co-author line.
 
 ---
 
 ### Task 4: Talent search
 
 **Files:**
+
 - Create: `src/domain/talentSearch.ts`
 - Test: `src/domain/talentSearch.test.ts`
 
 **Interfaces:**
+
 - Consumes: `careersOf` (Task 2); `Rules`, `Talent`, `Career`, `CareerId`, `Lang` from `types.ts`
 - Produces:
   - `type TalentFilter = { kind: 'all' } | { kind: 'general' } | { kind: 'career'; careerId: CareerId }`
@@ -509,16 +517,16 @@ import { careersOf } from './rules'
 import type { Career, CareerId, Lang, Rules, Talent } from './types'
 
 export type TalentFilter =
-  | { kind: 'all' }
-  | { kind: 'general' }
-  | { kind: 'career'; careerId: CareerId }
+  { kind: 'all' } | { kind: 'general' } | { kind: 'career'; careerId: CareerId }
 
 export function filterTalents(
   rules: Rules,
   options: { query: string; filter: TalentFilter },
   lang: Lang,
 ): Talent[] {
-  const words = fold(options.query).split(/\s+/).filter((w) => w !== '')
+  const words = fold(options.query)
+    .split(/\s+/)
+    .filter((w) => w !== '')
   return rules.talents
     .filter((t) => matchesFilter(rules, t, options.filter))
     .filter((t) => {
@@ -563,41 +571,43 @@ function fold(text: string): string {
 ```
 
 - [ ] **Step 4: Run tests** — same command → PASS. If the PL sort expectation fails, check that
-`localeCompare(…, 'pl')` puts *Silny cios* before *Spokojny oddech*; the expectation is correct
-Polish collation, so fix the code, not the test.
+      `localeCompare(…, 'pl')` puts _Silny cios_ before _Spokojny oddech_; the expectation is correct
+      Polish collation, so fix the code, not the test.
 
 - [ ] **Step 5: Commit** — full check, then
-`git commit -m "feat(domain): search and group talents"` with the co-author line.
+      `git commit -m "feat(domain): search and group talents"` with the co-author line.
 
 ---
 
 ### Task 5: `talents` route and i18n keys
 
 **Files:**
+
 - Modify: `src/ui/router.ts`, `src/ui/router.test.ts`
 - Modify: `src/i18n/en.ts`, `src/i18n/pl.ts` (after the `nav.*` and `list.*` blocks)
 
 **Interfaces:**
+
 - Produces: `Route` member `{ name: 'talents'; id?: string }`; `href.talents(id?: string): string`;
   message keys listed in Step 4.
 
 - [ ] **Step 1: Write the failing tests** — in `router.test.ts`:
 
 ```ts
-  it('parses the talents routes', () => {
-    expect(parseRoute('#/talents')).toEqual({ name: 'talents' })
-    expect(parseRoute('#/talents/dodge')).toEqual({ name: 'talents', id: 'dodge' })
-    expect(parseRoute('#/talents/a%20b')).toEqual({ name: 'talents', id: 'a b' })
-  })
+it('parses the talents routes', () => {
+  expect(parseRoute('#/talents')).toEqual({ name: 'talents' })
+  expect(parseRoute('#/talents/dodge')).toEqual({ name: 'talents', id: 'dodge' })
+  expect(parseRoute('#/talents/a%20b')).toEqual({ name: 'talents', id: 'a b' })
+})
 
-  it('round-trips talent hrefs', () => {
-    expect(href.talents()).toBe('#/talents')
-    expect(parseRoute(href.talents('x/y z'))).toEqual({ name: 'talents', id: 'x/y z' })
-  })
+it('round-trips talent hrefs', () => {
+  expect(href.talents()).toBe('#/talents')
+  expect(parseRoute(href.talents('x/y z'))).toEqual({ name: 'talents', id: 'x/y z' })
+})
 ```
 
 - [ ] **Step 2: Run to verify it fails** — `npx vitest run src/ui/router.test.ts` → FAIL
-(`href.talents is not a function`, and `#/talents` parses as `list`).
+      (`href.talents is not a function`, and `#/talents` parses as `list`).
 
 - [ ] **Step 3: Implement** — in `router.ts`:
 
@@ -608,7 +618,7 @@ Polish collation, so fix the code, not the test.
 in `parseRoute`, before the final `return`:
 
 ```ts
-  if (head === 'talents') return arg ? { name: 'talents', id: arg } : { name: 'talents' }
+if (head === 'talents') return arg ? { name: 'talents', id: arg } : { name: 'talents' }
 ```
 
 in `href`:
@@ -670,18 +680,20 @@ a heading, the select's `aria-label`, and a one-line note under the general grou
 - [ ] **Step 5: Run tests** — `npx vitest run src/ui/router.test.ts src/i18n` → PASS.
 
 - [ ] **Step 6: Commit** — full check, then
-`git commit -m "feat(ui): add the talents route and messages"` with the co-author line.
+      `git commit -m "feat(ui): add the talents route and messages"` with the co-author line.
 
 ---
 
 ### Task 6: Talents tab
 
 **Files:**
+
 - Create: `src/ui/TalentBrowser.tsx`
 - Modify: `src/ui/App.tsx` (nav, `View`)
 - Modify: `src/styles/app.css` (append a `/* Talents */` block)
 
 **Interfaces:**
+
 - Consumes: `filterTalents`, `groupTalents`, `filterToValue`, `filterFromValue`, `TalentFilter`
   (Task 4); `careersOf` (Task 2); `href.talents`, route `talents` (Task 5); keys from Task 5.
 - Produces: `TalentBrowser({ id }: { id?: string })`.
@@ -802,9 +814,9 @@ function entryId(talentId: string): string {
 Import `TalentBrowser`. In `<nav>`, after the `nav.new` link:
 
 ```tsx
-          <a href={href.talents()} aria-current={current.name === 'talents' ? 'page' : undefined}>
-            {t('nav.talents')}
-          </a>
+<a href={href.talents()} aria-current={current.name === 'talents' ? 'page' : undefined}>
+  {t('nav.talents')}
+</a>
 ```
 
 Replace the temporary `case 'talents': return null` in `View` with:
@@ -855,13 +867,13 @@ is visible) and re-runs the scroll effect; typing afterwards does not scroll.
 - [ ] **Step 4: Full check** — `fnm exec --using=24.15 -- sh -c 'npm run typecheck && npm test && npm run lint'` → PASS.
 
 - [ ] **Step 5: Manual check in `npm run dev`** (http://localhost:5173)
-  - Nav shows *Talents*; it is marked current on `#/talents` and `#/talents/dodge`.
-  - Typing `zabojca` in PL shows only *Zabójca*; switch to EN with the query still typed → the
+  - Nav shows _Talents_; it is marked current on `#/talents` and `#/talents/dodge`.
+  - Typing `zabojca` in PL shows only _Zabójca_; switch to EN with the query still typed → the
     list updates without a reload (empty, because `zabojca` is not English).
-  - Filter *General* shows only the general group with its note; a career filter shows one
+  - Filter _General_ shows only the general group with its note; a career filter shows one
     career subheading.
-  - With `unik` typed, open `#/talents/killer` in the address bar → query clears, *Killer* is
-    open and scrolled into view. Then `#/talents/dodge` → *Dodge* opens and scrolls.
+  - With `unik` typed, open `#/talents/killer` in the address bar → query clears, _Killer_ is
+    open and scrolled into view. Then `#/talents/dodge` → _Dodge_ opens and scrolls.
   - `#/talents/bogus` shows the full list, nothing open, no console errors.
 
 - [ ] **Step 6: Commit** — `git commit -m "feat(ui): add the talents tab"` with the co-author line.
@@ -871,35 +883,39 @@ is visible) and re-runs the scroll effect; typing afterwards does not scroll.
 ### Task 7: Links from the sheet and editor
 
 **Files:**
+
 - Modify: `src/ui/CharacterSheet.tsx:125-133`
 - Modify: `src/ui/CharacterEditor.tsx:252`
 - Modify: `src/styles/print.css` (inside `@media print`)
 
 **Interfaces:**
+
 - Consumes: `href.talents(id)` (Task 5), key `talents.more` (Task 5).
 
 - [ ] **Step 1: Sheet** — replace `<strong>{loc(talent.label)}</strong>` with:
 
 ```tsx
-              <a class="talent-link" href={href.talents(talent.id)}>
-                <strong>{loc(talent.label)}</strong>
-              </a>
+<a class="talent-link" href={href.talents(talent.id)}>
+  <strong>{loc(talent.label)}</strong>
+</a>
 ```
 
 (`href` is already imported in `CharacterSheet.tsx`.)
 
 - [ ] **Step 2: Editor** — the editor has no unsaved-changes guard, so the link opens a new tab
-instead of leaving the draft. Replace line 252 with:
+      instead of leaving the draft. Replace line 252 with:
 
 ```tsx
-          {talent && (
-            <p class="muted small">
-              {loc(talent.description)}{' '}
-              <a href={href.talents(talent.id)} target="_blank" rel="noopener">
-                {t('talents.more')}
-              </a>
-            </p>
-          )}
+{
+  talent && (
+    <p class="muted small">
+      {loc(talent.description)}{' '}
+      <a href={href.talents(talent.id)} target="_blank" rel="noopener">
+        {t('talents.more')}
+      </a>
+    </p>
+  )
+}
 ```
 
 (`href` is already imported in `CharacterEditor.tsx`.)
@@ -907,23 +923,23 @@ instead of leaving the draft. Replace line 252 with:
 - [ ] **Step 3: Print** — inside `@media print` in `print.css`, add:
 
 ```css
-  .sheet a {
-    color: inherit;
-    text-decoration: none;
-  }
+.sheet a {
+  color: inherit;
+  text-decoration: none;
+}
 ```
 
 - [ ] **Step 4: Full check** → PASS.
 
 - [ ] **Step 5: Manual check**
   - The sheet's talent name links to its open entry in the tab.
-  - In the editor, *More →* opens the tab in a new browser tab; the draft and its *unsaved*
+  - In the editor, _More →_ opens the tab in a new browser tab; the draft and its _unsaved_
     marker stay in the original tab.
   - Print preview of a sheet (`#/print/<id>`): talent name is plain black, not underlined, and
     the sheet still fits one A4 page.
 
 - [ ] **Step 6: Commit** — `git commit -m "feat(ui): link a character's talent to the talents tab"`
-with the co-author line.
+      with the co-author line.
 
 ---
 
@@ -941,7 +957,7 @@ Expected: all PASS; `git diff main -- src/generator src/storage src/domain/valid
 empty.
 
 - [ ] **Step 2: Offline check** — `npm run preview`, load once, go offline in DevTools, reload
-`#/talents` → the tab works.
+      `#/talents` → the tab works.
 
 - [ ] **Step 3: Collect PR notes** for the human review against the book:
   - every EN label marked `?` in Task 3, with its PL name;
@@ -950,5 +966,5 @@ empty.
   - every value left uncertain by the extraction.
 
 - [ ] **Step 4: Hand off** — run `superpowers:finishing-a-development-branch`. Before any
-`gh pr create`, run `/security-review` on the branch diff (global instruction) and put the
-Step 3 notes in the PR body.
+      `gh pr create`, run `/security-review` on the branch diff (global instruction) and put the
+      Step 3 notes in the PR body.
