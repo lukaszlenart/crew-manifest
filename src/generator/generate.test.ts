@@ -2,9 +2,9 @@ import { describe, expect, it } from 'vitest'
 import { gearItemText } from '../domain/gear'
 import { RULES, cashRange, findCareer } from '../domain/rules'
 import { TEST_RULES, validCharacter } from '../domain/testing'
-import type { Rules } from '../domain/types'
+import type { Character, Rules } from '../domain/types'
 import { validateCharacter } from '../domain/validation'
-import { generateCharacter, rerollSections } from './generate'
+import { SECTIONS, generateCharacter, rerollSections, type Section } from './generate'
 import { mulberry32 } from './rng'
 import type { LangTables } from './tables'
 
@@ -128,6 +128,37 @@ describe('generateCharacter', () => {
       // Locked stats fit only the roughneck, so the career must follow.
       expect(c.careerId).toBe('roughneck')
       expect(validateCharacter(c, TEST_RULES)).toEqual([])
+    }
+  })
+
+  it('generates humans by default', () => {
+    for (let seed = 0; seed < 50; seed++) {
+      const c = generateCharacter({ seed, rules: TEST_RULES })
+      expect(c.kind).toBe('human')
+      expect(c.androidBonus).toEqual([])
+    }
+  })
+
+  it('generates valid androids when kind is locked', () => {
+    for (let seed = 0; seed < 500; seed++) {
+      const c = generateCharacter({ seed, rules: RULES, locked: { kind: 'android' } })
+      expect(c.kind).toBe('android')
+      expect(new Set(c.androidBonus).size).toBe(2)
+      expect(c.signatureItem).toBe('')
+      expect(validateCharacter(c, RULES), `seed ${seed}`).toEqual([])
+    }
+  })
+
+  it('rolls the same human and the same other fields whether or not kind is android', () => {
+    for (let seed = 0; seed < 50; seed++) {
+      const human = generateCharacter({ seed, rules: TEST_RULES, locked: fixed })
+      const android = generateCharacter({
+        seed,
+        rules: TEST_RULES,
+        locked: { ...fixed, kind: 'android' },
+      })
+      const strip = (c: Character) => ({ ...c, kind: '', androidBonus: [], signatureItem: '' })
+      expect(strip(android)).toEqual(strip(human))
     }
   })
 
@@ -279,6 +310,50 @@ describe('generateCharacter tables', () => {
         expect(text, `seed ${seed}`).not.toMatch(/[{}|]/)
         expect(text.trim(), `seed ${seed}`).not.toBe('')
       }
+    }
+  })
+})
+
+describe('rerollSections with an android', () => {
+  const base = validCharacter({
+    kind: 'android',
+    androidBonus: ['agility', 'empathy'],
+    signatureItem: '',
+  })
+  const bonusChangedFor = (sections: Section[], keep: Section[] = []) => {
+    let changed = 0
+    for (let seed = 0; seed < 50; seed++) {
+      const c = rerollSections(base, sections, { seed, rules: TEST_RULES, keep })
+      expect(c.kind).toBe('android')
+      expect(new Set(c.androidBonus).size).toBe(2)
+      if (c.androidBonus.join() !== base.androidBonus.join()) changed++
+    }
+    return changed
+  }
+
+  it('re-rolls the bonus with the attributes', () => {
+    expect(bonusChangedFor(['attributes'])).toBeGreaterThan(0)
+  })
+
+  it('re-rolls the bonus with the career', () => {
+    expect(bonusChangedFor(['careerId'])).toBeGreaterThan(0)
+  })
+
+  it('keeps the bonus when attributes are kept', () => {
+    expect(bonusChangedFor([...SECTIONS], ['attributes'])).toBe(0)
+  })
+
+  it('keeps an android without a signature item on randomize all', () => {
+    const c = rerollSections(base, SECTIONS, { seed: 3, rules: TEST_RULES })
+    expect(c.signatureItem).toBe('')
+  })
+
+  it('never turns a human into an android', () => {
+    const human = validCharacter()
+    for (let seed = 0; seed < 50; seed++) {
+      const c = rerollSections(human, SECTIONS, { seed, rules: TEST_RULES })
+      expect(c.kind).toBe('human')
+      expect(c.androidBonus).toEqual([])
     }
   })
 })
