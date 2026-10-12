@@ -43,6 +43,9 @@ export const en = {
 
   'sheet.printCount': 'Sheets to print: {count}',
   'sheet.cash': '{amount} $',
+  'sheet.androidRules': 'Android',
+  'sheet.androidRulesText':
+    'Cannot push skill rolls. Never makes Panic Rolls. Takes damage differently (p. 111).',
 
   'editor.newTitle': 'New character',
   'editor.editTitle': 'Edit character',

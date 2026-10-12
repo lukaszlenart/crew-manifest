@@ -44,6 +44,9 @@ export const pl = {
 
   'sheet.printCount': 'Kart do druku: {count}',
   'sheet.cash': '{amount} $',
+  'sheet.androidRules': 'Android',
+  'sheet.androidRulesText':
+    'Nie może forsować rzutów. Nigdy nie wykonuje rzutów na panikę. Inaczej otrzymuje obrażenia (s. 111).',
 
   'editor.newTitle': 'Nowa postać',
   'editor.editTitle': 'Edycja postaci',
