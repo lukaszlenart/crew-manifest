@@ -17,6 +17,12 @@ describe('parseRoute', () => {
     expect(parseRoute('#/talents/a%20b')).toEqual({ name: 'talents', id: 'a b' })
   })
 
+  it('parses the skills routes and ignores an unknown skill', () => {
+    expect(parseRoute('#/skills')).toEqual({ name: 'skills' })
+    expect(parseRoute('#/skills/comtech')).toEqual({ name: 'skills', id: 'comtech' })
+    expect(parseRoute('#/skills/bogus')).toEqual({ name: 'skills' })
+  })
+
   it('falls back to the list', () => {
     expect(parseRoute('#/edit')).toEqual({ name: 'list' })
     expect(parseRoute('#/whatever')).toEqual({ name: 'list' })
@@ -35,5 +41,10 @@ describe('parseRoute', () => {
   it('round-trips talent hrefs', () => {
     expect(href.talents()).toBe('#/talents')
     expect(parseRoute(href.talents('x/y z'))).toEqual({ name: 'talents', id: 'x/y z' })
+  })
+
+  it('round-trips skill hrefs', () => {
+    expect(href.skills()).toBe('#/skills')
+    expect(parseRoute(href.skills('medicalAid'))).toEqual({ name: 'skills', id: 'medicalAid' })
   })
 })

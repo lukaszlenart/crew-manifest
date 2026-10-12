@@ -7,6 +7,7 @@ export const en = {
   'nav.list': 'Characters',
   'nav.new': 'New character',
   'nav.talents': 'Talents',
+  'nav.skills': 'Skills',
 
   'storage.writeError':
     'Could not save to browser storage. Export a backup before closing this tab.',
@@ -54,6 +55,16 @@ export const en = {
   'talents.empty': 'No talents match the search.',
   'talents.more': 'More →',
   'talents.moreLabel': 'More about {name} (opens in a new tab)',
+
+  'skills.title': 'Skills',
+  'skills.search': 'Search skills',
+  'skills.filter': 'Filter skills',
+  'skills.filter.all': 'All skills',
+  'skills.filter.career': 'Key skills: {career}',
+  'skills.keyFor': 'Key skill for:',
+  'skills.empty': 'No skills match the search.',
+  'skills.more': '?',
+  'skills.moreLabel': 'More about {name} (opens in a new tab)',
 
   'sheet.printCount': 'Sheets to print: {count}',
   'sheet.cash': '{amount} $',

@@ -6,6 +6,7 @@ import { CharacterSheet, PrintView } from './CharacterSheet'
 import { LangSwitch } from './components/LangSwitch'
 import { href, route, type Route } from './router'
 import { storageError } from './store'
+import { SkillBrowser } from './SkillBrowser'
 import { TalentBrowser } from './TalentBrowser'
 
 const SOURCE_URL = 'https://github.com/uit-soft/crew-manifest'
@@ -35,6 +36,9 @@ export function App() {
           </a>
           <a href={href.talents()} aria-current={current.name === 'talents' ? 'page' : undefined}>
             {t('nav.talents')}
+          </a>
+          <a href={href.skills()} aria-current={current.name === 'skills' ? 'page' : undefined}>
+            {t('nav.skills')}
           </a>
         </nav>
         <LangSwitch />
@@ -72,5 +76,7 @@ function View({ route }: { route: Route }) {
       return <PrintView ids={route.ids} />
     case 'talents':
       return <TalentBrowser key={route.id ?? ''} id={route.id} />
+    case 'skills':
+      return <SkillBrowser key={route.id ?? ''} id={route.id} />
   }
 }

@@ -5,6 +5,7 @@ import type {
   GearOption,
   Localized,
   Rules,
+  Skill,
   Talent,
   TalentId,
 } from './types'
@@ -37,19 +38,160 @@ const ATTRIBUTES: Rules['attributes'] = {
 const SKILLS: Rules['skills'] = {
   heavyMachinery: {
     attribute: 'strength',
+    page: 64,
     label: { en: 'Heavy Machinery', pl: 'Ciężki Sprzęt' },
+    description: {
+      en: 'Operate, repair, rig or wreck heavy equipment.',
+      pl: 'Obsługa, naprawa, przeróbki lub niszczenie ciężkich maszyn.',
+    },
+    details: {
+      en: 'Roll it whenever you work with big industrial gear – running it, fixing it, tinkering with it or deliberately breaking it. On a failure the machine refuses to cooperate, and the racket you made may draw attention.',
+      pl: 'Testujesz ją przy każdej pracy z dużym sprzętem przemysłowym: gdy go uruchamiasz, naprawiasz, przerabiasz albo celowo psujesz. Porażka oznacza, że maszyna nie współpracuje, a hałas może kogoś zwabić.',
+    },
   },
-  stamina: { attribute: 'strength', label: { en: 'Stamina', pl: 'Kondycja' } },
-  closeCombat: { attribute: 'strength', label: { en: 'Close Combat', pl: 'Walka Wręcz' } },
-  mobility: { attribute: 'agility', label: { en: 'Mobility', pl: 'Sprawność' } },
-  piloting: { attribute: 'agility', label: { en: 'Piloting', pl: 'Pilotowanie' } },
-  rangedCombat: { attribute: 'agility', label: { en: 'Ranged Combat', pl: 'Walka Dystansowa' } },
-  observation: { attribute: 'wits', label: { en: 'Observation', pl: 'Spostrzegawczość' } },
-  survival: { attribute: 'wits', label: { en: 'Survival', pl: 'Przetrwanie' } },
-  comtech: { attribute: 'wits', label: { en: 'Comtech', pl: 'Komputery' } },
-  command: { attribute: 'empathy', label: { en: 'Command', pl: 'Dowodzenie' } },
-  manipulation: { attribute: 'empathy', label: { en: 'Manipulation', pl: 'Manipulacja' } },
-  medicalAid: { attribute: 'empathy', label: { en: 'Medical Aid', pl: 'Pomoc Medyczna' } },
+  stamina: {
+    attribute: 'strength',
+    page: 65,
+    label: { en: 'Stamina', pl: 'Kondycja' },
+    description: {
+      en: 'Endure pain, cold, vacuum and toxins.',
+      pl: 'Wytrzymałość na ból, zimno, próżnię i trucizny.',
+    },
+    details: {
+      en: 'Roll it when your body is pushed to its limits: surviving freezing vacuum, shrugging off contamination, holding out a little longer. On a failure you give in and suffer the consequences; on a success you keep going for now.',
+      pl: 'Testujesz ją, gdy ciało jest na granicy wytrzymałości: przy przetrwaniu w lodowatej próżni, odpieraniu skażenia czy wytrwaniu jeszcze chwilę. Porażka oznacza, że się poddajesz i ponosisz skutki, sukces – że na razie dajesz radę.',
+    },
+  },
+  closeCombat: {
+    attribute: 'strength',
+    page: 66,
+    label: { en: 'Close Combat', pl: 'Walka Wręcz' },
+    description: {
+      en: 'Attack someone hand-to-hand or with a melee weapon.',
+      pl: 'Atak w zwarciu, gołymi rękami lub bronią do walki wręcz.',
+    },
+    details: {
+      en: "Roll it to attack in melee. A hit deals your weapon's damage; extra successes can add damage, disarm, knock down or grapple the foe. It is also used to block a melee attack. Full combat rules are in chapter 5.",
+      pl: 'Testujesz ją, atakując w zwarciu. Trafienie zadaje obrażenia twojej broni; dodatkowe sukcesy pozwalają zwiększyć obrażenia, rozbroić, przewrócić lub pochwycić przeciwnika. Służy też do blokowania ataków wręcz. Pełne zasady walki – rozdział 5.',
+    },
+  },
+  mobility: {
+    attribute: 'agility',
+    page: 66,
+    label: { en: 'Mobility', pl: 'Sprawność' },
+    description: {
+      en: 'Climb, jump, sneak and get out of tight spots.',
+      pl: 'Wspinaczka, skoki, skradanie się i wychodzenie z opresji.',
+    },
+    details: {
+      en: "Roll it to escape a dangerous situation – a risky climb, a long jump, slipping past a lurking enemy. Sneaking is an opposed roll against the enemy's Observation; a group sneaking together lets its least skilled member roll for everyone. It has further uses in stealth mode and in combat (chapter 5).",
+      pl: 'Testujesz ją, by wyrwać się z groźnej sytuacji: przy ryzykownej wspinaczce, długim skoku czy przemykaniu obok czyhającego wroga. Skradanie się to test sporny ze Spostrzegawczością przeciwnika; gdy skrada się cała grupa, rzuca tylko postać z najniższą umiejętnością. Ma też zastosowania w trybie ostrożnym i w walce (rozdział 5).',
+    },
+  },
+  piloting: {
+    attribute: 'agility',
+    page: 67,
+    label: { en: 'Piloting', pl: 'Pilotowanie' },
+    description: {
+      en: 'Fly spacecraft and drive vehicles through risky manoeuvres.',
+      pl: 'Trudne manewry statkami kosmicznymi i pojazdami.',
+    },
+    details: {
+      en: 'Roll it for any hard or dangerous manoeuvre at the controls of a spacecraft, from a dropship to a frigate. The same skill covers driving ground vehicles. On a failure you crash.',
+      pl: 'Testujesz ją przy każdym trudnym lub niebezpiecznym manewrze za sterami statku kosmicznego, od promu po fregatę. Ta sama umiejętność obejmuje prowadzenie pojazdów naziemnych. Porażka kończy się katastrofą.',
+    },
+  },
+  rangedCombat: {
+    attribute: 'agility',
+    page: 67,
+    label: { en: 'Ranged Combat', pl: 'Walka Dystansowa' },
+    description: {
+      en: 'Shoot with any ranged weapon.',
+      pl: 'Strzelanie z każdego rodzaju broni dystansowej.',
+    },
+    details: {
+      en: "Roll it to fire any ranged weapon. A hit deals your weapon's damage; extra successes can add damage, force a Panic Roll, steal the initiative, disarm or knock the target back. A miss may hit something else or give away your position. Cover and full combat rules are in chapter 5.",
+      pl: 'Testujesz ją przy strzelaniu z dowolnej broni dystansowej. Trafienie zadaje obrażenia twojej broni; dodatkowe sukcesy pozwalają zwiększyć obrażenia, wymusić Test Paniki, przejąć inicjatywę, rozbroić lub odrzucić cel. Pudło może trafić coś innego albo zdradzić twoją pozycję. Osłony i pełne zasady walki – rozdział 5.',
+    },
+  },
+  observation: {
+    attribute: 'wits',
+    page: 68,
+    label: { en: 'Observation', pl: 'Spostrzegawczość' },
+    description: {
+      en: 'Spot sneaking enemies and size up unknown threats.',
+      pl: 'Wykrywanie skradających się wrogów i rozpoznawanie zagrożeń.',
+    },
+    details: {
+      en: 'Roll it to notice someone sneaking (opposed by their Mobility) or to learn what an unknown threat is and whether it is dangerous. On a failure the GM may give you false information. Extra successes answer questions such as whether it is hunting you or how to avoid it. When the group scouts together, one character rolls for all.',
+      pl: 'Testujesz ją, by dostrzec kogoś, kto się skrada (test sporny ze Sprawnością), albo by ustalić, czym jest nieznane zagrożenie i czy jest groźne. Przy porażce MG może podać ci fałszywe informacje. Dodatkowe sukcesy dają odpowiedzi, np. czy to na ciebie poluje albo jak tego uniknąć. Gdy grupa prowadzi zwiad razem, rzuca jedna postać za wszystkich.',
+    },
+  },
+  survival: {
+    attribute: 'wits',
+    page: 70,
+    label: { en: 'Survival', pl: 'Przetrwanie' },
+    description: {
+      en: 'Stay alive in a hostile planetary environment.',
+      pl: 'Utrzymanie się przy życiu w nieprzyjaznym środowisku planety.',
+    },
+    details: {
+      en: 'Roll it when the environment of an alien world turns against you – extreme heat or cold, sandstorms, acid rain – and you need a way to stay alive. On a success you find a safe shelter to wait it out; on a failure you are in serious trouble unless someone comes for you.',
+      pl: 'Testujesz ją, gdy środowisko obcej planety obraca się przeciwko tobie – skrajny upał lub mróz, burze piaskowe, kwaśne deszcze – i musisz znaleźć sposób, by przeżyć. Sukces oznacza bezpieczne schronienie na przeczekanie; porażka – poważne kłopoty, chyba że ktoś przyjdzie z pomocą.',
+    },
+  },
+  comtech: {
+    attribute: 'wits',
+    page: 69,
+    label: { en: 'Comtech', pl: 'Komputery' },
+    description: {
+      en: 'Program, repair, hack and decrypt computers and comms gear.',
+      pl: 'Programowanie, naprawa, włamania i deszyfrowanie komputerów oraz łączności.',
+    },
+    details: {
+      en: 'Roll it for any hard task with advanced technology – programming androids and servers, repairing, decrypting or otherwise manipulating a computer or communications device. On a failure the system will not work, and you may have tripped an alarm.',
+      pl: 'Testujesz ją przy każdym trudnym zadaniu z zaawansowaną technologią: programowaniu androidów i serwerów, naprawie, deszyfrowaniu czy innym grzebaniu w komputerze lub sprzęcie łączności. Porażka oznacza, że system nie działa, a może też włączył się alarm.',
+    },
+  },
+  command: {
+    attribute: 'empathy',
+    page: 71,
+    label: { en: 'Command', pl: 'Dowodzenie' },
+    description: {
+      en: 'Calm a panicking character or shout orders in combat.',
+      pl: 'Opanowanie paniki u innych i wydawanie rozkazów w walce.',
+    },
+    details: {
+      en: 'Roll it to snap another character out of a panic, or as a free action in combat to give orders to someone who can hear you, even over the radio – each success gives them +1 if they follow your order. Officers with the matching talent can also use it to make others obey.',
+      pl: 'Testujesz ją, by pomóc innej postaci wyjść z paniki albo – jako akcję wolną w walce – by wydać rozkaz komuś, kto cię słyszy, choćby przez radio; każdy sukces daje mu +1, jeśli wykonuje rozkaz. Oficerowie z odpowiednim talentem mogą nią też zmuszać innych do posłuszeństwa.',
+    },
+  },
+  manipulation: {
+    attribute: 'empathy',
+    page: 70,
+    label: { en: 'Manipulation', pl: 'Manipulacja' },
+    description: {
+      en: 'Persuade, lie to or threaten someone into doing what you want.',
+      pl: 'Przekonywanie, kłamstwo lub groźby, by ktoś zrobił, czego chcesz.',
+    },
+    details: {
+      en: 'An opposed roll against the target, modified by your bargaining position. On a success they must do what you ask or attack you, and may want something in return. A failure can turn them hostile. It is not mind control – the request must be reasonable. To sway a group, talk to its leader.',
+      pl: 'Test sporny z celem, zmieniany przez twoją pozycję negocjacyjną. Sukces zmusza go, by zrobił, o co prosisz, albo cię zaatakował; może przy tym chcieć czegoś w zamian. Porażka może go do ciebie zrazić. To nie kontrola umysłu – prośba musi być rozsądna. Aby wpłynąć na grupę, rozmawiaj z jej przywódcą.',
+    },
+  },
+  medicalAid: {
+    attribute: 'empathy',
+    page: 71,
+    label: { en: 'Medical Aid', pl: 'Pomoc Medyczna' },
+    description: {
+      en: 'Revive the Broken and treat critical injuries.',
+      pl: 'Stawianie na nogi Pokonanych i leczenie ran ciężkich.',
+    },
+    details: {
+      en: 'Roll it to give first aid to someone whose Health has dropped to zero: on a success they get back up and recover Health equal to your successes. It is also used to try to save a comrade with a critical injury, where a failure may cost the patient their life.',
+      pl: 'Testujesz ją, udzielając pierwszej pomocy komuś, czyje Zdrowie spadło do zera: przy sukcesie wstaje i odzyskuje tyle Zdrowia, ile wyrzuciłeś sukcesów. Służy też do ratowania towarzysza z raną ciężką – tu porażka może kosztować pacjenta życie.',
+    },
+  },
 }
 
 // Career talents first, then general talents (gained later through experience).
@@ -1052,6 +1194,10 @@ export function findTalent(rules: Rules, id: string): Talent | undefined {
 
 export function careersOf(rules: Rules, talentId: TalentId): Career[] {
   return rules.careers.filter((c) => c.talents.includes(talentId))
+}
+
+export function careersWithKeySkill(rules: Rules, skill: Skill): Career[] {
+  return rules.careers.filter((c) => c.keySkills.includes(skill))
 }
 
 function talent(

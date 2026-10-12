@@ -8,6 +8,7 @@ export const pl = {
   'nav.list': 'Postacie',
   'nav.new': 'Nowa postać',
   'nav.talents': 'Talenty',
+  'nav.skills': 'Umiejętności',
 
   'storage.writeError':
     'Nie udało się zapisać danych w przeglądarce. Zrób kopię zapasową, zanim zamkniesz kartę.',
@@ -55,6 +56,16 @@ export const pl = {
   'talents.empty': 'Żaden talent nie pasuje do wyszukiwania.',
   'talents.more': 'Więcej →',
   'talents.moreLabel': 'Więcej o talencie {name} (otwiera nową kartę)',
+
+  'skills.title': 'Umiejętności',
+  'skills.search': 'Szukaj umiejętności',
+  'skills.filter': 'Filtruj umiejętności',
+  'skills.filter.all': 'Wszystkie umiejętności',
+  'skills.filter.career': 'Wiodące: {career}',
+  'skills.keyFor': 'Wiodąca dla:',
+  'skills.empty': 'Żadna umiejętność nie pasuje do wyszukiwania.',
+  'skills.more': '?',
+  'skills.moreLabel': 'Więcej o umiejętności {name} (otwiera nową kartę)',
 
   'sheet.printCount': 'Kart do druku: {count}',
   'sheet.cash': '{amount} $',

@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
-import { RULES, RULES_LIMITS, careersOf, cashRange } from './rules'
-import { ATTRIBUTES, SKILLS } from './types'
+import { RULES, RULES_LIMITS, careersOf, careersWithKeySkill, cashRange } from './rules'
+import { ATTRIBUTES, SKILLS, isSkill } from './types'
 
 describe('RULES', () => {
   it('maps all 12 skills to attributes, three per attribute', () => {
@@ -64,6 +64,34 @@ describe('RULES', () => {
     expect(RULES_LIMITS.keyAttributeMax + RULES_LIMITS.androidAttributeBonus).toBe(8)
     expect(RULES_LIMITS.attributeMax + RULES_LIMITS.androidAttributeBonus).toBe(7)
     expect(RULES_LIMITS.androidBonusAttributes).toBe(2)
+  })
+
+  it('has complete text and a chapter 3 page for every skill', () => {
+    for (const s of SKILLS) {
+      const skill = RULES.skills[s]
+      for (const field of [skill.label, skill.description, skill.details]) {
+        expect(field.en.trim(), s).not.toBe('')
+        expect(field.pl.trim(), s).not.toBe('')
+      }
+      expect(Number.isInteger(skill.page), s).toBe(true)
+      expect(skill.page, s).toBeGreaterThanOrEqual(64)
+      expect(skill.page, s).toBeLessThanOrEqual(71)
+    }
+  })
+
+  it('finds the careers that have a skill as a key skill', () => {
+    for (const s of SKILLS) {
+      expect(careersWithKeySkill(RULES, s)).toEqual(
+        RULES.careers.filter((c) => c.keySkills.includes(s)),
+      )
+    }
+    expect(careersWithKeySkill(RULES, 'observation').length).toBeGreaterThan(1)
+  })
+
+  it('recognises skill ids', () => {
+    for (const s of SKILLS) expect(isSkill(s)).toBe(true)
+    expect(isSkill('bogus')).toBe(false)
+    expect(isSkill('toString')).toBe(false)
   })
 
   it('has complete text and a chapter 4 page for every talent', () => {

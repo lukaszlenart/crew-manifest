@@ -669,8 +669,9 @@ ul.plain {
   accent-color: var(--accent);
 }
 
-/* Talents */
-.talents .panel + .panel {
+/* Talents and skills */
+.talents .panel + .panel,
+.skills .panel + .panel {
   margin-top: 16px;
 }
 
@@ -678,24 +679,29 @@ ul.plain {
   margin: 16px 0 4px;
 }
 
-.talent {
+.talent,
+.skill {
   padding: 8px 0;
   border-top: 1px solid var(--panel-border);
 }
 
-.talent summary {
+.talent summary,
+.skill summary {
   cursor: pointer;
 }
 
-.talent summary > * + * {
+.talent summary > * + *,
+.skill summary > * + * {
   margin-left: 8px;
 }
 
-.talent summary > .talent-summary {
+.talent summary > .talent-summary,
+.skill summary > .talent-summary {
   display: block;
   margin: 2px 0 0;
 }
 
-.talent p {
+.talent p,
+.skill p {
   margin: 8px 0 0 16px;
 }

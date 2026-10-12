@@ -1,4 +1,5 @@
 import { careersOf } from './rules'
+import { matchesAllWords } from './textSearch'
 import type { Career, CareerId, Lang, Rules, Talent } from './types'
 
 export type TalentFilter =
@@ -9,15 +10,14 @@ export function filterTalents(
   options: { query: string; filter: TalentFilter },
   lang: Lang,
 ): Talent[] {
-  const words = fold(options.query)
-    .split(/\s+/)
-    .filter((w) => w !== '')
   return rules.talents
     .filter((t) => matchesFilter(rules, t, options.filter))
-    .filter((t) => {
-      const text = fold([t.label[lang], t.description[lang], t.details[lang]].join(' '))
-      return words.every((w) => text.includes(w))
-    })
+    .filter((t) =>
+      matchesAllWords(
+        options.query,
+        [t.label[lang], t.description[lang], t.details[lang]].join(' '),
+      ),
+    )
     .sort((a, b) => a.label[lang].localeCompare(b.label[lang], lang))
 }
 
@@ -48,8 +48,4 @@ function matchesFilter(rules: Rules, talent: Talent, filter: TalentFilter): bool
   const careers = careersOf(rules, talent.id)
   if (filter.kind === 'general') return careers.length === 0
   return careers.some((c) => c.id === filter.careerId)
-}
-
-function fold(text: string): string {
-  return text.toLowerCase().replace(/ł/g, 'l').normalize('NFD').replace(/\p{M}/gu, '')
 }

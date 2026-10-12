@@ -1,4 +1,5 @@
 import { signal } from '@preact/signals'
+import { isSkill, type Skill } from '../domain/types'
 
 export type Route =
   | { name: 'list' }
@@ -7,6 +8,7 @@ export type Route =
   | { name: 'sheet'; id: string }
   | { name: 'print'; ids: string[] }
   | { name: 'talents'; id?: string }
+  | { name: 'skills'; id?: Skill }
 
 export function parseRoute(hash: string): Route {
   let parts: string[]
@@ -26,6 +28,8 @@ export function parseRoute(hash: string): Route {
   if (head === 'print' && arg)
     return { name: 'print', ids: arg.split(',').filter((id) => id !== '') }
   if (head === 'talents') return arg ? { name: 'talents', id: arg } : { name: 'talents' }
+  if (head === 'skills')
+    return arg && isSkill(arg) ? { name: 'skills', id: arg } : { name: 'skills' }
   return { name: 'list' }
 }
 
@@ -36,6 +40,7 @@ export const href = {
   sheet: (id: string) => `#/sheet/${encodeURIComponent(id)}`,
   print: (ids: string[]) => `#/print/${encodeURIComponent(ids.join(','))}`,
   talents: (id?: string) => (id ? `#/talents/${encodeURIComponent(id)}` : '#/talents'),
+  skills: (id?: Skill) => (id ? `#/skills/${id}` : '#/skills'),
 }
 
 export const route = signal<Route>(parseRoute(globalThis.location?.hash ?? ''))
