@@ -344,7 +344,16 @@ function EditorForm({ initial, isNew }: { initial: Character; isNew: boolean }) 
                           <label for={`skill-${s}`}>
                             {loc(RULES.skills[s].label)}
                             {career?.keySkills.includes(s) && <KeyMark />}
-                          </label>
+                          </label>{' '}
+                          <a
+                            class="skill-info muted small"
+                            href={href.skills(s)}
+                            target="_blank"
+                            rel="noopener"
+                            aria-label={t('skills.moreLabel', { name: loc(RULES.skills[s].label) })}
+                          >
+                            {t('skills.more')}
+                          </a>
                         </th>
                         <td>
                           <Stepper

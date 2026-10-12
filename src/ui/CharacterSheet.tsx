@@ -110,7 +110,7 @@ export function SheetCard({ character: c }: { character: Character }) {
               {SKILLS.filter((s) => RULES.skills[s].attribute === a).map((s) => (
                 <li key={s} class={c.skills[s] > 0 ? '' : 'zero'}>
                   <span>
-                    {loc(RULES.skills[s].label)}
+                    <a href={href.skills(s)}>{loc(RULES.skills[s].label)}</a>
                     {career?.keySkills.includes(s) && <span class="key-mark">★</span>}
                   </span>
                   <strong>{c.skills[s]}</strong>
