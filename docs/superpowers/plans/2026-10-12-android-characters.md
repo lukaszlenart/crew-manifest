@@ -50,31 +50,33 @@ signature item empty. Editor and sheet read effective values.
 
 ## File Structure
 
-| File | Change |
-|---|---|
-| `src/domain/types.ts` | `Kind`, `KINDS`; `Character.kind`, `Character.androidBonus`; two new `RuleLimits` fields |
-| `src/domain/rules.ts` | `RULES_LIMITS.androidAttributeBonus`, `androidBonusAttributes` |
-| `src/domain/character.ts` | `emptyCharacter` defaults |
-| `src/domain/testing.ts` | `validCharacter` defaults |
-| `src/storage/schema.ts` | two new required fields |
-| `src/domain/derived.ts` | `effectiveAttributes`, `health(c, rules)` |
-| `src/domain/derived.test.ts` | new; `health` test moves here from `validation.test.ts` |
-| `src/domain/validation.ts` | `validateAndroid`, two issue codes |
-| `src/generator/generate.ts` | `kind`, bonus roll, empty signature item, `rerollSections` |
-| `src/i18n/en.ts`, `src/i18n/pl.ts` | new keys |
-| `src/ui/CharacterEditor.tsx` | type toggle, +3 checkboxes, hidden signature item |
-| `src/ui/CharacterSheet.tsx` | badge, effective values, play-rules note, hidden signature item |
+| File                               | Change                                                                                   |
+| ---------------------------------- | ---------------------------------------------------------------------------------------- |
+| `src/domain/types.ts`              | `Kind`, `KINDS`; `Character.kind`, `Character.androidBonus`; two new `RuleLimits` fields |
+| `src/domain/rules.ts`              | `RULES_LIMITS.androidAttributeBonus`, `androidBonusAttributes`                           |
+| `src/domain/character.ts`          | `emptyCharacter` defaults                                                                |
+| `src/domain/testing.ts`            | `validCharacter` defaults                                                                |
+| `src/storage/schema.ts`            | two new required fields                                                                  |
+| `src/domain/derived.ts`            | `effectiveAttributes`, `health(c, rules)`                                                |
+| `src/domain/derived.test.ts`       | new; `health` test moves here from `validation.test.ts`                                  |
+| `src/domain/validation.ts`         | `validateAndroid`, two issue codes                                                       |
+| `src/generator/generate.ts`        | `kind`, bonus roll, empty signature item, `rerollSections`                               |
+| `src/i18n/en.ts`, `src/i18n/pl.ts` | new keys                                                                                 |
+| `src/ui/CharacterEditor.tsx`       | type toggle, +3 checkboxes, hidden signature item                                        |
+| `src/ui/CharacterSheet.tsx`        | badge, effective values, play-rules note, hidden signature item                          |
 
 ---
 
 ### Task 1: Data model, limits and schema
 
 **Files:**
+
 - Modify: `src/domain/types.ts`, `src/domain/rules.ts:6-17`, `src/domain/character.ts`,
   `src/domain/testing.ts`, `src/storage/schema.ts`, `src/generator/generate.ts:103-122`
 - Test: `src/storage/schema.test.ts`, `src/domain/rules.test.ts`
 
 **Interfaces:**
+
 - Produces: `type Kind = 'human' | 'android'`, `KINDS: readonly Kind[]`,
   `Character.kind: Kind`, `Character.androidBonus: Attribute[]`,
   `RuleLimits.androidAttributeBonus: number`, `RuleLimits.androidBonusAttributes: number`.
@@ -85,35 +87,35 @@ signature item empty. Editor and sheet read effective values.
 Append to the `describe('parseCharacter', …)` block in `src/storage/schema.test.ts`:
 
 ```ts
-  it('round-trips an android', () => {
-    const android = validCharacter({ kind: 'android', androidBonus: ['strength', 'wits'] })
-    expect(parseCharacter(android)).toEqual({ ok: true, value: android })
-  })
+it('round-trips an android', () => {
+  const android = validCharacter({ kind: 'android', androidBonus: ['strength', 'wits'] })
+  expect(parseCharacter(android)).toEqual({ ok: true, value: android })
+})
 
-  it('rejects a character without kind', () => {
-    const withoutKind: Partial<Character> = validCharacter()
-    delete withoutKind.kind
-    expect(parseCharacter(withoutKind)).toEqual({
-      ok: false,
-      error: expect.stringContaining('kind'),
-    })
+it('rejects a character without kind', () => {
+  const withoutKind: Partial<Character> = validCharacter()
+  delete withoutKind.kind
+  expect(parseCharacter(withoutKind)).toEqual({
+    ok: false,
+    error: expect.stringContaining('kind'),
   })
+})
 
-  it('rejects an unknown bonus attribute', () => {
-    const result = parseCharacter({ ...validCharacter(), androidBonus: ['luck'] })
-    expect(result).toEqual({ ok: false, error: expect.stringContaining('androidBonus') })
-  })
+it('rejects an unknown bonus attribute', () => {
+  const result = parseCharacter({ ...validCharacter(), androidBonus: ['luck'] })
+  expect(result).toEqual({ ok: false, error: expect.stringContaining('androidBonus') })
+})
 ```
 
 Add to the `describe('RULES', …)` block in `src/domain/rules.test.ts` (import `RULES_LIMITS`
 from `./rules` if not already imported):
 
 ```ts
-  it('caps android attributes at 8 for the key attribute and 7 for the others', () => {
-    expect(RULES_LIMITS.keyAttributeMax + RULES_LIMITS.androidAttributeBonus).toBe(8)
-    expect(RULES_LIMITS.attributeMax + RULES_LIMITS.androidAttributeBonus).toBe(7)
-    expect(RULES_LIMITS.androidBonusAttributes).toBe(2)
-  })
+it('caps android attributes at 8 for the key attribute and 7 for the others', () => {
+  expect(RULES_LIMITS.keyAttributeMax + RULES_LIMITS.androidAttributeBonus).toBe(8)
+  expect(RULES_LIMITS.attributeMax + RULES_LIMITS.androidAttributeBonus).toBe(7)
+  expect(RULES_LIMITS.androidBonusAttributes).toBe(2)
+})
 ```
 
 - [ ] **Step 2: Run tests to verify they fail**
@@ -135,8 +137,8 @@ export const KINDS: readonly Kind[] = ['human', 'android']
 In `RuleLimits`, after `startingReloads: number` add:
 
 ```ts
-  androidAttributeBonus: number
-  androidBonusAttributes: number
+androidAttributeBonus: number
+androidBonusAttributes: number
 ```
 
 In `Character`, after `sex: Sex` add:
@@ -193,11 +195,13 @@ git commit -m "feat: add character kind and android bonus to the data model" -m 
 ### Task 2: Effective attributes and Health
 
 **Files:**
+
 - Modify: `src/domain/derived.ts`, `src/domain/validation.test.ts:3,144-148`,
   `src/ui/CharacterEditor.tsx:258`, `src/ui/CharacterSheet.tsx:92`
 - Create: `src/domain/derived.test.ts`
 
 **Interfaces:**
+
 - Consumes: Task 1 types.
 - Produces:
   `effectiveAttributes(c: Pick<Character, 'attributes' | 'kind' | 'androidBonus'>, rules: Rules): Record<Attribute, number>`;
@@ -281,6 +285,7 @@ export function health(c: WithAttributes, rules: Rules): number {
 ```
 
 Update the two call sites:
+
 - `src/ui/CharacterEditor.tsx:258`: `health(draft)` → `health(draft, RULES)`
 - `src/ui/CharacterSheet.tsx:92`: `health(c)` → `health(c, RULES)`
 
@@ -301,10 +306,12 @@ git commit -m "feat: derive effective attributes and health with the android bon
 ### Task 3: Validate the android bonus
 
 **Files:**
+
 - Modify: `src/domain/validation.ts`, `src/i18n/en.ts`, `src/i18n/pl.ts`
 - Test: `src/domain/validation.test.ts`
 
 **Interfaces:**
+
 - Consumes: Task 1 types and limits.
 - Produces: `IssueCode` gains `'androidBonus.count' | 'androidBonus.human'`;
   `validateAndroid(c: Pick<Character, 'kind' | 'androidBonus'>, rules: Rules): ValidationIssue[]`,
@@ -381,7 +388,9 @@ export function validateAndroid(
   rules: Rules,
 ): ValidationIssue[] {
   if (c.kind === 'human') {
-    return c.androidBonus.length > 0 ? [{ field: 'androidBonus', message: 'androidBonus.human' }] : []
+    return c.androidBonus.length > 0
+      ? [{ field: 'androidBonus', message: 'androidBonus.human' }]
+      : []
   }
   const expected = rules.limits.androidBonusAttributes
   const distinct = new Set(c.androidBonus).size
@@ -425,10 +434,12 @@ git commit -m "feat: validate the android attribute bonus" -m "Refs #19" -m "Co-
 ### Task 4: Generator support for androids
 
 **Files:**
+
 - Modify: `src/generator/generate.ts`
 - Test: `src/generator/generate.test.ts`
 
 **Interfaces:**
+
 - Consumes: Task 1 types/limits; Task 3 `validateCharacter` (now includes `validateAndroid`).
 - Produces: `generateCharacter` takes `kind` from `locked.kind` (default `'human'`). For an
   android it fills `androidBonus` with `androidBonusAttributes` distinct attributes and sets
@@ -440,36 +451,36 @@ git commit -m "feat: validate the android attribute bonus" -m "Refs #19" -m "Co-
 Append inside `describe('generateCharacter', …)` in `src/generator/generate.test.ts`:
 
 ```ts
-  it('generates humans by default', () => {
-    for (let seed = 0; seed < 50; seed++) {
-      const c = generateCharacter({ seed, rules: TEST_RULES })
-      expect(c.kind).toBe('human')
-      expect(c.androidBonus).toEqual([])
-    }
-  })
+it('generates humans by default', () => {
+  for (let seed = 0; seed < 50; seed++) {
+    const c = generateCharacter({ seed, rules: TEST_RULES })
+    expect(c.kind).toBe('human')
+    expect(c.androidBonus).toEqual([])
+  }
+})
 
-  it('generates valid androids when kind is locked', () => {
-    for (let seed = 0; seed < 500; seed++) {
-      const c = generateCharacter({ seed, rules: RULES, locked: { kind: 'android' } })
-      expect(c.kind).toBe('android')
-      expect(new Set(c.androidBonus).size).toBe(2)
-      expect(c.signatureItem).toBe('')
-      expect(validateCharacter(c, RULES), `seed ${seed}`).toEqual([])
-    }
-  })
+it('generates valid androids when kind is locked', () => {
+  for (let seed = 0; seed < 500; seed++) {
+    const c = generateCharacter({ seed, rules: RULES, locked: { kind: 'android' } })
+    expect(c.kind).toBe('android')
+    expect(new Set(c.androidBonus).size).toBe(2)
+    expect(c.signatureItem).toBe('')
+    expect(validateCharacter(c, RULES), `seed ${seed}`).toEqual([])
+  }
+})
 
-  it('rolls the same human and the same other fields whether or not kind is android', () => {
-    for (let seed = 0; seed < 50; seed++) {
-      const human = generateCharacter({ seed, rules: TEST_RULES, locked: fixed })
-      const android = generateCharacter({
-        seed,
-        rules: TEST_RULES,
-        locked: { ...fixed, kind: 'android' },
-      })
-      const strip = (c: Character) => ({ ...c, kind: '', androidBonus: [], signatureItem: '' })
-      expect(strip(android)).toEqual(strip(human))
-    }
-  })
+it('rolls the same human and the same other fields whether or not kind is android', () => {
+  for (let seed = 0; seed < 50; seed++) {
+    const human = generateCharacter({ seed, rules: TEST_RULES, locked: fixed })
+    const android = generateCharacter({
+      seed,
+      rules: TEST_RULES,
+      locked: { ...fixed, kind: 'android' },
+    })
+    const strip = (c: Character) => ({ ...c, kind: '', androidBonus: [], signatureItem: '' })
+    expect(strip(android)).toEqual(strip(human))
+  }
+})
 ```
 
 Add a new `describe` at the end of the file:
@@ -521,6 +532,7 @@ describe('rerollSections with an android', () => {
 ```
 
 Update the imports at the top of the test file:
+
 - `import type { Character, Rules } from '../domain/types'`
 - `import { SECTIONS, generateCharacter, rerollSections, type Section } from './generate'`
 
@@ -536,16 +548,16 @@ Expected: FAIL — androids get `androidBonus: []` and a signature item.
 1. After `const sex = locked.sex ?? rolledSex` add:
 
 ```ts
-  const kind = locked.kind ?? 'human'
+const kind = locked.kind ?? 'human'
 ```
 
 2. Replace `const signatureItem = text(general.signatureItem, careerTable?.signatureItem)` with:
 
 ```ts
-  const rolledSignatureItem = text(general.signatureItem, careerTable?.signatureItem)
-  const rolledBonus = sample(rng, ATTRIBUTES, rules.limits.androidBonusAttributes)
-  const signatureItem = kind === 'android' ? '' : rolledSignatureItem
-  const androidBonus = kind === 'android' ? rolledBonus : []
+const rolledSignatureItem = text(general.signatureItem, careerTable?.signatureItem)
+const rolledBonus = sample(rng, ATTRIBUTES, rules.limits.androidBonusAttributes)
+const signatureItem = kind === 'android' ? '' : rolledSignatureItem
+const androidBonus = kind === 'android' ? rolledBonus : []
 ```
 
 The bonus is rolled last and always, so a human rolls exactly what it rolled before this
@@ -561,7 +573,7 @@ feature, and an android differs from the same-seed human only in these fields.
 4. In `rerollSections`, after the `SEX_DEPENDENT` line add:
 
 ```ts
-  if (reroll.has('attributes')) delete locked.androidBonus
+if (reroll.has('attributes')) delete locked.androidBonus
 ```
 
 (The existing loop deletes `locked[s]` for each re-rolled section; `androidBonus` is not a
@@ -585,9 +597,11 @@ git commit -m "feat: generate androids when the kind is set" -m "Refs #19" -m "C
 ### Task 5: Editor — type toggle and bonus picker
 
 **Files:**
+
 - Modify: `src/ui/CharacterEditor.tsx`, `src/i18n/en.ts`, `src/i18n/pl.ts`
 
 **Interfaces:**
+
 - Consumes: `KINDS`, `effectiveAttributes` (Task 2), `issuesFor(issues, 'androidBonus')`
   (Task 3), `RULES.limits.androidAttributeBonus` / `androidBonusAttributes`.
 
@@ -629,6 +643,7 @@ After `'editor.cashRoll': …`:
 - [ ] **Step 2: Imports and derived values**
 
 In `src/ui/CharacterEditor.tsx`:
+
 - `import { effectiveAttributes, health } from '../domain/derived'`
 - `import type { Attribute, Character, Kind } from '../domain/types'`
 - `import { ATTRIBUTES, KINDS, SEXES, SKILLS } from '../domain/types'`
@@ -636,18 +651,18 @@ In `src/ui/CharacterEditor.tsx`:
 After `const skillLeft = remainingSkillPoints(draft, RULES)` add:
 
 ```tsx
-  const isAndroid = draft.kind === 'android'
-  const effective = effectiveAttributes(draft, RULES)
-  const { androidAttributeBonus: bonus, androidBonusAttributes: bonusCount } = RULES.limits
-  const setKind = (kind: Kind) =>
-    update(kind === 'android' ? { kind, signatureItem: '' } : { kind, androidBonus: [] })
-  const toggleBonus = (a: Attribute) =>
-    update({
-      androidBonus: draft.androidBonus.includes(a)
-        ? draft.androidBonus.filter((x) => x !== a)
-        : [...draft.androidBonus, a],
-    })
-  const textSections = TEXT_SECTIONS.filter((s) => !(isAndroid && s === 'signatureItem'))
+const isAndroid = draft.kind === 'android'
+const effective = effectiveAttributes(draft, RULES)
+const { androidAttributeBonus: bonus, androidBonusAttributes: bonusCount } = RULES.limits
+const setKind = (kind: Kind) =>
+  update(kind === 'android' ? { kind, signatureItem: '' } : { kind, androidBonus: [] })
+const toggleBonus = (a: Attribute) =>
+  update({
+    androidBonus: draft.androidBonus.includes(a)
+      ? draft.androidBonus.filter((x) => x !== a)
+      : [...draft.androidBonus, a],
+  })
+const textSections = TEXT_SECTIONS.filter((s) => !(isAndroid && s === 'signatureItem'))
 ```
 
 - [ ] **Step 3: Type toggle**
@@ -677,30 +692,29 @@ Directly after the sex `radio-row` `</div>` (before `{header('careerId')}`) inse
 In the attribute row, after `<IssueList issues={fieldIssues} />` inside `<td>`, insert:
 
 ```tsx
-                      {isAndroid && (
-                        <label class="android-bonus">
-                          <input
-                            type="checkbox"
-                            checked={draft.androidBonus.includes(a)}
-                            disabled={
-                              !draft.androidBonus.includes(a) &&
-                              draft.androidBonus.length >= bonusCount
-                            }
-                            aria-label={t('editor.androidBonusLabel', {
-                              bonus,
-                              attribute: loc(RULES.attributes[a].label),
-                            })}
-                            onChange={() => toggleBonus(a)}
-                          />{' '}
-                          {t('editor.androidBonus', { bonus })} → <strong>{effective[a]}</strong>
-                        </label>
-                      )}
+{
+  isAndroid && (
+    <label class="android-bonus">
+      <input
+        type="checkbox"
+        checked={draft.androidBonus.includes(a)}
+        disabled={!draft.androidBonus.includes(a) && draft.androidBonus.length >= bonusCount}
+        aria-label={t('editor.androidBonusLabel', {
+          bonus,
+          attribute: loc(RULES.attributes[a].label),
+        })}
+        onChange={() => toggleBonus(a)}
+      />{' '}
+      {t('editor.androidBonus', { bonus })} → <strong>{effective[a]}</strong>
+    </label>
+  )
+}
 ```
 
 After the existing `<IssueList issues={issuesFor(issues, 'attributes')} />` add:
 
 ```tsx
-          <IssueList issues={issuesFor(issues, 'androidBonus')} />
+<IssueList issues={issuesFor(issues, 'androidBonus')} />
 ```
 
 - [ ] **Step 5: Hide the signature item for androids**
@@ -735,9 +749,11 @@ git commit -m "feat: android toggle and bonus picker in the editor" -m "Refs #19
 ### Task 6: Sheet — badge, effective values, play rules
 
 **Files:**
+
 - Modify: `src/ui/CharacterSheet.tsx`, `src/i18n/en.ts`, `src/i18n/pl.ts`
 
 **Interfaces:**
+
 - Consumes: `effectiveAttributes`, `health(c, RULES)` (Task 2); `kind.android` key (Task 5).
 
 - [ ] **Step 1: Add i18n keys**
@@ -761,18 +777,21 @@ git commit -m "feat: android toggle and bonus picker in the editor" -m "Refs #19
 - [ ] **Step 2: Update `SheetCard`**
 
 In `src/ui/CharacterSheet.tsx`:
+
 - `import { effectiveAttributes, health } from '../domain/derived'`
 - In `SheetCard`, after `const gear = cleanGear(c.gear)` add:
 
 ```tsx
-  const isAndroid = c.kind === 'android'
-  const attributes = effectiveAttributes(c, RULES)
+const isAndroid = c.kind === 'android'
+const attributes = effectiveAttributes(c, RULES)
 ```
 
 - In the header, after `{isDraft && <span class="badge draft">{t('list.draft')}</span>}` add:
 
 ```tsx
-        {isAndroid && <span class="badge">{t('kind.android')}</span>}
+{
+  isAndroid && <span class="badge">{t('kind.android')}</span>
+}
 ```
 
 - In the attribute head replace `<strong>{c.attributes[a]}</strong>` with
@@ -780,19 +799,21 @@ In `src/ui/CharacterSheet.tsx`:
 - Replace the signature item field with:
 
 ```tsx
-        {!isAndroid && (
-          <SheetField label={t('section.signatureItem')}>{c.signatureItem || '—'}</SheetField>
-        )}
+{
+  !isAndroid && <SheetField label={t('section.signatureItem')}>{c.signatureItem || '—'}</SheetField>
+}
 ```
 
 - Before the `{c.notes.trim() !== '' && (` block add:
 
 ```tsx
-        {isAndroid && (
-          <SheetField label={t('sheet.androidRules')} wide>
-            {t('sheet.androidRulesText')}
-          </SheetField>
-        )}
+{
+  isAndroid && (
+    <SheetField label={t('sheet.androidRules')} wide>
+      {t('sheet.androidRulesText')}
+    </SheetField>
+  )
+}
 ```
 
 - [ ] **Step 3: Verify**
