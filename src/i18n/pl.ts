@@ -61,11 +61,16 @@ export const pl = {
   'editor.gearPlaceholder': 'Jeden przedmiot w linii',
   'editor.gearOptions': 'Ekwipunek zawodu:',
   'editor.cashRoll': 'Rzut zawodu: {min}–{max} $',
+  'editor.androidBonus': '+{bonus}',
+  'editor.androidBonusLabel': 'Premia androida +{bonus} do: {attribute}',
 
   'section.name': 'Imię',
   'section.sex': 'Płeć',
   'sex.female': 'Kobieta',
   'sex.male': 'Mężczyzna',
+  'section.kind': 'Typ',
+  'kind.human': 'Człowiek',
+  'kind.android': 'Android',
   'section.careerId': 'Zawód',
   'section.attributes': 'Cechy',
   'section.skills': 'Umiejętności',
@@ -114,6 +119,7 @@ export const pl = {
   'validation.talent.unknown': 'Nieznany talent „{id}”.',
   'validation.talent.notInCareer': 'Ten talent nie należy do tego zawodu.',
   'validation.cash.invalid': 'Musi być liczbą całkowitą, 0 lub więcej.',
-  'validation.androidBonus.count': 'Wybierz dokładnie {expected} różne atrybuty do premii androida.',
+  'validation.androidBonus.count':
+    'Wybierz dokładnie {expected} różne atrybuty do premii androida.',
   'validation.androidBonus.human': 'Premię do atrybutów dostaje tylko android.',
 } satisfies Messages

@@ -633,3 +633,8 @@ ul.plain {
   gap: 1rem;
   margin-bottom: 0.5rem;
 }
+
+.android-bonus {
+  margin-left: 8px;
+  white-space: nowrap;
+}
