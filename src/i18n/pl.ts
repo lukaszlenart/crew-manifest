@@ -7,6 +7,7 @@ export const pl = {
 
   'nav.list': 'Postacie',
   'nav.new': 'Nowa postać',
+  'nav.talents': 'Talenty',
 
   'storage.writeError':
     'Nie udało się zapisać danych w przeglądarce. Zrób kopię zapasową, zanim zamkniesz kartę.',
@@ -41,6 +42,18 @@ export const pl = {
   'list.draft': 'Szkic',
   'list.select': 'Zaznacz {name} do druku',
   'list.printSelected': 'Drukuj zaznaczone ({count})',
+
+  'talents.title': 'Talenty',
+  'talents.search': 'Szukaj talentów',
+  'talents.filter': 'Filtruj talenty',
+  'talents.filter.all': 'Wszystkie talenty',
+  'talents.filter.general': 'Talenty ogólne',
+  'talents.group.career': 'Talenty zawodowe',
+  'talents.group.general': 'Talenty ogólne',
+  'talents.generalNote': 'Zdobywane dzięki doświadczeniu w trakcie gry.',
+  'talents.page': 's. {page}',
+  'talents.empty': 'Żaden talent nie pasuje do wyszukiwania.',
+  'talents.more': 'Więcej →',
 
   'sheet.printCount': 'Kart do druku: {count}',
   'sheet.cash': '{amount} $',

@@ -66,5 +66,7 @@ function View({ route }: { route: Route }) {
       return <CharacterSheet id={route.id} />
     case 'print':
       return <PrintView ids={route.ids} />
+    case 'talents':
+      return null
   }
 }

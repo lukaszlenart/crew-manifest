@@ -11,6 +11,12 @@ describe('parseRoute', () => {
     expect(parseRoute('#/print/a,b')).toEqual({ name: 'print', ids: ['a', 'b'] })
   })
 
+  it('parses the talents routes', () => {
+    expect(parseRoute('#/talents')).toEqual({ name: 'talents' })
+    expect(parseRoute('#/talents/dodge')).toEqual({ name: 'talents', id: 'dodge' })
+    expect(parseRoute('#/talents/a%20b')).toEqual({ name: 'talents', id: 'a b' })
+  })
+
   it('falls back to the list', () => {
     expect(parseRoute('#/edit')).toEqual({ name: 'list' })
     expect(parseRoute('#/whatever')).toEqual({ name: 'list' })
@@ -19,5 +25,10 @@ describe('parseRoute', () => {
   it('round-trips hrefs', () => {
     expect(parseRoute(href.edit('x y'))).toEqual({ name: 'edit', id: 'x y' })
     expect(parseRoute(href.print(['a', 'b']))).toEqual({ name: 'print', ids: ['a', 'b'] })
+  })
+
+  it('round-trips talent hrefs', () => {
+    expect(href.talents()).toBe('#/talents')
+    expect(parseRoute(href.talents('x/y z'))).toEqual({ name: 'talents', id: 'x/y z' })
   })
 })
