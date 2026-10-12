@@ -20,7 +20,7 @@ stored in `localStorage`. The interface is available in English and Polish.
 
 ## Running
 
-Requires Node.js 20+.
+Requires Node.js 24 (see `.nvmrc`).
 
 ```sh
 npm install
