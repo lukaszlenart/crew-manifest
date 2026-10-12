@@ -122,7 +122,6 @@ export const pl = {
   'validation.talent.unknown': 'Nieznany talent „{id}”.',
   'validation.talent.notInCareer': 'Ten talent nie należy do tego zawodu.',
   'validation.cash.invalid': 'Musi być liczbą całkowitą, 0 lub więcej.',
-  'validation.androidBonus.count':
-    'Wybierz dokładnie {expected} różne atrybuty do premii androida.',
-  'validation.androidBonus.human': 'Premię do atrybutów dostaje tylko android.',
+  'validation.androidBonus.count': 'Wybierz dokładnie {expected} różne cechy do premii androida.',
+  'validation.androidBonus.human': 'Premię do cech dostaje tylko android.',
 } satisfies Messages
