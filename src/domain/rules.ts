@@ -1,4 +1,13 @@
-import type { Career, CashRoll, GearItem, GearOption, Localized, Rules, Talent } from './types'
+import type {
+  Career,
+  CashRoll,
+  GearItem,
+  GearOption,
+  Localized,
+  Rules,
+  Talent,
+  TalentId,
+} from './types'
 
 /**
  * Character creation limits. Keep every number here so it is easy to correct.
@@ -629,6 +638,10 @@ export function cashRange(cash: CashRoll): { min: number; max: number } {
 
 export function findTalent(rules: Rules, id: string): Talent | undefined {
   return rules.talents.find((t) => t.id === id)
+}
+
+export function careersOf(rules: Rules, talentId: TalentId): Career[] {
+  return rules.careers.filter((c) => c.talents.includes(talentId))
 }
 
 function talent(

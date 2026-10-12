@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { RULES, RULES_LIMITS, cashRange } from './rules'
+import { RULES, RULES_LIMITS, careersOf, cashRange } from './rules'
 import { ATTRIBUTES, SKILLS } from './types'
 
 describe('RULES', () => {
@@ -93,5 +93,17 @@ describe('RULES', () => {
         expect(page, id).toBeLessThanOrEqual(77)
       }
     }
+  })
+
+  it('maps each career talent back to exactly its career', () => {
+    for (const career of RULES.careers) {
+      for (const id of career.talents) {
+        expect(careersOf(RULES, id).map((c) => c.id)).toEqual([career.id])
+      }
+    }
+  })
+
+  it('maps unknown and general talents to no career', () => {
+    expect(careersOf(RULES, 'nope')).toEqual([])
   })
 })
