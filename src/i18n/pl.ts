@@ -54,6 +54,7 @@ export const pl = {
   'talents.page': 's. {page}',
   'talents.empty': 'Żaden talent nie pasuje do wyszukiwania.',
   'talents.more': 'Więcej →',
+  'talents.moreLabel': 'Więcej o talencie {name} (otwiera nową kartę)',
 
   'sheet.printCount': 'Kart do druku: {count}',
   'sheet.cash': '{amount} $',

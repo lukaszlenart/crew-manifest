@@ -252,7 +252,12 @@ function EditorForm({ initial, isNew }: { initial: Character; isNew: boolean }) 
           {talent && (
             <p class="muted small">
               {loc(talent.description)}{' '}
-              <a href={href.talents(talent.id)} target="_blank" rel="noopener">
+              <a
+                href={href.talents(talent.id)}
+                target="_blank"
+                rel="noopener"
+                aria-label={t('talents.moreLabel', { name: loc(talent.label) })}
+              >
                 {t('talents.more')}
               </a>
             </p>

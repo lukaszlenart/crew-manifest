@@ -411,7 +411,7 @@ const TALENTS: Talent[] = [
     { en: 'Merciless', pl: 'Bezlitosny' },
     {
       en: 'Perform a coup de grâce without an Empathy roll; your stress drops by 1 whenever you Break an enemy.',
-      pl: 'Dobijasz bez testu Empatii, a każdy wróg, którego Pokonasz, obniża twój stres o 1.',
+      pl: 'Dobijasz bez testu Empatii, a każdy wróg, który przez ciebie zostanie Pokonany, obniża twój stres o 1.',
     },
     {
       en: 'You can perform a coup de grâce without first rolling Empathy (see Combat). Each time you make an enemy Broken, your Stress Level drops by 1.',

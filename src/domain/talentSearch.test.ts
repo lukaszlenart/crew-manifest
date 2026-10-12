@@ -9,8 +9,14 @@ import {
 } from './talentSearch'
 import type { Rules, Talent } from './types'
 
-function tal(id: string, en: string, pl: string, details = { en: '', pl: '' }): Talent {
-  return { id, page: 78, label: { en, pl }, description: { en: '', pl: '' }, details }
+function tal(
+  id: string,
+  en: string,
+  pl: string,
+  details = { en: '', pl: '' },
+  description = { en: '', pl: '' },
+): Talent {
+  return { id, page: 78, label: { en, pl }, description, details }
 }
 
 const killer = tal('killer', 'Killer', 'Zabójca', {
@@ -25,10 +31,19 @@ const heavy = tal('heavyBlow', 'Heavy Blow', 'Silny cios', {
   en: '+2 to Close Combat (fast action).',
   pl: 'Modyfikator +2 do Walki Wręcz.',
 })
-const lungs = tal('deep', 'Deep Breather', 'Spokojny oddech', {
-  en: 'Roll two fewer dice.',
-  pl: 'Rzucasz dwiema kośćmi mniej, łapiąc oddech.',
-})
+const lungs = tal(
+  'deep',
+  'Deep Breather',
+  'Spokojny oddech',
+  {
+    en: 'Roll two fewer dice.',
+    pl: 'Rzucasz dwiema kośćmi mniej, łapiąc oddech.',
+  },
+  {
+    en: 'Calm under pressure.',
+    pl: 'Spokój pod presją.',
+  },
+)
 
 const [firstCareer, secondCareer] = RULES.careers
 if (!firstCareer || !secondCareer) throw new Error('fixture needs two careers')
@@ -63,6 +78,8 @@ describe('filterTalents', () => {
   it('searches label, description and details', () => {
     expect(search('k66')).toEqual(['killer'])
     expect(search('sprawność')).toEqual(['dodge'])
+    expect(search('presją')).toEqual(['deep'])
+    expect(search('pressure', 'en')).toEqual(['deep'])
   })
 
   it('requires every word to match', () => {

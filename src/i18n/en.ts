@@ -53,6 +53,7 @@ export const en = {
   'talents.page': 'p. {page}',
   'talents.empty': 'No talents match the search.',
   'talents.more': 'More →',
+  'talents.moreLabel': 'More about {name} (opens in a new tab)',
 
   'sheet.printCount': 'Sheets to print: {count}',
   'sheet.cash': '{amount} $',
