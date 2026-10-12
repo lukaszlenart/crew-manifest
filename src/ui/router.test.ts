@@ -22,6 +22,11 @@ describe('parseRoute', () => {
     expect(parseRoute('#/whatever')).toEqual({ name: 'list' })
   })
 
+  it('falls back to the list for a malformed escape', () => {
+    expect(parseRoute('#/talents/%')).toEqual({ name: 'list' })
+    expect(parseRoute('#/edit/%E0')).toEqual({ name: 'list' })
+  })
+
   it('round-trips hrefs', () => {
     expect(parseRoute(href.edit('x y'))).toEqual({ name: 'edit', id: 'x y' })
     expect(parseRoute(href.print(['a', 'b']))).toEqual({ name: 'print', ids: ['a', 'b'] })

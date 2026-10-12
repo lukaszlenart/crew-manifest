@@ -9,11 +9,16 @@ export type Route =
   | { name: 'talents'; id?: string }
 
 export function parseRoute(hash: string): Route {
-  const parts = hash
-    .replace(/^#\/?/, '')
-    .split('/')
-    .filter((p) => p !== '')
-    .map(decodeURIComponent)
+  let parts: string[]
+  try {
+    parts = hash
+      .replace(/^#\/?/, '')
+      .split('/')
+      .filter((p) => p !== '')
+      .map(decodeURIComponent)
+  } catch {
+    return { name: 'list' }
+  }
   const [head, arg] = parts
   if (head === 'new') return { name: 'new' }
   if (head === 'edit' && arg) return { name: 'edit', id: arg }
