@@ -5,6 +5,7 @@ import {
   remainingAttributePoints,
   remainingSkillPoints,
   validateAttributes,
+  validateCash,
   validateCharacter,
   validateSkills,
   validateTalent,
@@ -124,6 +125,19 @@ describe('validateTalent', () => {
     expect(validateTalent(validCharacter({ talentId: 't3' }), R)).toEqual([
       { field: 'talentId', message: 'talent.notInCareer' },
     ])
+  })
+})
+
+describe('validateCash', () => {
+  it('accepts any non-negative whole amount, outside the career roll too', () => {
+    for (const cash of [0, 300, 99999]) expect(validateCash(validCharacter({ cash }))).toEqual([])
+  })
+
+  it('rejects negative or fractional cash', () => {
+    for (const cash of [-1, 2.5, Number.NaN])
+      expect(validateCash(validCharacter({ cash }))).toEqual([
+        { field: 'cash', message: 'cash.invalid' },
+      ])
   })
 })
 

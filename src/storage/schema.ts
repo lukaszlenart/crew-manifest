@@ -33,6 +33,7 @@ export const CharacterSchema = z.object({
   rival: z.string(),
   signatureItem: z.string(),
   gear: z.array(z.string()),
+  cash: int,
   notes: z.string(),
   createdAt: z.string(),
   updatedAt: z.string(),

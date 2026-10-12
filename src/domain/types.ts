@@ -56,6 +56,13 @@ export interface Career {
   keySkills: Skill[]
   talents: TalentId[]
   gearOptions: GearOption[]
+  cash: CashRoll
+}
+
+/** Starting cash: `dice` × D6, times `multiplier` dollars. */
+export interface CashRoll {
+  dice: number
+  multiplier: number
 }
 
 export interface GearItem {
@@ -109,6 +116,7 @@ export interface Character {
   rival: string
   signatureItem: string
   gear: string[]
+  cash: number
   notes: string
   createdAt: string
   updatedAt: string

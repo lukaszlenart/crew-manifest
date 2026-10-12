@@ -22,6 +22,7 @@ export function emptyCharacter(rules: Rules, id: string, now: string): Character
     rival: '',
     signatureItem: '',
     gear: [],
+    cash: 0,
     notes: '',
     createdAt: now,
     updatedAt: now,

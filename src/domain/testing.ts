@@ -21,6 +21,7 @@ export const TEST_RULES: Rules = {
       keySkills: ['heavyMachinery', 'stamina', 'closeCombat'],
       talents: ['t1', 't2'],
       gearOptions: gear,
+      cash: { dice: 1, multiplier: 100 },
     },
     {
       id: 'scientist',
@@ -29,6 +30,7 @@ export const TEST_RULES: Rules = {
       keySkills: ['observation', 'survival', 'comtech'],
       talents: ['t3'],
       gearOptions: gear,
+      cash: { dice: 1, multiplier: 100 },
     },
   ],
   talents: [talent('t1'), talent('t2'), talent('t3')],
@@ -65,6 +67,7 @@ export function validCharacter(overrides: Partial<Character> = {}): Character {
     rival: '',
     signatureItem: '',
     gear: [],
+    cash: 300,
     notes: '',
     createdAt: '2026-01-01T00:00:00.000Z',
     updatedAt: '2026-01-01T00:00:00.000Z',

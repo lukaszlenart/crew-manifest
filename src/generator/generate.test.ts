@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
 import { gearItemText } from '../domain/gear'
-import { RULES } from '../domain/rules'
+import { RULES, cashRange, findCareer } from '../domain/rules'
 import { TEST_RULES, validCharacter } from '../domain/testing'
 import type { Rules } from '../domain/types'
 import { validateCharacter } from '../domain/validation'
@@ -77,6 +77,18 @@ describe('generateCharacter', () => {
     for (const g of c.gear) expect(g).toMatch(/ \(2 reloads\)$/)
   })
 
+  it('rolls starting cash within the career range', () => {
+    for (let seed = 0; seed < 500; seed++) {
+      const c = generateCharacter({ seed, rules: RULES })
+      const career = findCareer(RULES, c.careerId)
+      if (!career) throw new Error(`no career for seed ${seed}`)
+      const { min, max } = cashRange(career.cash)
+      expect(c.cash).toBeGreaterThanOrEqual(min)
+      expect(c.cash).toBeLessThanOrEqual(max)
+      expect(c.cash % career.cash.multiplier).toBe(0)
+    }
+  })
+
   it('gives the same result for the same seed', () => {
     const a = generateCharacter({ seed: 7, rules: TEST_RULES, locked: fixed })
     const b = generateCharacter({ seed: 7, rules: TEST_RULES, locked: fixed })
@@ -142,6 +154,18 @@ describe('rerollSections', () => {
       expect(c.name).toBe(base.name)
       expect(validateCharacter(c, TEST_RULES)).toEqual([])
     }
+  })
+
+  it('re-rolls cash with the career unless kept', () => {
+    const base = validCharacter({ cash: 12345 })
+    let changed = false
+    for (let seed = 0; seed < 50; seed++) {
+      const kept = rerollSections(base, ['careerId'], { seed, rules: TEST_RULES, keep: ['cash'] })
+      expect(kept.cash).toBe(12345)
+      if (rerollSections(base, ['careerId'], { seed, rules: TEST_RULES }).cash !== 12345)
+        changed = true
+    }
+    expect(changed).toBe(true)
   })
 
   it('re-rolls the name with the sex unless the name is kept', () => {

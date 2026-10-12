@@ -43,6 +43,7 @@ export const pl = {
   'list.printSelected': 'Drukuj zaznaczone ({count})',
 
   'sheet.printCount': 'Kart do druku: {count}',
+  'sheet.cash': '{amount} $',
 
   'editor.newTitle': 'Nowa postać',
   'editor.editTitle': 'Edycja postaci',
@@ -59,6 +60,7 @@ export const pl = {
   'editor.key': 'Wiodące dla zawodu',
   'editor.gearPlaceholder': 'Jeden przedmiot w linii',
   'editor.gearOptions': 'Ekwipunek zawodu:',
+  'editor.cashRoll': 'Rzut zawodu: {min}–{max} $',
 
   'section.name': 'Imię',
   'section.sex': 'Płeć',
@@ -69,6 +71,7 @@ export const pl = {
   'section.skills': 'Umiejętności',
   'section.talentId': 'Talent',
   'section.gear': 'Ekwipunek',
+  'section.cash': 'Gotówka',
   'section.appearance': 'Wygląd',
   'section.personalAgenda': 'Cel osobisty',
   'section.buddy': 'Przyjaciel',
@@ -110,4 +113,5 @@ export const pl = {
   'validation.talent.required': 'Wybierz talent.',
   'validation.talent.unknown': 'Nieznany talent „{id}”.',
   'validation.talent.notInCareer': 'Ten talent nie należy do tego zawodu.',
+  'validation.cash.invalid': 'Musi być liczbą całkowitą, 0 lub więcej.',
 } satisfies Messages
