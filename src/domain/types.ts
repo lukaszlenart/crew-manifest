@@ -81,6 +81,8 @@ export interface Talent {
   id: TalentId
   label: Localized
   description: Localized
+  details: Localized
+  page: number
 }
 
 export interface RuleLimits {

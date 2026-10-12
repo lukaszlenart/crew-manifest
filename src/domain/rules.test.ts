@@ -65,4 +65,33 @@ describe('RULES', () => {
     expect(RULES_LIMITS.attributeMax + RULES_LIMITS.androidAttributeBonus).toBe(7)
     expect(RULES_LIMITS.androidBonusAttributes).toBe(2)
   })
+
+  it('has complete text and a chapter 4 page for every talent', () => {
+    for (const t of RULES.talents) {
+      for (const field of [t.label, t.description, t.details]) {
+        expect(field.en.trim(), t.id).not.toBe('')
+        expect(field.pl.trim(), t.id).not.toBe('')
+      }
+      expect(Number.isInteger(t.page), t.id).toBe(true)
+      expect(t.page, t.id).toBeGreaterThanOrEqual(74)
+      expect(t.page, t.id).toBeLessThanOrEqual(79)
+    }
+  })
+
+  it('keeps talent summaries to one short line', () => {
+    for (const t of RULES.talents) {
+      expect(t.description.en.length, t.id).toBeLessThanOrEqual(140)
+      expect(t.description.pl.length, t.id).toBeLessThanOrEqual(140)
+    }
+  })
+
+  it('places career talents on the career talent pages', () => {
+    for (const career of RULES.careers) {
+      for (const id of career.talents) {
+        const page = RULES.talents.find((t) => t.id === id)?.page ?? 0
+        expect(page, id).toBeGreaterThanOrEqual(74)
+        expect(page, id).toBeLessThanOrEqual(77)
+      }
+    }
+  })
 })
