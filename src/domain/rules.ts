@@ -524,8 +524,8 @@ const TALENTS: Talent[] = [
       pl: 'Wystarcza ci jedna wachta snu na dwie doby zamiast codziennie.',
     },
     {
-      en: 'You get by on less sleep than most people: you must sleep one shift every other day rather than one shift each day.',
-      pl: 'Potrzebujesz mniej snu niż inni – śpisz przez jedną wachtę raz na dwa dni, a nie każdego dnia.',
+      en: 'You must sleep one shift every other day rather than one shift each day.',
+      pl: 'Śpisz przez jedną wachtę raz na dwa dni, a nie każdego dnia.',
     },
   ),
   // TODO: uzupełnić z podręcznika
@@ -552,7 +552,7 @@ const TALENTS: Talent[] = [
       pl: '+2 do spornych testów Manipulacji, gdy ktoś próbuje ci rozkazywać.',
     },
     {
-      en: 'You hate being told what to do: when someone tries to give you orders, you get +2 to opposed Manipulation rolls. This also helps you resist the Officer talent Pull Rank.',
+      en: 'When someone tries to give you orders, you get +2 to opposed Manipulation rolls. This also helps you resist the Officer talent Pull Rank.',
       pl: 'Każda próba wydania ci rozkazu daje ci +2 do spornego testu Manipulacji. Bonus działa również przeciwko Wyższej szarży, talentowi Oficera.',
     },
   ),
@@ -575,8 +575,8 @@ const TALENTS: Talent[] = [
     78,
     { en: 'Resistant', pl: 'Niewzruszony' },
     {
-      en: 'Roll Stamina using Wits instead of Strength.',
-      pl: 'Testy Kondycji wykonujesz na Sprycie zamiast na Sile.',
+      en: 'You may roll Stamina with Wits in place of Strength.',
+      pl: 'Do testów Kondycji możesz brać Spryt w miejsce Siły.',
     },
     {
       en: 'Your Stamina rolls may be based on Wits rather than Strength.',
@@ -646,8 +646,8 @@ const TALENTS: Talent[] = [
       pl: '−2 do wszystkich twoich Testów Paniki.',
     },
     {
-      en: 'You keep calm whatever happens: every Panic Roll you make gets a −2 modifier.',
-      pl: 'Zachowujesz spokój bez względu na okoliczności: każdy twój Test Paniki dostaje modyfikator −2.',
+      en: 'You make every Panic Roll with a −2 modifier.',
+      pl: 'Każdy Test Paniki wykonujesz z modyfikatorem −2.',
     },
   ),
   // TODO: uzupełnić z podręcznika
@@ -721,8 +721,8 @@ const TALENTS: Talent[] = [
     79,
     { en: 'Pack Mule', pl: 'Tragarz' },
     {
-      en: 'You can carry twice the normal number of items without being encumbered.',
-      pl: 'Udźwigniesz dwa razy więcej przedmiotów niż zwykle, nie będąc przeciążonym.',
+      en: 'You can carry twice as many items as normal before becoming encumbered.',
+      pl: 'Twój limit przedmiotów przed przeciążeniem jest dwukrotnie wyższy.',
     },
     {
       en: 'Your carrying capacity is doubled: you can carry twice as many items as normal before you become encumbered.',
@@ -738,7 +738,7 @@ const TALENTS: Talent[] = [
       pl: '+2 do Sprawności w stanie nieważkości.',
     },
     {
-      en: 'Your sense of balance has adapted to weightlessness: in zero-G, every Mobility roll you make gets a +2 modifier.',
+      en: 'In zero-G, every Mobility roll you make gets a +2 modifier.',
       pl: 'W warunkach braku grawitacji każdy twój test Sprawności zyskuje modyfikator +2.',
     },
   ),
@@ -762,7 +762,7 @@ const TALENTS: Talent[] = [
     { en: 'Lightweight', pl: 'Waga lekka' },
     {
       en: 'Block in close combat using Agility instead of Strength.',
-      pl: 'Blokując w walce wręcz, używasz Zręczności zamiast Siły.',
+      pl: 'Do bloku w walce wręcz rzucasz Zręcznością, nie Siłą.',
     },
     {
       en: 'When you block an attack in close combat, you may roll with Agility instead of Strength.',
@@ -805,8 +805,8 @@ const TALENTS: Talent[] = [
       pl: '+2 do Spostrzegawczości, by dostrzec atak z zaskoczenia.',
     },
     {
-      en: 'You sense when enemies lurk nearby: you get +2 to Observation when you try to notice a surprise attack.',
-      pl: 'Masz nosa do czających się w pobliżu wrogów. Wypatrując ataku z zaskoczenia, testujesz Spostrzegawczość z modyfikatorem +2.',
+      en: 'You get +2 to Observation when you try to notice a surprise attack.',
+      pl: 'Wypatrując ataku z zaskoczenia, testujesz Spostrzegawczość z modyfikatorem +2.',
     },
   ),
   talent(
