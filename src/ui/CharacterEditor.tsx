@@ -2,11 +2,11 @@ import { newId } from '../domain/id'
 import type { ComponentChildren } from 'preact'
 import { useEffect, useMemo, useState } from 'preact/hooks'
 import { emptyCharacter } from '../domain/character'
-import { health } from '../domain/derived'
+import { effectiveAttributes, health } from '../domain/derived'
 import { gearItemText } from '../domain/gear'
 import { RULES, cashRange, findCareer, findTalent } from '../domain/rules'
-import type { Character } from '../domain/types'
-import { ATTRIBUTES, SEXES, SKILLS } from '../domain/types'
+import type { Attribute, Character, Kind } from '../domain/types'
+import { ATTRIBUTES, KINDS, SEXES, SKILLS } from '../domain/types'
 import {
   attributeMax,
   issuesFor,
@@ -77,6 +77,10 @@ function EditorForm({ initial, isNew }: { initial: Character; isNew: boolean }) 
   const talent = findTalent(RULES, draft.talentId)
   const attrLeft = remainingAttributePoints(draft, RULES)
   const skillLeft = remainingSkillPoints(draft, RULES)
+  const isAndroid = draft.kind === 'android'
+  const effective = effectiveAttributes(draft, RULES)
+  const { androidAttributeBonus: bonus, androidBonusAttributes: bonusCount } = RULES.limits
+  const textSections = TEXT_SECTIONS.filter((s) => !(isAndroid && s === 'signatureItem'))
 
   const touch = () => {
     setDirty(true)
@@ -86,6 +90,14 @@ function EditorForm({ initial, isNew }: { initial: Character; isNew: boolean }) 
     setDraft((d) => ({ ...d, ...patch }))
     touch()
   }
+  const setKind = (kind: Kind) =>
+    update(kind === 'android' ? { kind, signatureItem: '' } : { kind, androidBonus: [] })
+  const toggleBonus = (a: Attribute) =>
+    update({
+      androidBonus: draft.androidBonus.includes(a)
+        ? draft.androidBonus.filter((x) => x !== a)
+        : [...draft.androidBonus, a],
+    })
   const randomize = (sections: readonly Section[]) => {
     setDraft((d) =>
       rerollSections(d, sections, { seed: randomSeed(), lang: lang.value, keep: [...locked] }),
@@ -184,6 +196,22 @@ function EditorForm({ initial, isNew }: { initial: Character; isNew: boolean }) 
             ))}
           </div>
 
+          <h3>{t('section.kind')}</h3>
+          <div class="radio-row" role="radiogroup" aria-label={t('section.kind')}>
+            {KINDS.map((k) => (
+              <label key={k}>
+                <input
+                  type="radio"
+                  name="kind"
+                  value={k}
+                  checked={draft.kind === k}
+                  onChange={() => setKind(k)}
+                />{' '}
+                {t(`kind.${k}`)}
+              </label>
+            ))}
+          </div>
+
           {header('careerId')}
           <select
             value={draft.careerId}
@@ -249,15 +277,36 @@ function EditorForm({ initial, isNew }: { initial: Character; isNew: boolean }) 
                       />
                       <IssueList issues={fieldIssues} />
                     </td>
+                    {isAndroid && (
+                      <td class="android-bonus">
+                        <label>
+                          <input
+                            type="checkbox"
+                            checked={draft.androidBonus.includes(a)}
+                            disabled={
+                              !draft.androidBonus.includes(a) &&
+                              draft.androidBonus.length >= bonusCount
+                            }
+                            aria-label={t('editor.androidBonusLabel', {
+                              bonus,
+                              attribute: loc(RULES.attributes[a].label),
+                            })}
+                            onChange={() => toggleBonus(a)}
+                          />{' '}
+                          {t('editor.androidBonus', { bonus })} → <strong>{effective[a]}</strong>
+                        </label>
+                      </td>
+                    )}
                   </tr>
                 )
               })}
             </tbody>
           </table>
           <p class="muted small">
-            {t('editor.health')}: <strong>{health(draft)}</strong>
+            {t('editor.health')}: <strong>{health(draft, RULES)}</strong>
           </p>
           <IssueList issues={issuesFor(issues, 'attributes')} />
+          <IssueList issues={issuesFor(issues, 'androidBonus')} />
         </section>
 
         <section class="panel">
@@ -347,7 +396,7 @@ function EditorForm({ initial, isNew }: { initial: Character; isNew: boolean }) 
         </section>
 
         <section class="panel">
-          {TEXT_SECTIONS.map((s) => (
+          {textSections.map((s) => (
             <div key={s}>
               {header(s)}
               <textarea

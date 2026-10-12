@@ -14,6 +14,8 @@ export const RULES_LIMITS = {
   otherSkillMax: 1,
   gearCount: 2,
   startingReloads: 2,
+  androidAttributeBonus: 3,
+  androidBonusAttributes: 2,
 } as const satisfies Rules['limits']
 
 const ATTRIBUTES: Rules['attributes'] = {

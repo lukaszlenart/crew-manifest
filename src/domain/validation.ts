@@ -18,6 +18,8 @@ export type IssueCode =
   | 'talent.unknown'
   | 'talent.notInCareer'
   | 'cash.invalid'
+  | 'androidBonus.count'
+  | 'androidBonus.human'
 
 /**
  * `message` is a stable code; the UI translates it (`validation.<code>`) using `params`.
@@ -137,11 +139,28 @@ export function validateCash(c: Pick<Character, 'cash'>): ValidationIssue[] {
   return Number.isInteger(c.cash) && c.cash >= 0 ? [] : [{ field: 'cash', message: 'cash.invalid' }]
 }
 
+export function validateAndroid(
+  c: Pick<Character, 'kind' | 'androidBonus'>,
+  rules: Rules,
+): ValidationIssue[] {
+  if (c.kind === 'human') {
+    return c.androidBonus.length > 0
+      ? [{ field: 'androidBonus', message: 'androidBonus.human' }]
+      : []
+  }
+  const expected = rules.limits.androidBonusAttributes
+  const distinct = new Set(c.androidBonus).size
+  return distinct === expected && c.androidBonus.length === expected
+    ? []
+    : [{ field: 'androidBonus', message: 'androidBonus.count', params: { expected } }]
+}
+
 export function validateCharacter(c: Character, rules: Rules): ValidationIssue[] {
   return [
     ...validateName(c),
     ...validateCareer(c, rules),
     ...validateAttributes(c, rules),
+    ...validateAndroid(c, rules),
     ...validateSkills(c, rules),
     ...validateTalent(c, rules),
     ...validateCash(c),

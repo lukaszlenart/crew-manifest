@@ -43,6 +43,9 @@ export const en = {
 
   'sheet.printCount': 'Sheets to print: {count}',
   'sheet.cash': '{amount} $',
+  'sheet.androidRules': 'Android',
+  'sheet.androidRulesText':
+    'Cannot push skill rolls. Never makes Panic Rolls. Takes damage differently (p. 111).',
 
   'editor.newTitle': 'New character',
   'editor.editTitle': 'Edit character',
@@ -60,11 +63,16 @@ export const en = {
   'editor.gearPlaceholder': 'One item per line',
   'editor.gearOptions': 'Career gear:',
   'editor.cashRoll': 'Career roll: {min}–{max} $',
+  'editor.androidBonus': '+{bonus}',
+  'editor.androidBonusLabel': 'Android bonus +{bonus} to {attribute}',
 
   'section.name': 'Name',
   'section.sex': 'Sex',
   'sex.female': 'Female',
   'sex.male': 'Male',
+  'section.kind': 'Type',
+  'kind.human': 'Human',
+  'kind.android': 'Android',
   'section.careerId': 'Career',
   'section.attributes': 'Attributes',
   'section.skills': 'Skills',
@@ -113,6 +121,9 @@ export const en = {
   'validation.talent.unknown': 'Unknown talent “{id}”.',
   'validation.talent.notInCareer': 'This talent does not belong to the career.',
   'validation.cash.invalid': 'Must be a whole number, 0 or more.',
+  'validation.androidBonus.count':
+    'Choose exactly {expected} different attributes for the android bonus.',
+  'validation.androidBonus.human': 'Only an android gets the attribute bonus.',
 } as const
 
 export type MessageKey = keyof typeof en

@@ -9,6 +9,10 @@ export type Sex = 'female' | 'male'
 
 export const SEXES: readonly Sex[] = ['female', 'male']
 
+export type Kind = 'human' | 'android'
+
+export const KINDS: readonly Kind[] = ['human', 'android']
+
 export type Attribute = 'strength' | 'agility' | 'wits' | 'empathy'
 
 export const ATTRIBUTES: readonly Attribute[] = ['strength', 'agility', 'wits', 'empathy']
@@ -90,6 +94,8 @@ export interface RuleLimits {
   otherSkillMax: number
   gearCount: number
   startingReloads: number
+  androidAttributeBonus: number
+  androidBonusAttributes: number
 }
 
 export interface Rules {
@@ -105,6 +111,9 @@ export interface Character {
   schemaVersion: 1
   name: string
   sex: Sex
+  kind: Kind
+  /** Attributes that get the android bonus; always empty for a human. */
+  androidBonus: Attribute[]
   careerId: CareerId
   attributes: Record<Attribute, number>
   skills: Record<Skill, number>

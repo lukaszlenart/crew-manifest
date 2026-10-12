@@ -1,4 +1,5 @@
 import { useMemo, useState } from 'preact/hooks'
+import { effectiveAttributes } from '../domain/derived'
 import { RULES } from '../domain/rules'
 import type { Character } from '../domain/types'
 import { ATTRIBUTES } from '../domain/types'
@@ -131,6 +132,7 @@ function CharacterCard({ character: c, selected, onToggle }: CardProps) {
     if (window.confirm(t('list.confirmDelete', { name }))) void deleteCharacter(c.id)
   }
 
+  const attributes = effectiveAttributes(c, RULES)
   return (
     <li class="card panel">
       <div class="card-head">
@@ -150,7 +152,7 @@ function CharacterCard({ character: c, selected, onToggle }: CardProps) {
       <div class="attr-line">
         {ATTRIBUTES.map((a) => (
           <span key={a}>
-            {attributeShort(a, l)} <strong>{c.attributes[a]}</strong>
+            {attributeShort(a, l)} <strong>{attributes[a]}</strong>
           </span>
         ))}
       </div>

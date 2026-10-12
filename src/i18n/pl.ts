@@ -44,6 +44,9 @@ export const pl = {
 
   'sheet.printCount': 'Kart do druku: {count}',
   'sheet.cash': '{amount} $',
+  'sheet.androidRules': 'Android',
+  'sheet.androidRulesText':
+    'Nie może forsować rzutów. Nigdy nie wykonuje rzutów na panikę. Inaczej otrzymuje obrażenia (s. 111).',
 
   'editor.newTitle': 'Nowa postać',
   'editor.editTitle': 'Edycja postaci',
@@ -61,11 +64,16 @@ export const pl = {
   'editor.gearPlaceholder': 'Jeden przedmiot w linii',
   'editor.gearOptions': 'Ekwipunek zawodu:',
   'editor.cashRoll': 'Rzut zawodu: {min}–{max} $',
+  'editor.androidBonus': '+{bonus}',
+  'editor.androidBonusLabel': 'Premia androida +{bonus} do: {attribute}',
 
   'section.name': 'Imię',
   'section.sex': 'Płeć',
   'sex.female': 'Kobieta',
   'sex.male': 'Mężczyzna',
+  'section.kind': 'Typ',
+  'kind.human': 'Człowiek',
+  'kind.android': 'Android',
   'section.careerId': 'Zawód',
   'section.attributes': 'Cechy',
   'section.skills': 'Umiejętności',
@@ -114,4 +122,6 @@ export const pl = {
   'validation.talent.unknown': 'Nieznany talent „{id}”.',
   'validation.talent.notInCareer': 'Ten talent nie należy do tego zawodu.',
   'validation.cash.invalid': 'Musi być liczbą całkowitą, 0 lub więcej.',
+  'validation.androidBonus.count': 'Wybierz dokładnie {expected} różne cechy do premii androida.',
+  'validation.androidBonus.human': 'Premię do cech dostaje tylko android.',
 } satisfies Messages

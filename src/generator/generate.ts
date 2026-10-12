@@ -71,6 +71,7 @@ export function generateCharacter(options: GenerateOptions): Character {
   const rng = mulberry32(seed)
   const rolledSex = pick(rng, SEXES)
   const sex = locked.sex ?? rolledSex
+  const kind = locked.kind ?? 'human'
   const { general, careers } = tables[lang]
   const now = options.now ?? new Date().toISOString()
 
@@ -98,13 +99,18 @@ export function generateCharacter(options: GenerateOptions): Character {
   const personalAgenda = text(general.personalAgenda, careerTable?.personalAgenda)
   const buddy = text(general.buddy, undefined)
   const rival = text(general.rival, undefined)
-  const signatureItem = text(general.signatureItem, careerTable?.signatureItem)
+  const rolledSignatureItem = text(general.signatureItem, careerTable?.signatureItem)
+  const rolledBonus = sample(rng, ATTRIBUTES, rules.limits.androidBonusAttributes)
+  const signatureItem = kind === 'android' ? '' : rolledSignatureItem
+  const androidBonus = kind === 'android' ? rolledBonus : []
 
   const generated: Character = {
     id: newId(),
     schemaVersion: 1,
     name,
     sex,
+    kind,
+    androidBonus,
     careerId,
     attributes,
     skills,
@@ -138,6 +144,7 @@ export function rerollSections(
   if (reroll.has('sex')) for (const s of SEX_DEPENDENT) if (!keep.has(s)) reroll.add(s)
   const locked: Partial<Character> = { ...base }
   for (const s of reroll) delete locked[s]
+  if (reroll.has('attributes')) delete locked.androidBonus
   return generateCharacter({ ...options, locked })
 }
 

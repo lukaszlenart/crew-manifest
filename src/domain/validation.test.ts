@@ -1,9 +1,9 @@
 import { describe, expect, it } from 'vitest'
 import { TEST_RULES as R, validCharacter } from './testing'
-import { health } from './derived'
 import {
   remainingAttributePoints,
   remainingSkillPoints,
+  validateAndroid,
   validateAttributes,
   validateCash,
   validateCharacter,
@@ -141,8 +141,44 @@ describe('validateCash', () => {
   })
 })
 
-describe('health', () => {
-  it('equals strength', () => {
-    expect(health(validCharacter())).toBe(5)
+describe('validateAndroid', () => {
+  const android = (androidBonus: Character['androidBonus']) =>
+    validCharacter({ kind: 'android', androidBonus })
+
+  it('accepts an android with two distinct bonus attributes', () => {
+    expect(validateCharacter(android(['strength', 'wits']), R)).toEqual([])
+  })
+
+  it('reports the same record as a human', () => {
+    const human = validCharacter({ kind: 'human', androidBonus: ['strength', 'wits'] })
+    expect(validateCharacter(human, R)).toEqual([
+      { field: 'androidBonus', message: 'androidBonus.human' },
+    ])
+  })
+
+  it('reports the effective android values entered as a human', () => {
+    const human = withAttrs({ strength: 8, wits: 6 })
+    expect(codes(validateAttributes(human, R))).toEqual([
+      'attribute.aboveMax',
+      'attribute.aboveMax',
+      'attributes.total',
+    ])
+  })
+
+  it('requires exactly two distinct bonus attributes', () => {
+    for (const bonus of [
+      [],
+      ['strength'],
+      ['strength', 'wits', 'empathy'],
+      ['strength', 'strength'],
+    ] as Character['androidBonus'][]) {
+      expect(validateAndroid(android(bonus), R), bonus.join(',')).toEqual([
+        { field: 'androidBonus', message: 'androidBonus.count', params: { expected: 2 } },
+      ])
+    }
+  })
+
+  it('accepts a human without bonus', () => {
+    expect(validateAndroid(validCharacter(), R)).toEqual([])
   })
 })

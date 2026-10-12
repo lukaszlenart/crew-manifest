@@ -1,5 +1,5 @@
 import type { ComponentChildren } from 'preact'
-import { health } from '../domain/derived'
+import { effectiveAttributes, health } from '../domain/derived'
 import { RULES, findCareer, findTalent } from '../domain/rules'
 import type { Character } from '../domain/types'
 import { ATTRIBUTES, SKILLS } from '../domain/types'
@@ -76,6 +76,8 @@ export function SheetCard({ character: c }: { character: Character }) {
   const talent = findTalent(RULES, c.talentId)
   const isDraft = validateCharacter(c, RULES).length > 0
   const gear = cleanGear(c.gear)
+  const isAndroid = c.kind === 'android'
+  const attributes = effectiveAttributes(c, RULES)
 
   return (
     <article class="sheet panel">
@@ -87,9 +89,10 @@ export function SheetCard({ character: c }: { character: Character }) {
           </div>
         </div>
         {isDraft && <span class="badge draft">{t('list.draft')}</span>}
+        {isAndroid && <span class="badge">{t('kind.android')}</span>}
         <div class="sheet-health">
           <span>{t('editor.health')}</span>
-          <strong>{health(c)}</strong>
+          <strong>{health(c, RULES)}</strong>
         </div>
       </header>
 
@@ -101,7 +104,7 @@ export function SheetCard({ character: c }: { character: Character }) {
                 {loc(RULES.attributes[a].label)}
                 {career?.keyAttribute === a && <span class="key-mark">★</span>}
               </span>
-              <strong>{c.attributes[a]}</strong>
+              <strong>{attributes[a]}</strong>
             </div>
             <ul class="sheet-skills">
               {SKILLS.filter((s) => RULES.skills[s].attribute === a).map((s) => (
@@ -141,13 +144,20 @@ export function SheetCard({ character: c }: { character: Character }) {
           )}
         </SheetField>
         <SheetField label={t('section.cash')}>{t('sheet.cash', { amount: c.cash })}</SheetField>
-        <SheetField label={t('section.signatureItem')}>{c.signatureItem || '—'}</SheetField>
+        {!isAndroid && (
+          <SheetField label={t('section.signatureItem')}>{c.signatureItem || '—'}</SheetField>
+        )}
         <SheetField label={t('section.personalAgenda')}>{c.personalAgenda || '—'}</SheetField>
         <SheetField label={t('section.buddy')}>{c.buddy || '—'}</SheetField>
         <SheetField label={t('section.rival')}>{c.rival || '—'}</SheetField>
         <SheetField label={t('section.appearance')} wide>
           {c.appearance || '—'}
         </SheetField>
+        {isAndroid && (
+          <SheetField label={t('sheet.androidRules')} wide>
+            {t('sheet.androidRulesText')}
+          </SheetField>
+        )}
         {c.notes.trim() !== '' && (
           <SheetField label={t('section.notes')} wide>
             <div class="pre">{c.notes}</div>

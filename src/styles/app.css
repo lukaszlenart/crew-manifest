@@ -633,3 +633,14 @@ ul.plain {
   gap: 1rem;
   margin-bottom: 0.5rem;
 }
+
+.android-bonus {
+  padding-left: 12px;
+  white-space: nowrap;
+}
+
+.android-bonus input {
+  width: auto;
+  margin: 0;
+  accent-color: var(--accent);
+}
