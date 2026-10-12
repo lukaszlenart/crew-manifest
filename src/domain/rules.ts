@@ -55,7 +55,7 @@ const TALENTS: Talent[] = [
     },
     {
       en: 'During a break from the fighting, your jokes ease the tension: for each turn spent in a safe place, your Stress Level and that of everyone within Short range drops by 2 instead of 1. The effect does not stack when several Marines have this talent.',
-      pl: 'W przerwie między walkami rozładowujesz napięcie żartami: za każdą turę spędzoną w bezpiecznym miejscu twój poziom stresu i poziom stresu wszystkich w bliskim zasięgu spada o 2 zamiast o 1. Efekt nie kumuluje się, gdy talent ma kilku marines.',
+      pl: 'Za każdą turę odpoczynku w bezpiecznym miejscu twój poziom stresu, a także stres każdego w bliskim zasięgu, maleje o 2, a nie o 1 – rozładowujesz napięcie żartami. Kilku marines z tym talentem to wciąż tylko −2, efekty się nie sumują.',
     },
   ),
   talent(
@@ -68,7 +68,7 @@ const TALENTS: Talent[] = [
     },
     {
       en: 'When a Panic Roll gives a result of 11 or more and you can see enemies, you can replace that panic effect with Overkill. You must attack the enemies at once and keep attacking until you or every enemy you can see is Broken. Every other PC within Short range must make a Panic Roll right away.',
-      pl: 'Gdy Test Paniki da wynik 11 lub więcej, a widzisz wrogów, możesz zastąpić ten efekt paniki Szałem bojowym. Musisz od razu zaatakować wrogów i atakujesz dalej, dopóki ty albo wszyscy widziani wrogowie nie zostaniecie Pokonani. Każda inna PG w bliskim zasięgu musi natychmiast wykonać Test Paniki.',
+      pl: 'Przy wyniku 11+ w Teście Paniki, gdy w polu widzenia są wrogowie, wolno ci wybrać Szał bojowy w miejsce efektu z tabeli. Wtedy od razu ruszasz do ataku i nie przerywasz go, aż padniesz ty albo każdy widoczny wróg (stan Pokonany). Pozostałe PG w bliskim zasięgu od razu testują Panikę.',
     },
   ),
   talent(
@@ -81,7 +81,7 @@ const TALENTS: Talent[] = [
     },
     {
       en: 'You may push any skill roll based on Strength twice instead of once. Each push raises your Stress Level by 1.',
-      pl: 'Możesz forsować test każdej umiejętności opartej na Sile dwa razy zamiast raz. Każde forsowanie podnosi twój poziom stresu o 1.',
+      pl: 'Testy umiejętności opartych na Sile forsujesz do dwóch razy; każde forsowanie to +1 do poziomu stresu.',
     },
   ),
   talent(
@@ -94,7 +94,7 @@ const TALENTS: Talent[] = [
     },
     {
       en: 'Your authority as a Marshal lets you roll Command instead of Manipulation when you try to make others do what you want.',
-      pl: 'Twój autorytet inspektora pozwala ci testować Dowodzenie zamiast Manipulacji, gdy chcesz nakłonić innych do swojej woli.',
+      pl: 'Gdy próbujesz kimś pokierować wbrew jego woli, rzucasz na Dowodzenie, a nie na Manipulację – tak działa autorytet inspektora.',
     },
   ),
   talent(
@@ -107,7 +107,7 @@ const TALENTS: Talent[] = [
     },
     {
       en: 'After spending a turn in a room or a similar place, you may roll Observation; you get only one attempt. For each success, ask the GM one question: what happened here, is something hidden here and where, or is something here out of place. The GM answers truthfully but may be vague or incomplete.',
-      pl: 'Po spędzeniu tury w pomieszczeniu lub podobnym miejscu możesz wykonać test Spostrzegawczości – tylko jedną próbę. Za każdy sukces zadajesz MG jedno pytanie: co się tu wydarzyło, czy coś tu ukryto i gdzie, albo czy coś tu jest nie na miejscu. MG odpowiada zgodnie z prawdą, ale może mówić niejasno lub niepełnie.',
+      pl: 'Tura spędzona w pomieszczeniu lub podobnym miejscu pozwala ci na jeden test Spostrzegawczości, bez powtórek. Każdy sukces to jedno pytanie do MG spośród trzech: co tu zaszło, czy i gdzie coś schowano, co tu nie pasuje. Odpowiedzi MG są prawdziwe, choć bywają mgliste lub niepełne.',
     },
   ),
   talent(
@@ -120,7 +120,7 @@ const TALENTS: Talent[] = [
     },
     {
       en: 'When attacking a humanoid in close combat, you can declare that you are subduing them. You get +2 to the attack, but a hit deals no damage: you grab the opponent instead. Extra successes have no effect.',
-      pl: 'Atakując humanoida w walce wręcz, możesz zadeklarować obezwładnienie. Dostajesz +2 do ataku, ale trafienie nie zadaje obrażeń – zamiast tego chwytasz przeciwnika. Dodatkowe sukcesy nie mają efektu.',
+      pl: 'Przed atakiem wręcz na humanoida deklarujesz obezwładnienie i zyskujesz +2 do testu. Trafienie oznacza chwyt, a nie obrażenia, a nadwyżka sukcesów nic nie daje.',
     },
   ),
   talent(
@@ -133,7 +133,7 @@ const TALENTS: Talent[] = [
     },
     {
       en: 'You may push any skill roll based on Wits twice instead of once. Each push raises your Stress Level by 1.',
-      pl: 'Możesz forsować test każdej umiejętności opartej na Sprycie dwa razy zamiast raz. Każde forsowanie podnosi twój poziom stresu o 1.',
+      pl: 'Testy umiejętności opartych na Sprycie forsujesz do dwóch razy; każde forsowanie to +1 do poziomu stresu.',
     },
   ),
   talent(
@@ -146,7 +146,7 @@ const TALENTS: Talent[] = [
     },
     {
       en: 'When you are attacked or otherwise in deadly danger and another PC or friendly NPC is within Short range (in the same zone), roll Manipulation. It is a simple roll, not opposed, and does not count as an action. On a success, that character suffers the attack or danger instead of you. Each use raises your Stress Level by 1.',
-      pl: 'Gdy ktoś cię atakuje lub grozi ci śmiertelne niebezpieczeństwo, a inna PG lub przyjazna PN jest w bliskim zasięgu (w tej samej strefie), testujesz Manipulację. To test prosty, nie sporny, i nie jest akcją. Po sukcesie to ta postać ponosi skutki ataku lub zagrożenia zamiast ciebie. Każde użycie podnosi twój poziom stresu o 1.',
+      pl: 'Grozi ci atak lub inne śmiertelne niebezpieczeństwo, a w twojej strefie (bliski zasięg) jest inna PG albo przyjazna PN? Rzuć na Manipulację – zwykły test bez przeciwnika, który nie zużywa akcji. Sukces przerzuca atak lub zagrożenie z ciebie na tę postać. Kosztuje cię to +1 do poziomu stresu przy każdym użyciu.',
     },
   ),
   talent(
@@ -159,7 +159,7 @@ const TALENTS: Talent[] = [
     },
     {
       en: 'You roll Manipulation using Wits instead of Empathy.',
-      pl: 'Testy Manipulacji wykonujesz, używając Sprytu zamiast Empatii.',
+      pl: 'Przy Manipulacji podstawą testu jest twój Spryt, a nie Empatia.',
     },
   ),
   talent(
@@ -172,7 +172,7 @@ const TALENTS: Talent[] = [
     },
     {
       en: 'When you roll on the critical injury table for yourself, you may roll again and choose which of the two results applies.',
-      pl: 'Gdy rzucasz na ranę ciężką dla siebie, możesz rzucić ponownie i wybrać, który z dwóch wyników obowiązuje.',
+      pl: 'Rzut na ranę ciężką, który wykonujesz dla siebie, możesz powtórzyć; obowiązuje ten z dwóch wyników, który wybierzesz.',
     },
   ),
   talent(
@@ -198,7 +198,7 @@ const TALENTS: Talent[] = [
     },
     {
       en: 'You may push any skill roll based on Agility twice instead of once. Each push raises your Stress Level by 1.',
-      pl: 'Możesz forsować test każdej umiejętności opartej na Zręczności dwa razy zamiast raz. Każde forsowanie podnosi twój poziom stresu o 1.',
+      pl: 'Testy umiejętności opartych na Zręczności forsujesz do dwóch razy; każde forsowanie to +1 do poziomu stresu.',
     },
   ),
   talent(
@@ -211,7 +211,7 @@ const TALENTS: Talent[] = [
     },
     {
       en: 'Once per turn you can lower the Stress Level of another character within Short range by 1, on top of the usual ways of losing stress. Both of you must be in a reasonably safe place. You cannot use it on yourself.',
-      pl: 'Raz na turę możesz obniżyć o 1 poziom stresu innej postaci w bliskim zasięgu, oprócz zwykłych sposobów pozbywania się stresu. Oboje musicie być w stosunkowo bezpiecznym miejscu. Nie możesz użyć tego talentu na sobie.',
+      pl: 'Jedna inna postać w bliskim zasięgu traci 1 poziom stresu raz na turę dzięki twojej obecności; to dodatek do zwykłego odpoczynku. Warunek: ty i ona przebywacie w stosunkowo bezpiecznym miejscu. Na siebie talent nie działa.',
     },
   ),
   talent(
@@ -224,7 +224,7 @@ const TALENTS: Talent[] = [
     },
     {
       en: 'You may push any skill roll based on Empathy twice instead of once. Each push raises your Stress Level by 1.',
-      pl: 'Możesz forsować test każdej umiejętności opartej na Empatii dwa razy zamiast raz. Każde forsowanie podnosi twój poziom stresu o 1.',
+      pl: 'Testy umiejętności opartych na Empatii forsujesz do dwóch razy; każde forsowanie to +1 do poziomu stresu.',
     },
   ),
   talent(
@@ -237,7 +237,7 @@ const TALENTS: Talent[] = [
     },
     {
       en: 'You get +2 to Medical Aid when treating someone who is about to die from a critical injury.',
-      pl: 'Dostajesz +2 do Pomocy Medycznej, gdy ratujesz kogoś, kto zaraz umrze od rany ciężkiej.',
+      pl: 'Ratując kogoś, komu rana ciężka grozi rychłą śmiercią, masz +2 do testu Pomocy Medycznej.',
     },
   ),
   talent(
@@ -250,7 +250,7 @@ const TALENTS: Talent[] = [
     },
     {
       en: 'Giving orders in combat with Command is a fast action for you instead of a slow action, so you can give orders twice in the same round.',
-      pl: 'Wydawanie rozkazów w walce Dowodzeniem jest dla ciebie akcją szybką zamiast wolnej, więc możesz wydać rozkazy dwa razy w tej samej rundzie.',
+      pl: 'W walce rozkazy wydane Dowodzeniem kosztują cię akcję szybką, a nie wolną – zdążysz więc wydać je dwa razy w jednej rundzie.',
     },
   ),
   talent(
@@ -263,7 +263,7 @@ const TALENTS: Talent[] = [
     },
     {
       en: 'You may push any skill roll based on Empathy twice instead of once. Each push raises your Stress Level by 1.',
-      pl: 'Możesz forsować test każdej umiejętności opartej na Empatii dwa razy zamiast raz. Każde forsowanie podnosi twój poziom stresu o 1.',
+      pl: 'Testy umiejętności opartych na Empatii forsujesz do dwóch razy; każde forsowanie to +1 do poziomu stresu.',
     },
   ),
   talent(
@@ -276,7 +276,7 @@ const TALENTS: Talent[] = [
     },
     {
       en: "You can use Command to give orders to PCs and NPCs who are not officers and belong to your organization. Roll Command against the target's Manipulation; on a success they must carry out the order, even if it puts them at risk of harm. Each success covers one specific action, and it cannot stop actions caused by Panic Rolls. Each use raises your Stress Level by 1.",
-      pl: 'Możesz Dowodzeniem rozkazywać PG i PN, które nie są oficerami i należą do twojej organizacji. Testujesz Dowodzenie przeciw Manipulacji celu; po sukcesie cel musi wykonać rozkaz, nawet jeśli naraża się na rany. Każdy sukces dotyczy jednej konkretnej akcji i nie powstrzymuje akcji wywołanych Testem Paniki. Każde użycie podnosi twój poziom stresu o 1.',
+      pl: 'Dowodzeniem rozkazujesz PG i PN z twojej organizacji, o ile nie mają stopnia oficerskiego. Rzucasz Dowodzenie przeciw Manipulacji celu; sukces zmusza go do posłuchu, nawet gdy grozi mu przy tym zranienie. Jeden sukces to jedna konkretna akcja, a działań wymuszonych Testem Paniki tak nie zatrzymasz. Każde sięgnięcie po talent to +1 do poziomu stresu.',
     },
   ),
   talent(
@@ -289,7 +289,7 @@ const TALENTS: Talent[] = [
     },
     {
       en: 'When flying a spaceship, you get +2 to Piloting for every acceleration and braking action.',
-      pl: 'Gdy pilotujesz statek kosmiczny, dostajesz +2 do Pilotowania przy każdej akcji przyspieszania i hamowania.',
+      pl: 'Za sterami statku kosmicznego masz +2 do Pilotowania, ilekroć przyspieszasz lub hamujesz.',
     },
   ),
   talent(
@@ -302,7 +302,7 @@ const TALENTS: Talent[] = [
     },
     {
       en: 'Pick one vehicle or spaceship, a single specific craft rather than a model or type. You get +2 to Piloting it. You can take this talent more than once, each time for a different vehicle.',
-      pl: 'Wybierz jeden pojazd lub statek kosmiczny – konkretną maszynę, a nie model czy typ. Dostajesz +2 do Pilotowania go. Możesz wybrać ten talent kilka razy, za każdym razem dla innego pojazdu.',
+      pl: 'Wskaż jedną konkretną maszynę – ten jeden pojazd lub statek kosmiczny, nie cały model ani typ. Pilotując ją, masz +2 do Pilotowania. Talent można brać wielokrotnie, za każdym razem dla innej maszyny.',
     },
   ),
   talent(
@@ -315,7 +315,7 @@ const TALENTS: Talent[] = [
     },
     {
       en: 'You may push any skill roll based on Agility twice instead of once. Each push raises your Stress Level by 1.',
-      pl: 'Możesz forsować test każdej umiejętności opartej na Zręczności dwa razy zamiast raz. Każde forsowanie podnosi twój poziom stresu o 1.',
+      pl: 'Testy umiejętności opartych na Zręczności forsujesz do dwóch razy; każde forsowanie to +1 do poziomu stresu.',
     },
   ),
   talent(
@@ -328,7 +328,7 @@ const TALENTS: Talent[] = [
     },
     {
       en: 'Every time you take damage, roll Strength alone, without a skill. The roll cannot be pushed and is not an action. Each success negates 1 point of damage; negate it all and you take none.',
-      pl: 'Za każdym razem, gdy otrzymujesz obrażenia, testujesz samą Siłę, bez umiejętności. Tego testu nie można forsować i nie jest akcją. Każdy sukces neguje 1 punkt obrażeń; jeśli zanegujesz wszystkie, nie otrzymujesz żadnych.',
+      pl: 'Każde otrzymane obrażenia wywołują rzut samą Siłą, bez umiejętności; rzut ten nie zużywa akcji i nie da się go forsować. Sukces odejmuje 1 punkt obrażeń, więc przy odpowiedniej liczbie sukcesów wychodzisz bez szwanku.',
     },
   ),
   talent(
@@ -341,7 +341,7 @@ const TALENTS: Talent[] = [
     },
     {
       en: 'Once per act in cinematic play, or once per session in campaign play, you can ignore every 1 rolled on the stress dice in a single roll.',
-      pl: 'Raz na akt w trybie filmowym lub raz na sesję w trybie kampanii możesz zignorować wszystkie jedynki na kościach stresu w jednym rzucie.',
+      pl: 'W jednym wybranym rzucie pomijasz wszystkie jedynki na kościach stresu. Talent działa raz na akt w trybie filmowym, a w kampanii raz na sesję.',
     },
   ),
   talent(
@@ -354,7 +354,7 @@ const TALENTS: Talent[] = [
     },
     {
       en: 'You may push any skill roll based on Strength twice instead of once. Each push raises your Stress Level by 1.',
-      pl: 'Możesz forsować test każdej umiejętności opartej na Sile dwa razy zamiast raz. Każde forsowanie podnosi twój poziom stresu o 1.',
+      pl: 'Testy umiejętności opartych na Sile forsujesz do dwóch razy; każde forsowanie to +1 do poziomu stresu.',
     },
   ),
   talent(
@@ -366,8 +366,8 @@ const TALENTS: Talent[] = [
       pl: 'Po turze obserwacji obcego artefaktu lub istoty testujesz Spostrzegawczość; każdy sukces to jedno pytanie do MG.',
     },
     {
-      en: 'After studying a strange or alien artifact or creature for at least one turn, roll Observation. For each success, ask the GM one question: is it human or alien, dead or alive, how old is it, what is it for, how does it work, what trouble could it cause. The GM answers truthfully but may be vague. A successful roll also lowers the Stress Level of every PC within Short range by 1; a failed roll raises it.',
-      pl: 'Po co najmniej turze przyglądania się dziwnemu lub obcemu artefaktowi albo istocie testujesz Spostrzegawczość. Za każdy sukces zadajesz MG jedno pytanie: czy to ludzkie czy obce, martwe czy żywe, jak stare, do czego służy, jak działa, jakie może sprawić problemy. MG odpowiada zgodnie z prawdą, ale może mówić niejasno. Udany test obniża też o 1 poziom stresu wszystkich PG w bliskim zasięgu, a nieudany go podnosi.',
+      en: 'After studying a strange or alien artifact or creature for at least one turn, roll Observation. For each success, ask the GM one question: is it human or alien, dead or alive, how old is it, what is it for, how does it work, what trouble could it cause. The GM answers truthfully but may be vague. A successful roll also lowers the Stress Level of every PC within Short range by 1; a failed roll raises it by 1.',
+      pl: 'Gdy przez co najmniej turę przyglądasz się dziwnemu lub obcemu artefaktowi albo istocie, rzucasz na Spostrzegawczość. Każdy sukces to jedno pytanie do MG: ludzkie czy obce, martwe czy żywe, jak stare, do czego służy, jak działa, jakie kłopoty może sprawić. Odpowiedzi są prawdziwe, choć bywają mgliste. Sukces daje też wszystkim PG w bliskim zasięgu −1 do poziomu stresu, a porażka +1.',
     },
   ),
   talent(
@@ -380,7 +380,7 @@ const TALENTS: Talent[] = [
     },
     {
       en: 'Once per session you automatically pass an Observation roll of your choice without rolling. The GM has the final say on whether it can be used for that roll, so it does not spoil the scenario.',
-      pl: 'Raz na sesję automatycznie zdajesz wybrany test Spostrzegawczości bez rzucania. MG ma ostatnie słowo, czy można go użyć do tego testu, by nie zdradzić fabuły scenariusza.',
+      pl: 'Raz na sesję wybierasz test Spostrzegawczości, który zaliczasz z automatu, bez rzutu. Czy talent można zastosować w danej sytuacji, rozstrzyga MG, aby nie zdradzić fabuły scenariusza.',
     },
   ),
   talent(
@@ -393,7 +393,7 @@ const TALENTS: Talent[] = [
     },
     {
       en: 'You may push any skill roll based on Wits twice instead of once. Each push raises your Stress Level by 1.',
-      pl: 'Możesz forsować test każdej umiejętności opartej na Sprycie dwa razy zamiast raz. Każde forsowanie podnosi twój poziom stresu o 1.',
+      pl: 'Testy umiejętności opartych na Sprycie forsujesz do dwóch razy; każde forsowanie to +1 do poziomu stresu.',
     },
   ),
 ]
