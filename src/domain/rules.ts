@@ -17,30 +17,28 @@ export const RULES_LIMITS = {
 } as const satisfies Rules['limits']
 
 const ATTRIBUTES: Rules['attributes'] = {
-  // TODO: uzupełnić z podręcznika (names as printed in the EN and PL editions)
   strength: { label: { en: 'Strength', pl: 'Siła' } },
   agility: { label: { en: 'Agility', pl: 'Zręczność' } },
   wits: { label: { en: 'Wits', pl: 'Spryt' } },
   empathy: { label: { en: 'Empathy', pl: 'Empatia' } },
 }
 
-// TODO: uzupełnić z podręcznika (PL skill names as printed in the Polish edition)
 const SKILLS: Rules['skills'] = {
   heavyMachinery: {
     attribute: 'strength',
-    label: { en: 'Heavy Machinery', pl: 'TODO: heavyMachinery' },
+    label: { en: 'Heavy Machinery', pl: 'Ciężki Sprzęt' },
   },
-  stamina: { attribute: 'strength', label: { en: 'Stamina', pl: 'TODO: stamina' } },
-  closeCombat: { attribute: 'strength', label: { en: 'Close Combat', pl: 'TODO: closeCombat' } },
-  mobility: { attribute: 'agility', label: { en: 'Mobility', pl: 'TODO: mobility' } },
-  piloting: { attribute: 'agility', label: { en: 'Piloting', pl: 'TODO: piloting' } },
-  rangedCombat: { attribute: 'agility', label: { en: 'Ranged Combat', pl: 'TODO: rangedCombat' } },
-  observation: { attribute: 'wits', label: { en: 'Observation', pl: 'TODO: observation' } },
-  survival: { attribute: 'wits', label: { en: 'Survival', pl: 'TODO: survival' } },
-  comtech: { attribute: 'wits', label: { en: 'Comtech', pl: 'TODO: comtech' } },
-  command: { attribute: 'empathy', label: { en: 'Command', pl: 'TODO: command' } },
-  manipulation: { attribute: 'empathy', label: { en: 'Manipulation', pl: 'TODO: manipulation' } },
-  medicalAid: { attribute: 'empathy', label: { en: 'Medical Aid', pl: 'TODO: medicalAid' } },
+  stamina: { attribute: 'strength', label: { en: 'Stamina', pl: 'Kondycja' } },
+  closeCombat: { attribute: 'strength', label: { en: 'Close Combat', pl: 'Walka Wręcz' } },
+  mobility: { attribute: 'agility', label: { en: 'Mobility', pl: 'Sprawność' } },
+  piloting: { attribute: 'agility', label: { en: 'Piloting', pl: 'Pilotowanie' } },
+  rangedCombat: { attribute: 'agility', label: { en: 'Ranged Combat', pl: 'Walka Dystansowa' } },
+  observation: { attribute: 'wits', label: { en: 'Observation', pl: 'Spostrzegawczość' } },
+  survival: { attribute: 'wits', label: { en: 'Survival', pl: 'Przetrwanie' } },
+  comtech: { attribute: 'wits', label: { en: 'Comtech', pl: 'Komputery' } },
+  command: { attribute: 'empathy', label: { en: 'Command', pl: 'Dowodzenie' } },
+  manipulation: { attribute: 'empathy', label: { en: 'Manipulation', pl: 'Manipulacja' } },
+  medicalAid: { attribute: 'empathy', label: { en: 'Medical Aid', pl: 'Pomoc Medyczna' } },
 }
 
 // Career talents only; general talents are gained later through experience.

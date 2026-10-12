@@ -77,7 +77,7 @@ the English edition. Some data is still missing. Search the code for
   ```ts
   {
     id: 'myCareer',
-    label: { en: 'Career', pl: 'Kariera' },
+    label: { en: 'Career', pl: 'Zawód' },
     keyAttribute: 'wits',
     keySkills: ['observation', 'survival', 'comtech'],
     talents: ['myTalent', 'otherTalent'],
