@@ -23,6 +23,13 @@ describe('parseRoute', () => {
     expect(parseRoute('#/skills/bogus')).toEqual({ name: 'skills' })
   })
 
+  it('parses the tests routes and ignores an unknown test', () => {
+    expect(parseRoute('#/tests')).toEqual({ name: 'tests' })
+    expect(parseRoute('#/tests/panic')).toEqual({ name: 'tests', id: 'panic' })
+    expect(parseRoute('#/tests/bogus')).toEqual({ name: 'tests' })
+    expect(parseRoute('#/tests/%')).toEqual({ name: 'list' })
+  })
+
   it('falls back to the list', () => {
     expect(parseRoute('#/edit')).toEqual({ name: 'list' })
     expect(parseRoute('#/whatever')).toEqual({ name: 'list' })
@@ -41,6 +48,11 @@ describe('parseRoute', () => {
   it('round-trips talent hrefs', () => {
     expect(href.talents()).toBe('#/talents')
     expect(parseRoute(href.talents('x/y z'))).toEqual({ name: 'talents', id: 'x/y z' })
+  })
+
+  it('round-trips test hrefs', () => {
+    expect(href.tests()).toBe('#/tests')
+    expect(parseRoute(href.tests('stopPanic'))).toEqual({ name: 'tests', id: 'stopPanic' })
   })
 
   it('round-trips skill hrefs', () => {

@@ -8,6 +8,7 @@ import { href, route, type Route } from './router'
 import { storageError } from './store'
 import { SkillBrowser } from './SkillBrowser'
 import { TalentBrowser } from './TalentBrowser'
+import { TestBrowser } from './TestBrowser'
 
 const SOURCE_URL = 'https://github.com/uit-soft/crew-manifest'
 
@@ -39,6 +40,9 @@ export function App() {
           </a>
           <a href={href.skills()} aria-current={current.name === 'skills' ? 'page' : undefined}>
             {t('nav.skills')}
+          </a>
+          <a href={href.tests()} aria-current={current.name === 'tests' ? 'page' : undefined}>
+            {t('nav.tests')}
           </a>
         </nav>
         <LangSwitch />
@@ -78,5 +82,7 @@ function View({ route }: { route: Route }) {
       return <TalentBrowser key={route.id ?? ''} id={route.id} />
     case 'skills':
       return <SkillBrowser key={route.id ?? ''} id={route.id} />
+    case 'tests':
+      return <TestBrowser key={route.id ?? ''} id={route.id} />
   }
 }
