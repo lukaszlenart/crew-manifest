@@ -1,4 +1,5 @@
 import { signal } from '@preact/signals'
+import { isTestId, type TestId } from '../domain/tests'
 import { isSkill, type Skill } from '../domain/types'
 
 export type Route =
@@ -9,6 +10,7 @@ export type Route =
   | { name: 'print'; ids: string[] }
   | { name: 'talents'; id?: string }
   | { name: 'skills'; id?: Skill }
+  | { name: 'tests'; id?: TestId }
 
 export function parseRoute(hash: string): Route {
   let parts: string[]
@@ -30,6 +32,7 @@ export function parseRoute(hash: string): Route {
   if (head === 'talents') return arg ? { name: 'talents', id: arg } : { name: 'talents' }
   if (head === 'skills')
     return arg && isSkill(arg) ? { name: 'skills', id: arg } : { name: 'skills' }
+  if (head === 'tests') return arg && isTestId(arg) ? { name: 'tests', id: arg } : { name: 'tests' }
   return { name: 'list' }
 }
 
@@ -41,6 +44,7 @@ export const href = {
   print: (ids: string[]) => `#/print/${encodeURIComponent(ids.join(','))}`,
   talents: (id?: string) => (id ? `#/talents/${encodeURIComponent(id)}` : '#/talents'),
   skills: (id?: Skill) => (id ? `#/skills/${id}` : '#/skills'),
+  tests: (id?: TestId) => (id ? `#/tests/${encodeURIComponent(id)}` : '#/tests'),
 }
 
 export const route = signal<Route>(parseRoute(globalThis.location?.hash ?? ''))

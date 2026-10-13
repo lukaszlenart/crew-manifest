@@ -98,7 +98,8 @@ h3 {
 
 .app-header nav {
   display: flex;
-  gap: 16px;
+  flex-wrap: wrap;
+  gap: 4px 16px;
   flex: 1;
 }
 
@@ -671,7 +672,8 @@ ul.plain {
 
 /* Talents and skills */
 .talents .panel + .panel,
-.skills .panel + .panel {
+.skills .panel + .panel,
+.tests .panel + .panel {
   margin-top: 16px;
 }
 
@@ -680,23 +682,27 @@ ul.plain {
 }
 
 .talent,
-.skill {
+.skill,
+.test {
   padding: 8px 0;
   border-top: 1px solid var(--panel-border);
 }
 
 .talent summary,
-.skill summary {
+.skill summary,
+.test summary {
   cursor: pointer;
 }
 
 .talent summary > * + *,
-.skill summary > * + * {
+.skill summary > * + *,
+.test summary > * + * {
   margin-left: 8px;
 }
 
 .talent summary > .talent-summary,
-.skill summary > .talent-summary {
+.skill summary > .talent-summary,
+.test summary > .talent-summary {
   display: block;
   margin: 2px 0 0;
 }
@@ -704,4 +710,61 @@ ul.plain {
 .talent p,
 .skill p {
   margin: 8px 0 0 16px;
+}
+
+/* Tests */
+.test dl {
+  margin: 8px 0 0 16px;
+}
+
+.test dt {
+  font-weight: 600;
+}
+
+.test dd {
+  margin: 0 0 6px;
+}
+
+.test-table {
+  margin: 8px 0 0 16px;
+  overflow-x: auto;
+}
+
+.test-table table {
+  border-collapse: collapse;
+}
+
+.test-table caption {
+  font-weight: 600;
+  padding-bottom: 4px;
+  text-align: left;
+}
+
+.test-table th,
+.test-table td {
+  padding: 4px 8px;
+  border-top: 1px solid var(--panel-border);
+  text-align: left;
+  vertical-align: top;
+}
+
+.test-related {
+  margin: 8px 0 0 16px;
+}
+
+.test-related a {
+  margin-left: 8px;
+}
+
+.primer > summary {
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.primer h4 {
+  margin: 12px 0 4px;
+}
+
+.primer p {
+  margin: 0;
 }
