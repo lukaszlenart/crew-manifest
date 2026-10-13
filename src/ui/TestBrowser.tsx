@@ -4,12 +4,19 @@ import {
   TEST_PRIMER,
   findTest,
   type TestEntry,
+  type TestGroup,
   type TestId,
   type TestTable,
 } from '../domain/tests'
 import { filterTests, groupTests } from '../domain/testSearch'
-import { lang, useLocalize, useT } from '../i18n'
+import { lang, useLocalize, useT, type MessageKey } from '../i18n'
 import { href } from './router'
+
+const GROUP_TITLES: Record<TestGroup, MessageKey> = {
+  core: 'tests.group.core',
+  condition: 'tests.group.condition',
+  hazard: 'tests.group.hazard',
+}
 
 export function TestBrowser({ id }: { id?: TestId }) {
   const t = useT()
@@ -89,7 +96,7 @@ export function TestBrowser({ id }: { id?: TestId }) {
 
       {groups.map((g) => (
         <section key={g.group} class="panel">
-          <h3>{t(g.group === 'core' ? 'tests.group.core' : 'tests.group.hazard')}</h3>
+          <h3>{t(GROUP_TITLES[g.group])}</h3>
           {g.tests.map(entry)}
         </section>
       ))}

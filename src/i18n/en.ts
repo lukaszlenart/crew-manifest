@@ -71,6 +71,7 @@ export const en = {
   'tests.empty': 'No tests match the search.',
   'tests.primer': 'How a test works',
   'tests.group.core': 'Core tests',
+  'tests.group.condition': 'Conditions',
   'tests.group.hazard': 'Hazards',
   'tests.roll': 'Roll',
   'tests.push.yes': 'can be pushed',

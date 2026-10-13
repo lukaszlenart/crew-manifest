@@ -2,9 +2,9 @@ import type { Localized } from './types'
 
 export type TestId = string
 
-export type TestGroup = 'core' | 'hazard'
+export type TestGroup = 'core' | 'condition' | 'hazard'
 
-export const TEST_GROUPS: readonly TestGroup[] = ['core', 'hazard']
+export const TEST_GROUPS: readonly TestGroup[] = ['core', 'condition', 'hazard']
 
 export interface TestRoll {
   pool: Localized
@@ -100,7 +100,7 @@ export const TESTS: readonly TestEntry[] = [
         ],
       ],
     },
-    related: [],
+    related: ['starving', 'dehydrated', 'suffocation'],
   },
   {
     id: 'survival',
@@ -257,13 +257,13 @@ export const TESTS: readonly TestEntry[] = [
     related: ['panic'],
   },
   {
-    id: 'vacuum',
-    group: 'hazard',
-    page: 107,
-    label: { en: 'Vacuum and cold', pl: 'Próżnia i wychłodzenie' },
+    id: 'starving',
+    group: 'condition',
+    page: 106,
+    label: { en: 'Starving', pl: 'Wygłodzenie' },
     summary: {
-      en: 'Unprotected in vacuum or exposed to cold: repeated Stamina rolls until you get to safety.',
-      pl: 'Bez ochrony w próżni lub na mrozie: powtarzane testy Kondycji, aż znajdziesz bezpieczne miejsce.',
+      en: 'A full day without enough food: a daily Stamina roll, and no healing until you eat.',
+      pl: 'Cały dzień bez wystarczającej ilości jedzenia: codzienny test Kondycji i brak leczenia, dopóki nie zjesz.',
     },
     roll: {
       pool: { en: 'Strength + Stamina', pl: 'Siła + Kondycja' },
@@ -271,26 +271,97 @@ export const TESTS: readonly TestEntry[] = [
       stressDice: true,
     },
     when: {
-      en: 'Vacuum: every round before acting, not an action; −1 more each round after the first. Cold without proper clothing or shelter: as often as the table says.',
-      pl: 'Próżnia: co rundę przed działaniem, bez zużycia akcji; od drugiej rundy modyfikator rośnie o −1. Chłód bez odzieży lub schronienia: tak często, jak podaje tabela.',
+      en: 'Once a day while starving. While starving you cannot heal Health or shed stress.',
+      pl: 'Raz dziennie, dopóki trwa wygłodzenie. Wygłodzony nie odzyskuje Zdrowia i nie pozbywa się stresu.',
     },
     outcome: {
-      en: 'Vacuum failure: Health drops to zero (no critical injury) and you make a Survival roll every round until dead or back in normal pressure. Cold failure: 1 damage and Stress Level +1; while cold you cannot heal or shed stress; if Broken, every further cold roll is a Survival roll.',
-      pl: 'Porażka w próżni: Zdrowie spada do zera (bez rany ciężkiej), a co rundę wykonujesz Test Przeżycia, aż umrzesz lub wrócisz do normalnego ciśnienia. Porażka na mrozie: 1 obrażenie i poziom stresu +1; wychłodzony nie leczysz się i nie pozbywasz stresu; Pokonany zamiast testu Kondycji wykonuje Test Przeżycia.',
+      en: 'Failure: 1 damage and Stress Level +1. Broken while starving: a Survival roll every day, which Medical Aid cannot help — only food can. Eating ends every effect within one shift.',
+      pl: 'Porażka: 1 obrażenie i poziom stresu +1. Pokonany i wygłodzony: Test Przeżycia każdego dnia; Pomoc Medyczna nic tu nie da, ratuje tylko jedzenie. Posiłek usuwa wszystkie skutki w ciągu jednej wachty.',
+    },
+    related: ['survival', 'supply'],
+  },
+  {
+    id: 'dehydrated',
+    group: 'condition',
+    page: 106,
+    label: { en: 'Dehydrated', pl: 'Odwodnienie' },
+    summary: {
+      en: 'A full day without enough water: damage every shift with no roll, until you drink.',
+      pl: 'Cały dzień bez wystarczającej ilości wody: obrażenia co wachtę bez rzutu, dopóki się nie napijesz.',
+    },
+    roll: {
+      pool: {
+        en: 'No roll — the damage is automatic',
+        pl: 'Bez rzutu — obrażenia są automatyczne',
+      },
+      canPush: false,
+      stressDice: false,
+    },
+    when: {
+      en: 'Every shift while dehydrated. While dehydrated you cannot heal Health or shed stress.',
+      pl: 'Co wachtę, dopóki trwa odwodnienie. Odwodniony nie odzyskuje Zdrowia i nie pozbywa się stresu.',
+    },
+    outcome: {
+      en: '1 damage and Stress Level +1 each shift. Broken while dehydrated: a Survival roll after every shift without a drink, which Medical Aid cannot help. Drinking ends every effect within one shift.',
+      pl: 'Co wachtę 1 obrażenie i poziom stresu +1. Pokonany i odwodniony: Test Przeżycia po każdej wachcie bez picia; Pomoc Medyczna nic tu nie da. Napicie się usuwa wszystkie skutki w ciągu jednej wachty.',
+    },
+    related: ['survival', 'supply'],
+  },
+  {
+    id: 'exhausted',
+    group: 'condition',
+    page: 106,
+    label: { en: 'Exhausted', pl: 'Wyczerpanie' },
+    summary: {
+      en: 'A full day without a shift of sleep: a daily Stamina roll, harder for every sleepless day.',
+      pl: 'Cały dzień bez wachty snu: codzienny test Kondycji, trudniejszy z każdym dniem bez snu.',
+    },
+    roll: {
+      pool: { en: 'Strength + Stamina', pl: 'Siła + Kondycja' },
+      canPush: true,
+      stressDice: true,
+    },
+    when: {
+      en: 'Once a day, when the GM chooses, with −1 per day without proper sleep. While exhausted you cannot shed stress.',
+      pl: 'Raz dziennie, w chwili wybranej przez MG, z modyfikatorem −1 za każdy dzień bez porządnego snu. Wyczerpany nie pozbywa się stresu.',
+    },
+    outcome: {
+      en: 'Failure: you fall asleep on the spot for one shift. Sleeping at least one shift ends the condition.',
+      pl: 'Porażka: zasypiasz tam, gdzie jesteś, na jedną wachtę. Przespanie co najmniej jednej wachty kończy wyczerpanie.',
+    },
+    related: [],
+  },
+  {
+    id: 'chilled',
+    group: 'condition',
+    page: 107,
+    label: { en: 'Chilled', pl: 'Wychłodzenie' },
+    summary: {
+      en: 'Cold without proper clothing or shelter: Stamina rolls, more often the colder it gets.',
+      pl: 'Chłód bez odpowiedniej odzieży lub schronienia: testy Kondycji, tym częstsze, im zimniej.',
+    },
+    roll: {
+      pool: { en: 'Strength + Stamina', pl: 'Siła + Kondycja' },
+      canPush: true,
+      stressDice: true,
+    },
+    when: {
+      en: 'As often as the table says. While chilled you cannot heal Health or shed stress.',
+      pl: 'Tak często, jak podaje tabela. Wychłodzony nie odzyskuje Zdrowia i nie pozbywa się stresu.',
+    },
+    outcome: {
+      en: 'Failure: 1 damage and Stress Level +1. Broken while chilled: every further cold roll is a Survival roll. Once you warm up, the rolls stop and healing works normally.',
+      pl: 'Porażka: 1 obrażenie i poziom stresu +1. Pokonany i wychłodzony: każdy kolejny test chłodu to Test Przeżycia. Po ogrzaniu się testy ustają, a leczenie działa normalnie.',
     },
     table: {
       caption: { en: 'How often to roll', pl: 'Jak często rzucać' },
       columns: [
-        { en: 'Condition', pl: 'Warunki' },
+        { en: 'Temperature', pl: 'Temperatura' },
         { en: 'Roll', pl: 'Test' },
       ],
       rows: [
         [
-          { en: 'Vacuum', pl: 'Próżnia' },
-          { en: 'Every round', pl: 'Co rundę' },
-        ],
-        [
-          { en: 'Cold, above freezing', pl: 'Chłód powyżej zera' },
+          { en: 'Above freezing', pl: 'Powyżej zera' },
           { en: 'Once a day', pl: 'Raz dziennie' },
         ],
         [
@@ -302,6 +373,30 @@ export const TESTS: readonly TestEntry[] = [
           { en: 'Every round', pl: 'Co rundę' },
         ],
       ],
+    },
+    related: ['survival'],
+  },
+  {
+    id: 'vacuum',
+    group: 'hazard',
+    page: 107,
+    label: { en: 'Vacuum', pl: 'Próżnia' },
+    summary: {
+      en: 'Unprotected in vacuum: a Stamina roll every round, each harder than the last.',
+      pl: 'Bez ochrony w próżni: test Kondycji co rundę, każdy trudniejszy od poprzedniego.',
+    },
+    roll: {
+      pool: { en: 'Strength + Stamina', pl: 'Siła + Kondycja' },
+      canPush: true,
+      stressDice: true,
+    },
+    when: {
+      en: 'Every round in vacuum without protection, before you act; the roll is not an action. No modifier in the first round, then −1, −2 and so on.',
+      pl: 'Co rundę w próżni bez ochrony, zanim zaczniesz działać; test nie jest akcją. W pierwszej rundzie bez modyfikatora, potem −1, −2 i tak dalej.',
+    },
+    outcome: {
+      en: 'Failure: Health drops to zero (no critical injury) and you make a Survival roll every round until dead or back in normal pressure. Putting on a suit in a hurry is a slow action and needs a Mobility roll.',
+      pl: 'Porażka: Zdrowie spada do zera (bez rany ciężkiej), a co rundę wykonujesz Test Przeżycia, aż umrzesz lub wrócisz do normalnego ciśnienia. Szybkie założenie skafandra to akcja wolna wymagająca testu Sprawności.',
     },
     related: ['survival'],
   },

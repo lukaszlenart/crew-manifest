@@ -69,6 +69,28 @@ describe('TESTS', () => {
     expect(findTest('stopPanic')?.related).toContain('panic')
   })
 
+  it('has the four conditions in book order', () => {
+    expect(TESTS.filter((t) => t.group === 'condition').map((t) => [t.id, t.page])).toEqual([
+      ['starving', 106],
+      ['dehydrated', 106],
+      ['exhausted', 106],
+      ['chilled', 107],
+    ])
+  })
+
+  it('links supply to what running out causes, and conditions to the Survival roll', () => {
+    expect(findTest('supply')?.related).toEqual(['starving', 'dehydrated', 'suffocation'])
+    for (const id of ['starving', 'dehydrated', 'chilled']) {
+      expect(findTest(id)?.related, id).toContain('survival')
+    }
+    expect(findTest('chilled')?.table).toBeDefined()
+  })
+
+  it('keeps the vacuum entry to vacuum only', () => {
+    expect(findTest('vacuum')?.label.en).toBe('Vacuum')
+    expect(findTest('vacuum')?.table).toBeUndefined()
+  })
+
   it('has the hazards in book order, without explosions', () => {
     expect(TESTS.filter((t) => t.group === 'hazard').map((t) => [t.id, t.page])).toEqual([
       ['vacuum', 107],

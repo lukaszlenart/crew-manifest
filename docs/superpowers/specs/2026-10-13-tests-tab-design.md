@@ -45,7 +45,7 @@ interface TestTable {
 
 interface TestEntry {
   id: TestId
-  group: 'core' | 'hazard'
+  group: 'core' | 'condition' | 'hazard'
   label: Localized
   summary: Localized // one line, shown in the collapsed entry
   roll: TestRoll
@@ -69,19 +69,23 @@ in `tests.ts` (not `types.ts`), since nothing else uses them.
 
 Entries (printed pages):
 
-| Group  | Entry                    | Page | Table                   |
-| ------ | ------------------------ | ---- | ----------------------- |
-| core   | Supply test              | 34   | when to roll per supply |
-| core   | Panic test               | 104  | panic results           |
-| core   | Stopping panic (Command) | 104  | —                       |
-| core   | Survival test            | 99   | —                       |
-| hazard | Vacuum and chill         | 107  | —                       |
-| hazard | Fall                     | 108  | —                       |
-| hazard | Fire                     | 108  | —                       |
-| hazard | Disease                  | 109  | —                       |
-| hazard | Radiation                | 110  | radiation levels        |
-| hazard | Drowning                 | 110  | —                       |
-| hazard | Suffocation              | 110  | —                       |
+| Group     | Entry                    | Page | Table                   |
+| --------- | ------------------------ | ---- | ----------------------- |
+| core      | Supply test              | 34   | when to roll per supply |
+| core      | Panic test               | 104  | panic results           |
+| core      | Stopping panic (Command) | 104  | —                       |
+| core      | Survival test            | 99   | —                       |
+| condition | Starving                 | 106  | —                       |
+| condition | Dehydrated               | 106  | —                       |
+| condition | Exhausted                | 106  | —                       |
+| condition | Chilled                  | 107  | how often to roll       |
+| hazard    | Vacuum                   | 107  | —                       |
+| hazard    | Fall                     | 108  | —                       |
+| hazard    | Fire                     | 108  | —                       |
+| hazard    | Disease                  | 109  | —                       |
+| hazard    | Radiation                | 110  | radiation levels        |
+| hazard    | Drowning                 | 110  | —                       |
+| hazard    | Suffocation              | 110  | —                       |
 
 Hazard entries link to the Survival test through `related` where failure escalates to it. Fall and
 fire are damage rolls, not skill tests (fall: optional Mobility roll reduces damage; fire: base
@@ -103,7 +107,7 @@ function groupTests(tests: TestEntry[]): { group: TestEntry['group']; tests: Tes
   whitespace-separated word must match, current language only.
 - Searched text: label, summary, roll pool, when, outcome, table caption, columns and cells.
 - An empty query returns all entries.
-- `groupTests` returns core then hazard, keeping book order inside each, and drops empty groups.
+- `groupTests` returns core, then conditions, then hazards, keeping book order inside each, and drops empty groups.
 - No filter dropdown: the group headings do that job.
 
 ## 3. Routing and navigation
@@ -120,7 +124,7 @@ function groupTests(tests: TestEntry[]): { group: TestEntry['group']; tests: Tes
 - Toolbar with the title, then the search box.
 - **How a test works** panel: one `<details>`, closed by default, with the primer sections and
   their pages. Not filtered by search.
-- Panels **Core tests** and **Hazards**. Each entry is a `<details>`:
+- Panels **Core tests**, **Conditions** and **Hazards**. Each entry is a `<details>`:
   - summary: label, page, one-line summary;
   - body: roll line (pool; can or cannot be pushed; stress dice or not), when, outcome, the table
     if any, and **See also** links to related entries.
@@ -135,7 +139,7 @@ function groupTests(tests: TestEntry[]): { group: TestEntry['group']; tests: Tes
   `Localized` (entries, tables, primer) has non-empty PL and EN text; every table row has as many
   cells as columns; pages within the book's range; primer ids unique.
 - `testSearch.test.ts`: diacritic-insensitive match; match inside a table cell; every word
-  required; other language not searched; grouping is core then hazard in book order, empty groups
+  required; other language not searched; grouping is core, condition, hazard in book order, empty groups
   dropped.
 - `router.test.ts`: `#/tests`, `#/tests/:id`, unknown id fallback; `href.tests` round-trips.
 - Full check: `npm run typecheck && npm test && npm run lint` on Node 24.

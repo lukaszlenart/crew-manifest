@@ -83,4 +83,9 @@ describe('groupTests', () => {
     expect(groupTests(fixture.slice(2)).map((g) => g.group)).toEqual(['hazard'])
     expect(groupTests([])).toEqual([])
   })
+
+  it('orders groups core, conditions, hazards', () => {
+    const mixed = [entry('h', 'hazard'), entry('c', 'condition'), entry('k', 'core')]
+    expect(groupTests(mixed).map((g) => g.group)).toEqual(['core', 'condition', 'hazard'])
+  })
 })

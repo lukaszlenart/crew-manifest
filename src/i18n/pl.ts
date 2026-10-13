@@ -72,6 +72,7 @@ export const pl = {
   'tests.empty': 'Żaden test nie pasuje do wyszukiwania.',
   'tests.primer': 'Jak działa test',
   'tests.group.core': 'Podstawowe testy',
+  'tests.group.condition': 'Stany',
   'tests.group.hazard': 'Zagrożenia',
   'tests.roll': 'Rzut',
   'tests.push.yes': 'można forsować',
