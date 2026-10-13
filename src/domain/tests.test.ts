@@ -53,6 +53,22 @@ describe('TESTS', () => {
     expect(survival?.roll.stressDice).toBe(false)
   })
 
+  it('has the core tests in book order', () => {
+    expect(TESTS.filter((t) => t.group === 'core').map((t) => [t.id, t.page])).toEqual([
+      ['supply', 34],
+      ['survival', 99],
+      ['panic', 104],
+      ['stopPanic', 104],
+    ])
+  })
+
+  it('gives the supply and panic rolls their tables and links panic both ways', () => {
+    expect(findTest('supply')?.table).toBeDefined()
+    expect(findTest('panic')?.table).toBeDefined()
+    expect(findTest('panic')?.related).toContain('stopPanic')
+    expect(findTest('stopPanic')?.related).toContain('panic')
+  })
+
   it('does not recognise unknown ids', () => {
     expect(isTestId('survival')).toBe(true)
     expect(isTestId('explosion')).toBe(false)
