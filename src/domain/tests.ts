@@ -479,7 +479,71 @@ export const TESTS: readonly TestEntry[] = [
 ]
 
 /** Book order. */
-export const TEST_PRIMER: readonly PrimerSection[] = []
+export const TEST_PRIMER: readonly PrimerSection[] = [
+  {
+    id: 'rolling',
+    page: 58,
+    label: { en: 'Rolling a test', pl: 'Wykonywanie testu' },
+    text: {
+      en: 'Describe what you do, then roll base dice equal to attribute + skill, plus gear bonuses and one stress die per point of Stress Level. One 6 is a success; each extra 6 can buy a stunt from the skill. With no skill, roll the attribute alone. You get one chance: once rolled (and pushed), you cannot retry the same goal until things change — combat attacks excepted.',
+      pl: 'Opisz, co robisz, a potem rzuć kośćmi podstawowymi w liczbie cecha + umiejętność, z premiami ze sprzętu i jedną kością stresu za każdy punkt poziomu stresu. Jedna szóstka to sukces; każda kolejna może kupić wyczyn z opisu umiejętności. Bez umiejętności rzucasz samą cechą. Masz jedną szansę: po rzucie (i forsowaniu) nie ponawiasz tego samego celu, dopóki sytuacja się nie zmieni — poza atakami w walce.',
+    },
+  },
+  {
+    id: 'pushing',
+    page: 60,
+    label: { en: 'Pushing', pl: 'Forsowanie' },
+    text: {
+      en: 'Once per roll you may re-roll every die that is not a 6, even after a success. First raise your Stress Level by 1, which adds one more stress die to the re-roll. You cannot push a roll in which a stress die showed a 1. NPCs never push.',
+      pl: 'Raz na test możesz przerzucić wszystkie kości bez szóstki, nawet po sukcesie. Najpierw podnieś poziom stresu o 1, co dodaje do przerzutu jedną kość stresu. Nie forsujesz testu, w którym na kości stresu wypadła jedynka. PN nigdy nie forsują.',
+    },
+  },
+  {
+    id: 'stressDice',
+    page: 61,
+    label: { en: 'Stress dice', pl: 'Kości stresu' },
+    text: {
+      en: 'Add one stress die per point of Stress Level to every skill roll, push included. A 6 on them counts as a success, but any 1 means the roll cannot be pushed and you make a Panic roll at once, which may turn the roll into a failure. When shooting a weapon with limited ammo, a 1 also means you are out.',
+      pl: 'Do każdego testu umiejętności, także forsowanego, dodaj jedną kość stresu za każdy punkt poziomu stresu. Szóstka na niej to sukces, ale każda jedynka oznacza, że testu nie można forsować, a ty od razu wykonujesz Test Paniki, który może zmienić wynik w porażkę. Przy strzale z broni z ograniczoną amunicją jedynka oznacza też koniec naboi.',
+    },
+  },
+  {
+    id: 'groupTests',
+    page: 62,
+    label: { en: 'Group tests', pl: 'Testy grupowe' },
+    text: {
+      en: 'When player characters face a challenge together, the best-suited one rolls and the others may help. After a failure they cannot each try again on their own. Combat is the exception: everyone attacks separately.',
+      pl: 'Gdy postacie graczy razem mierzą się z wyzwaniem, rzuca najlepiej przygotowana, a reszta może pomagać. Po porażce nie próbują osobno. Wyjątkiem jest walka: każdy atakuje sam.',
+    },
+  },
+  {
+    id: 'modifiers',
+    page: 62,
+    label: { en: 'Modifiers and difficulty', pl: 'Modyfikatory i trudność' },
+    text: {
+      en: 'Each +1 adds a base die and each −1 removes one; sum all modifiers first. If there are not enough base dice to remove, remove stress dice; with no dice left the action cannot succeed. Sources: gear, help, talents, rules such as range, and difficulty — trivial +3, simple +2, easy +1, average 0, demanding −1, hard −2, formidable −3.',
+      pl: 'Każdy +1 dodaje kość podstawową, a każdy −1 ją odejmuje; najpierw zsumuj wszystkie modyfikatory. Gdy brakuje kości podstawowych do odjęcia, odejmij kości stresu; bez kości akcja nie może się udać. Źródła: sprzęt, pomoc, talenty, zasady (np. zasięg) i trudność — banalna +3, rutynowa +2, łatwa +1, średnia 0, wymagająca −1, trudna −2, niewykonalna −3.',
+    },
+  },
+  {
+    id: 'help',
+    page: 63,
+    label: { en: 'Help from others', pl: 'Pomoc innych osób' },
+    text: {
+      en: 'Declare help before the roll, and only where it makes sense in the story. Each helper gives +1, up to three helpers (+3). In combat, helping costs the same kind of action as the action it supports. NPCs can help each other the same way.',
+      pl: 'Pomoc deklaruje się przed rzutem i tylko wtedy, gdy ma sens w fabule. Każdy pomocnik daje +1, najwyżej trzech (+3). W walce pomoc kosztuje taką samą akcję jak wspierana czynność. PN pomagają sobie tak samo.',
+    },
+  },
+  {
+    id: 'opposedTests',
+    page: 64,
+    label: { en: 'Opposed tests', pl: 'Testy sporne' },
+    text: {
+      en: 'You need at least one success and more successes than your opponent: each of their successes cancels one of yours. Only the active side may push. Common for Manipulation and sneaking with Mobility, and for contests such as Stamina against Stamina.',
+      pl: 'Potrzebujesz co najmniej jednego sukcesu i więcej sukcesów niż przeciwnik: każdy jego sukces znosi jeden twój. Forsować może tylko strona działająca. Typowe przy Manipulacji, skradaniu się (Sprawność) i siłowaniu (Kondycja przeciw Kondycji).',
+    },
+  },
+]
 
 export function findTest(id: string): TestEntry | undefined {
   return TESTS.find((t) => t.id === id)

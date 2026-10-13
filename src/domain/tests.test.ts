@@ -96,6 +96,18 @@ describe('TESTS', () => {
 })
 
 describe('TEST_PRIMER', () => {
+  it('covers the general test rules in book order', () => {
+    expect(TEST_PRIMER.map((s) => [s.id, s.page])).toEqual([
+      ['rolling', 58],
+      ['pushing', 60],
+      ['stressDice', 61],
+      ['groupTests', 62],
+      ['modifiers', 62],
+      ['help', 63],
+      ['opposedTests', 64],
+    ])
+  })
+
   it('has unique ids, text in every language and pages from the test chapter', () => {
     expect(new Set(TEST_PRIMER.map((s) => s.id)).size).toBe(TEST_PRIMER.length)
     for (const s of TEST_PRIMER) {
