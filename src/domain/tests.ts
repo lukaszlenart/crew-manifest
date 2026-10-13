@@ -186,15 +186,15 @@ export const TESTS: readonly TestEntry[] = [
         [
           { en: '10', pl: '10' },
           {
-            en: 'Freeze: you lose your next slow action; Stress Level +1 for you and nearby friends.',
-            pl: 'Zamarcie: tracisz następną akcję wolną; poziom stresu +1 dla ciebie i przyjaciół w pobliżu.',
+            en: 'Freeze: you lose your next slow action; Stress Level +1 for you and friendly PCs at Short range.',
+            pl: 'Zamarcie: tracisz następną akcję wolną; poziom stresu +1 dla ciebie i przyjaznych PG w bliskim zasięgu.',
           },
         ],
         [
           { en: '11', pl: '11' },
           {
-            en: 'Seek cover: your next action moves you to safety; your stress −1, nearby friends +1.',
-            pl: 'Kryjówka: następną akcją uciekasz w bezpieczne miejsce; twój stres −1, przyjaciół obok +1.',
+            en: 'Seek cover: your next action moves you to safety; your stress −1, friendly PCs at Short range +1.',
+            pl: 'Kryjówka: następną akcją uciekasz w bezpieczne miejsce; twój stres −1, przyjaznych PG w bliskim zasięgu +1.',
           },
         ],
         [
@@ -207,22 +207,22 @@ export const TESTS: readonly TestEntry[] = [
         [
           { en: '13', pl: '13' },
           {
-            en: 'Flee: you run for safety and will not stop; stress −1; friends who see it roll for panic.',
-            pl: 'Ucieczka: uciekasz w bezpieczne miejsce i nie dasz się zatrzymać; stres −1; widzący testują panikę.',
+            en: 'Flee: you run to safety and refuse to leave it, with no attacks or risks; stress −1; friends who see it roll for panic.',
+            pl: 'Ucieczka: uciekasz w bezpieczne miejsce i nie chcesz go opuścić, nie atakujesz ani nie ryzykujesz; stres −1; widzący testują panikę.',
           },
         ],
         [
           { en: '14', pl: '14' },
           {
-            en: 'Frenzy: you attack the nearest person or creature until one of you is Broken.',
-            pl: 'Morderczy szał: atakujesz najbliższą osobę lub istotę, aż któreś z was będzie Pokonane.',
+            en: 'Frenzy: you attack the nearest person or creature until one of you is Broken; friends who see it roll for panic.',
+            pl: 'Morderczy szał: atakujesz najbliższą osobę lub istotę, aż któreś z was będzie Pokonane; widzący przyjaciele testują panikę.',
           },
         ],
         [
           { en: '15+', pl: '15+' },
           {
-            en: 'Catatonic: you collapse, staring, unable to speak or move.',
-            pl: 'Katatonia: padasz na ziemię, wpatrzony w pustkę, nie mówisz i się nie ruszasz.',
+            en: 'Catatonic: you shut down completely and do nothing at all.',
+            pl: 'Katatonia: kompletnie się wyłączasz i nie robisz zupełnie nic.',
           },
         ],
       ],
@@ -485,8 +485,8 @@ export const TEST_PRIMER: readonly PrimerSection[] = [
     page: 58,
     label: { en: 'Rolling a test', pl: 'Wykonywanie testu' },
     text: {
-      en: 'Describe what you do, then roll base dice equal to attribute + skill, plus gear bonuses and one stress die per point of Stress Level. One 6 is a success; each extra 6 can buy a stunt from the skill. With no skill, roll the attribute alone. You get one chance: once rolled (and pushed), you cannot retry the same goal until things change — combat attacks excepted.',
-      pl: 'Opisz, co robisz, a potem rzuć kośćmi podstawowymi w liczbie cecha + umiejętność, z premiami ze sprzętu i jedną kością stresu za każdy punkt poziomu stresu. Jedna szóstka to sukces; każda kolejna może kupić wyczyn z opisu umiejętności. Bez umiejętności rzucasz samą cechą. Masz jedną szansę: po rzucie (i forsowaniu) nie ponawiasz tego samego celu, dopóki sytuacja się nie zmieni — poza atakami w walce.',
+      en: 'Describe what you do, then roll base dice equal to attribute + skill, plus gear bonuses and one stress die per point of Stress Level. One 6 is a success; each extra 6 can buy a stunt from the skill. With no skill, roll attribute dice only (stress dice still apply). You get one chance: once rolled (and pushed), you cannot retry the same goal until things change — combat attacks excepted.',
+      pl: 'Opisz, co robisz, a potem rzuć kośćmi podstawowymi w liczbie cecha + umiejętność, z premiami ze sprzętu i jedną kością stresu za każdy punkt poziomu stresu. Jedna szóstka to sukces; każda kolejna może kupić wyczyn z opisu umiejętności. Bez umiejętności rzucasz tylko kośćmi cechy (kości stresu nadal się liczą). Masz jedną szansę: po rzucie (i forsowaniu) nie ponawiasz tego samego celu, dopóki sytuacja się nie zmieni — poza atakami w walce.',
     },
   },
   {

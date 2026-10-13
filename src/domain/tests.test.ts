@@ -88,6 +88,26 @@ describe('TESTS', () => {
     expect(findTest('radiation')?.table).toBeDefined()
   })
 
+  it('cites printed pages inside the rulebook', () => {
+    for (const t of TESTS) {
+      expect(t.page, t.id).toBeGreaterThanOrEqual(1)
+      expect(t.page, t.id).toBeLessThanOrEqual(396)
+    }
+  })
+
+  it('states the panic-table spreads to witnesses and ranges as the book does', () => {
+    const effect = (total: string) =>
+      findTest('panic')?.table?.rows.find((r) => r[0]?.en === total)?.[1]
+    expect(effect('14')?.en).toMatch(/see it roll for panic/)
+    expect(effect('14')?.pl).toMatch(/testują panikę/)
+    expect(effect('13')?.en).toMatch(/no attacks/)
+    expect(effect('13')?.pl).toMatch(/nie atakujesz/)
+    for (const total of ['7', '10', '11']) {
+      expect(effect(total)?.en, total).toMatch(/at Short range/)
+      expect(effect(total)?.pl, total).toMatch(/w bliskim zasięgu/)
+    }
+  })
+
   it('does not recognise unknown ids', () => {
     expect(isTestId('survival')).toBe(true)
     expect(isTestId('explosion')).toBe(false)
@@ -106,6 +126,12 @@ describe('TEST_PRIMER', () => {
       ['help', 63],
       ['opposedTests', 64],
     ])
+  })
+
+  it('keeps stress dice in a roll without the skill', () => {
+    const rolling = TEST_PRIMER.find((s) => s.id === 'rolling')
+    expect(rolling?.text.en).toMatch(/stress dice still apply/)
+    expect(rolling?.text.pl).toMatch(/kości stresu nadal się liczą/)
   })
 
   it('has unique ids, text in every language and pages from the test chapter', () => {
