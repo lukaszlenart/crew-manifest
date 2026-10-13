@@ -35,7 +35,7 @@ Browsers do not load the built app from `file://`, so serve `dist/` over HTTP (f
 ### Hosted version
 
 Every push to `main` is built and deployed to GitHub Pages by `.github/workflows/deploy.yml`:
-<https://uit-soft.github.io/crew-manifest/>. One-time setup: **Settings → Pages → Source:
+<https://lukaszlenart.github.io/crew-manifest/>. One-time setup: **Settings → Pages → Source:
 GitHub Actions**.
 
 On an iPad or phone, open that address in Safari and use **Share → Add to Home Screen**. A
