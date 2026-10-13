@@ -10,7 +10,7 @@ import { SkillBrowser } from './SkillBrowser'
 import { TalentBrowser } from './TalentBrowser'
 import { TestBrowser } from './TestBrowser'
 
-const SOURCE_URL = 'https://github.com/uit-soft/crew-manifest'
+const SOURCE_URL = 'https://github.com/lukaszlenart/crew-manifest'
 
 export function App() {
   const t = useT()
