@@ -69,6 +69,25 @@ describe('TESTS', () => {
     expect(findTest('stopPanic')?.related).toContain('panic')
   })
 
+  it('has the hazards in book order, without explosions', () => {
+    expect(TESTS.filter((t) => t.group === 'hazard').map((t) => [t.id, t.page])).toEqual([
+      ['vacuum', 107],
+      ['fall', 108],
+      ['fire', 108],
+      ['disease', 109],
+      ['radiation', 110],
+      ['drowning', 110],
+      ['suffocation', 110],
+    ])
+  })
+
+  it('links hazards that end in a Survival roll to it', () => {
+    for (const id of ['fire', 'radiation', 'drowning', 'suffocation']) {
+      expect(findTest(id)?.related, id).toContain('survival')
+    }
+    expect(findTest('radiation')?.table).toBeDefined()
+  })
+
   it('does not recognise unknown ids', () => {
     expect(isTestId('survival')).toBe(true)
     expect(isTestId('explosion')).toBe(false)

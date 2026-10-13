@@ -256,6 +256,226 @@ export const TESTS: readonly TestEntry[] = [
     },
     related: ['panic'],
   },
+  {
+    id: 'vacuum',
+    group: 'hazard',
+    page: 107,
+    label: { en: 'Vacuum and cold', pl: 'Próżnia i wychłodzenie' },
+    summary: {
+      en: 'Unprotected in vacuum or exposed to cold: repeated Stamina rolls until you get to safety.',
+      pl: 'Bez ochrony w próżni lub na mrozie: powtarzane testy Kondycji, aż znajdziesz bezpieczne miejsce.',
+    },
+    roll: {
+      pool: { en: 'Strength + Stamina', pl: 'Siła + Kondycja' },
+      canPush: true,
+      stressDice: true,
+    },
+    when: {
+      en: 'Vacuum: every round before acting, not an action; −1 more each round after the first. Cold without proper clothing or shelter: as often as the table says.',
+      pl: 'Próżnia: co rundę przed działaniem, bez zużycia akcji; od drugiej rundy modyfikator rośnie o −1. Chłód bez odzieży lub schronienia: tak często, jak podaje tabela.',
+    },
+    outcome: {
+      en: 'Vacuum failure: Health drops to zero (no critical injury) and you make a Survival roll every round until dead or back in normal pressure. Cold failure: 1 damage and Stress Level +1; while cold you cannot heal or shed stress; if Broken, every further cold roll is a Survival roll.',
+      pl: 'Porażka w próżni: Zdrowie spada do zera (bez rany ciężkiej), a co rundę wykonujesz Test Przeżycia, aż umrzesz lub wrócisz do normalnego ciśnienia. Porażka na mrozie: 1 obrażenie i poziom stresu +1; wychłodzony nie leczysz się i nie pozbywasz stresu; Pokonany zamiast testu Kondycji wykonuje Test Przeżycia.',
+    },
+    table: {
+      caption: { en: 'How often to roll', pl: 'Jak często rzucać' },
+      columns: [
+        { en: 'Condition', pl: 'Warunki' },
+        { en: 'Roll', pl: 'Test' },
+      ],
+      rows: [
+        [
+          { en: 'Vacuum', pl: 'Próżnia' },
+          { en: 'Every round', pl: 'Co rundę' },
+        ],
+        [
+          { en: 'Cold, above freezing', pl: 'Chłód powyżej zera' },
+          { en: 'Once a day', pl: 'Raz dziennie' },
+        ],
+        [
+          { en: 'Below freezing', pl: 'Poniżej zera' },
+          { en: 'Once per shift', pl: 'Raz na wachtę' },
+        ],
+        [
+          { en: 'Cold of deep space', pl: 'Chłód kosmicznej pustki' },
+          { en: 'Every round', pl: 'Co rundę' },
+        ],
+      ],
+    },
+    related: ['survival'],
+  },
+  {
+    id: 'fall',
+    group: 'hazard',
+    page: 108,
+    label: { en: 'Fall', pl: 'Upadek' },
+    summary: {
+      en: 'A fall onto a hard surface deals damage by height; a controlled fall lets you soften it.',
+      pl: 'Upadek na twardą powierzchnię zadaje obrażenia zależne od wysokości; kontrolowany upadek można złagodzić.',
+    },
+    roll: {
+      pool: {
+        en: 'Agility + Mobility (controlled fall only)',
+        pl: 'Zręczność + Sprawność (tylko upadek kontrolowany)',
+      },
+      canPush: true,
+      stressDice: true,
+    },
+    when: { en: 'You fall onto a hard surface.', pl: 'Spadasz na twardą powierzchnię.' },
+    outcome: {
+      en: 'Damage equals the height in metres halved, rounded down, with no roll. In a controlled fall each success on the Mobility roll removes 1 damage. Armour also protects.',
+      pl: 'Obrażenia równe wysokości w metrach podzielonej przez 2 (w dół), bez rzutu. W kontrolowanym upadku każdy sukces w teście Sprawności zmniejsza obrażenia o 1. Chroni też pancerz.',
+    },
+    related: [],
+  },
+  {
+    id: 'fire',
+    group: 'hazard',
+    page: 108,
+    label: { en: 'Fire', pl: 'Ogień' },
+    summary: {
+      en: 'Fire rolls its intensity against you every round until it deals no damage or is put out.',
+      pl: 'Ogień rzuca swoją intensywnością przeciw tobie co rundę, aż nie zada obrażeń lub zostanie ugaszony.',
+    },
+    roll: {
+      pool: {
+        en: 'Base dice = fire intensity (usually 8)',
+        pl: 'Kości podstawowe = intensywność ognia (zwykle 8)',
+      },
+      canPush: false,
+      stressDice: false,
+    },
+    when: {
+      en: 'You are exposed to fire. Once it has hurt you, you are burning: roll again at the start of every round, intensity +1 each round.',
+      pl: 'Wystawiasz się na ogień. Gdy zada ci obrażenia, płoniesz: rzut powtarza się na początku każdej rundy, a intensywność rośnie o 1.',
+    },
+    outcome: {
+      en: 'Each success is 1 damage; armour protects. The fire goes out when a roll deals no damage, or when you or a friend at Engaged range succeed at a Mobility roll (slow action). Broken by fire, or burned while Broken: a Survival roll every round until dead or saved by Medical Aid.',
+      pl: 'Każdy sukces to 1 obrażenie; chroni pancerz. Ogień gaśnie, gdy rzut nie zada obrażeń albo gdy ty lub przyjaciel w zwarciu zdacie test Sprawności (akcja wolna). Pokonany przez ogień lub poparzony jako Pokonany: Test Przeżycia co rundę, aż umrzesz lub uratuje cię Pomoc Medyczna.',
+    },
+    related: ['survival'],
+  },
+  {
+    id: 'disease',
+    group: 'hazard',
+    page: 109,
+    label: { en: 'Disease', pl: 'Choroba' },
+    summary: {
+      en: 'An opposed Stamina roll against the disease decides whether you fall ill and when you recover.',
+      pl: 'Test sporny Kondycji przeciw chorobie rozstrzyga, czy zachorujesz i kiedy wyzdrowiejesz.',
+    },
+    roll: {
+      pool: {
+        en: 'Strength + Stamina vs. virulence (usually 3)',
+        pl: 'Siła + Kondycja przeciw zakaźności (zwykle 3)',
+      },
+      canPush: true,
+      stressDice: true,
+    },
+    when: {
+      en: 'On exposure to a dangerous disease or infection, then at the start of every shift while sick.',
+      pl: 'Po narażeniu na groźną chorobę lub zakażenie, a potem na początku każdej wachty choroby.',
+    },
+    outcome: {
+      en: 'Failure: you are sick — 1 damage one shift later, no healing while sick, and each later failure deals 1 more damage. Success while sick cures you. Broken while sick: a failed shift roll means death. A carer may roll opposed Medical Aid in your place.',
+      pl: 'Porażka: chorujesz — po wachcie 1 obrażenie, nie leczysz się, a każda kolejna porażka to 1 obrażenie. Sukces w trakcie choroby oznacza wyzdrowienie. Pokonany i chory: porażka w teście co wachtę oznacza śmierć. Opiekun może rzucać za ciebie sporny test Pomocy Medycznej.',
+    },
+    related: [],
+  },
+  {
+    id: 'radiation',
+    group: 'hazard',
+    page: 110,
+    label: { en: 'Radiation', pl: 'Promieniowanie' },
+    summary: {
+      en: 'Rads build up in your body; each new rad makes you roll for damage.',
+      pl: 'Rady kumulują się w organizmie; każdy nowy rad oznacza rzut na obrażenia.',
+    },
+    roll: {
+      pool: { en: 'Base dice = total rads', pl: 'Kości podstawowe = suma radów' },
+      canPush: false,
+      stressDice: false,
+    },
+    when: {
+      en: 'Every time you gain a rad, at the rate the table gives for the area.',
+      pl: 'Za każdym razem, gdy otrzymujesz rada, w tempie zależnym od obszaru (tabela).',
+    },
+    outcome: {
+      en: 'Each success is 1 damage. You cannot heal while you stay in the area. Broken by radiation: a Survival roll for each new rad until you get away. Once out you heal 1 rad per shift, but roll a stress die each time: on a 1 that rad becomes permanent and never heals.',
+      pl: 'Każdy sukces to 1 obrażenie. Dopóki przebywasz w skażonym obszarze, nie leczysz się. Pokonany przez promieniowanie: Test Przeżycia za każdego nowego rada, aż się oddalisz. Poza obszarem leczysz 1 rada na wachtę, ale za każdym razem rzucasz kością stresu: jedynka czyni tego rada trwałym.',
+    },
+    table: {
+      caption: { en: 'Radiation levels', pl: 'Poziomy promieniowania' },
+      columns: [
+        { en: 'Level', pl: 'Poziom' },
+        { en: 'Rads', pl: 'Rady' },
+      ],
+      rows: [
+        [
+          { en: 'Weak', pl: 'Słabe' },
+          { en: '1 per shift', pl: '1 na wachtę' },
+        ],
+        [
+          { en: 'Strong', pl: 'Silne' },
+          { en: '1 per turn', pl: '1 na turę' },
+        ],
+        [
+          { en: 'Lethal', pl: 'Zabójcze' },
+          { en: '1 per round', pl: '1 na rundę' },
+        ],
+      ],
+    },
+    related: ['survival'],
+  },
+  {
+    id: 'drowning',
+    group: 'hazard',
+    page: 110,
+    label: { en: 'Drowning', pl: 'Tonięcie' },
+    summary: {
+      en: 'Underwater you make a Stamina roll every round; failure costs Health.',
+      pl: 'Pod wodą co rundę wykonujesz test Kondycji; porażka kosztuje Zdrowie.',
+    },
+    roll: {
+      pool: { en: 'Strength + Stamina', pl: 'Siła + Kondycja' },
+      canPush: true,
+      stressDice: true,
+    },
+    when: {
+      en: 'Every round you are underwater, on your turn before any action; the roll is not an action.',
+      pl: 'Co rundę pod wodą, w twojej kolejce przed jakąkolwiek akcją; test nie jest akcją.',
+    },
+    outcome: {
+      en: 'Failure: 1 damage. Broken while drowning: a Survival roll every turn until dead or saved by Medical Aid.',
+      pl: 'Porażka: 1 obrażenie. Pokonany podczas tonięcia: Test Przeżycia co turę, aż umrzesz lub uratuje cię Pomoc Medyczna.',
+    },
+    related: ['survival'],
+  },
+  {
+    id: 'suffocation',
+    group: 'hazard',
+    page: 110,
+    label: { en: 'Suffocation', pl: 'Duszenie się' },
+    summary: {
+      en: 'Out of air, every Stamina roll gets harder until one fails.',
+      pl: 'Bez tlenu każdy kolejny test Kondycji jest trudniejszy, aż któryś się nie uda.',
+    },
+    roll: {
+      pool: { en: 'Strength + Stamina', pl: 'Siła + Kondycja' },
+      canPush: true,
+      stressDice: true,
+    },
+    when: {
+      en: 'When your air supply runs out: every turn and after each exhausting effort, such as close combat or a Mobility roll. The first roll has no modifier, then −1, −2 and so on.',
+      pl: 'Gdy skończy się zapas tlenu: co turę i po każdym wyczerpującym wysiłku, np. walce wręcz lub teście Sprawności. Pierwszy test bez modyfikatora, potem −1, −2 i tak dalej.',
+    },
+    outcome: {
+      en: 'Failure: Health drops to zero at once and you make a Survival roll every round until dead or back in breathable air.',
+      pl: 'Porażka: Zdrowie natychmiast spada do zera, a co rundę wykonujesz Test Przeżycia, aż umrzesz lub dotrzesz do tlenowej atmosfery.',
+    },
+    related: ['survival', 'supply'],
+  },
 ]
 
 /** Book order. */
