@@ -578,11 +578,15 @@ a:focus-visible {
 
 .sheet-grid {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: 10px 16px;
 }
 
-.sheet-field.wide {
+.sheet-field.half {
+  grid-column: span 2;
+}
+
+.sheet-field.full {
   grid-column: 1 / -1;
 }
 
@@ -651,6 +655,10 @@ ul.plain {
   .sheet-stats,
   .sheet-grid {
     grid-template-columns: 1fr;
+  }
+
+  .sheet-field.half {
+    grid-column: 1 / -1;
   }
 
   .stats th {

@@ -122,7 +122,7 @@ export function SheetCard({ character: c }: { character: Character }) {
       </div>
 
       <div class="sheet-grid">
-        <SheetField label={t('section.talentId')}>
+        <SheetField label={t('section.talentId')} span="half">
           {talent ? (
             <>
               <a href={href.talents(talent.id)}>
@@ -134,7 +134,16 @@ export function SheetCard({ character: c }: { character: Character }) {
             '—'
           )}
         </SheetField>
-        <SheetField label={t('section.gear')}>
+        <SheetField label={t('section.personalAgenda')} span="half">
+          {c.personalAgenda || '—'}
+        </SheetField>
+        <SheetField label={t('section.buddy')} span="half">
+          {c.buddy || '—'}
+        </SheetField>
+        <SheetField label={t('section.rival')} span="half">
+          {c.rival || '—'}
+        </SheetField>
+        <SheetField label={t('section.gear')} span="half">
           {gear.length > 0 ? (
             <ul class="plain">
               {gear.map((g, i) => (
@@ -145,23 +154,22 @@ export function SheetCard({ character: c }: { character: Character }) {
             '—'
           )}
         </SheetField>
-        <SheetField label={t('section.cash')}>{t('sheet.cash', { amount: c.cash })}</SheetField>
+        <SheetField label={t('section.cash')} span={isAndroid ? 'half' : undefined}>
+          {t('sheet.cash', { amount: c.cash })}
+        </SheetField>
         {!isAndroid && (
           <SheetField label={t('section.signatureItem')}>{c.signatureItem || '—'}</SheetField>
         )}
-        <SheetField label={t('section.personalAgenda')}>{c.personalAgenda || '—'}</SheetField>
-        <SheetField label={t('section.buddy')}>{c.buddy || '—'}</SheetField>
-        <SheetField label={t('section.rival')}>{c.rival || '—'}</SheetField>
-        <SheetField label={t('section.appearance')} wide>
+        <SheetField label={t('section.appearance')} span="full">
           {c.appearance || '—'}
         </SheetField>
         {isAndroid && (
-          <SheetField label={t('sheet.androidRules')} wide>
+          <SheetField label={t('sheet.androidRules')} span="full">
             {t('sheet.androidRulesText')}
           </SheetField>
         )}
         {c.notes.trim() !== '' && (
-          <SheetField label={t('section.notes')} wide>
+          <SheetField label={t('section.notes')} span="full">
             <div class="pre">{c.notes}</div>
           </SheetField>
         )}
@@ -172,15 +180,15 @@ export function SheetCard({ character: c }: { character: Character }) {
 
 function SheetField({
   label,
-  wide,
+  span,
   children,
 }: {
   label: string
-  wide?: boolean
+  span?: 'half' | 'full'
   children: ComponentChildren
 }) {
   return (
-    <div class={`sheet-field${wide ? ' wide' : ''}`}>
+    <div class={`sheet-field${span ? ` ${span}` : ''}`}>
       <h3>{label}</h3>
       <div>{children}</div>
     </div>
