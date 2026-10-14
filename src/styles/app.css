@@ -648,15 +648,10 @@ ul.plain {
   margin-bottom: 0.5rem;
 }
 
-.identity-row {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px 2rem;
-  margin-top: 6px;
-}
-
-.identity-group h3 {
-  margin-bottom: 6px;
+.radio-row input {
+  width: auto;
+  margin: 0;
+  accent-color: var(--accent);
 }
 
 .android-bonus {

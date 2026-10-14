@@ -27,13 +27,8 @@ import { useShortcuts } from './shortcuts'
 import { characters, lastSaved, loaded, saveCharacter } from './store'
 
 type TextSection = 'appearance' | 'personalAgenda' | 'buddy' | 'rival' | 'signatureItem'
-const TEXT_SECTIONS: readonly TextSection[] = [
-  'appearance',
-  'personalAgenda',
-  'buddy',
-  'rival',
-  'signatureItem',
-]
+const PROFILE_SECTIONS: readonly TextSection[] = ['appearance', 'personalAgenda', 'signatureItem']
+const RELATION_SECTIONS: readonly TextSection[] = ['buddy', 'rival']
 
 export function CharacterEditor({ id }: { id?: string }) {
   const t = useT()
@@ -80,7 +75,7 @@ function EditorForm({ initial, isNew }: { initial: Character; isNew: boolean }) 
   const isAndroid = draft.kind === 'android'
   const effective = effectiveAttributes(draft, RULES)
   const { androidAttributeBonus: bonus, androidBonusAttributes: bonusCount } = RULES.limits
-  const textSections = TEXT_SECTIONS.filter((s) => !(isAndroid && s === 'signatureItem'))
+  const profileSections = PROFILE_SECTIONS.filter((s) => !(isAndroid && s === 'signatureItem'))
 
   const touch = () => {
     setDirty(true)
@@ -110,6 +105,12 @@ function EditorForm({ initial, isNew }: { initial: Character; isNew: boolean }) 
     else next.add(s)
     setLocked(next)
   }
+  const textField = (s: TextSection) => (
+    <div key={s}>
+      {header(s)}
+      <textarea rows={2} value={draft[s]} onInput={(e) => update({ [s]: e.currentTarget.value })} />
+    </div>
+  )
   const header = (s: Section, extra?: ComponentChildren) => (
     <SectionHeader
       title={t(`section.${s}`)}
@@ -170,43 +171,42 @@ function EditorForm({ initial, isNew }: { initial: Character; isNew: boolean }) 
 
       <div class="editor-grid">
         <section class="panel">
-          <div class="identity-row">
-            <div class="identity-group">
-              <h3>{t('section.kind')}</h3>
-              <div class="radio-row" role="radiogroup" aria-label={t('section.kind')}>
-                {KINDS.map((k) => (
-                  <label key={k}>
-                    <input
-                      type="radio"
-                      name="kind"
-                      value={k}
-                      checked={draft.kind === k}
-                      onChange={() => setKind(k)}
-                    />{' '}
-                    {t(`kind.${k}`)}
-                  </label>
-                ))}
-              </div>
-            </div>
-            <div class="identity-group">
-              <h3>{t('section.sex')}</h3>
-              <div class="radio-row" role="radiogroup" aria-label={t('section.sex')}>
-                {SEXES.map((s) => (
-                  <label key={s}>
-                    <input
-                      type="radio"
-                      name="sex"
-                      value={s}
-                      checked={draft.sex === s}
-                      onChange={() => update({ sex: s })}
-                    />{' '}
-                    {t(`sex.${s}`)}
-                  </label>
-                ))}
-              </div>
-            </div>
+          <h3>{t('section.sex')}</h3>
+          <div class="radio-row" role="radiogroup" aria-label={t('section.sex')}>
+            {SEXES.map((s) => (
+              <label key={s}>
+                <input
+                  type="radio"
+                  name="sex"
+                  value={s}
+                  checked={draft.sex === s}
+                  onChange={() => update({ sex: s })}
+                />{' '}
+                {t(`sex.${s}`)}
+              </label>
+            ))}
           </div>
+        </section>
 
+        <section class="panel">
+          <h3>{t('section.kind')}</h3>
+          <div class="radio-row" role="radiogroup" aria-label={t('section.kind')}>
+            {KINDS.map((k) => (
+              <label key={k}>
+                <input
+                  type="radio"
+                  name="kind"
+                  value={k}
+                  checked={draft.kind === k}
+                  onChange={() => setKind(k)}
+                />{' '}
+                {t(`kind.${k}`)}
+              </label>
+            ))}
+          </div>
+        </section>
+
+        <section class="panel">
           {header('name')}
           <input
             id="field-name"
@@ -421,17 +421,10 @@ function EditorForm({ initial, isNew }: { initial: Character; isNew: boolean }) 
           <IssueList issues={issuesFor(issues, 'cash')} />
         </section>
 
+        <section class="panel">{profileSections.map(textField)}</section>
+
         <section class="panel">
-          {textSections.map((s) => (
-            <div key={s}>
-              {header(s)}
-              <textarea
-                rows={2}
-                value={draft[s]}
-                onInput={(e) => update({ [s]: e.currentTarget.value })}
-              />
-            </div>
-          ))}
+          {RELATION_SECTIONS.map(textField)}
           <h3>
             <label for="field-notes">{t('section.notes')}</label>
           </h3>
