@@ -65,8 +65,6 @@ export const pl = {
   'skills.filter.career': 'Wiodące: {career}',
   'skills.keyFor': 'Wiodąca dla:',
   'skills.empty': 'Żadna umiejętność nie pasuje do wyszukiwania.',
-  'skills.more': 'Opisy →',
-  'skills.moreLabel': 'Opisy umiejętności (otwiera nową kartę)',
   'tests.title': 'Testy',
   'tests.search': 'Szukaj testów',
   'tests.empty': 'Żaden test nie pasuje do wyszukiwania.',

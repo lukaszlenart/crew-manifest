@@ -329,18 +329,7 @@ function EditorForm({ initial, isNew }: { initial: Character; isNew: boolean }) 
         <section class="panel">
           {header(
             'skills',
-            <>
-              <a
-                class="small"
-                href={href.skills()}
-                target="_blank"
-                rel="noopener"
-                aria-label={t('skills.moreLabel')}
-              >
-                {t('skills.more')}
-              </a>
-              <PointsLeft left={skillLeft} label={t('editor.pointsLeft', { count: skillLeft })} />
-            </>,
+            <PointsLeft left={skillLeft} label={t('editor.pointsLeft', { count: skillLeft })} />,
           )}
           <div class="skill-groups">
             {ATTRIBUTES.map((a) => (
