@@ -55,8 +55,6 @@ export const pl = {
   'talents.generalNote': 'Zdobywane dzięki doświadczeniu w trakcie gry.',
   'talents.page': 's. {page}',
   'talents.empty': 'Żaden talent nie pasuje do wyszukiwania.',
-  'talents.more': 'Więcej →',
-  'talents.moreLabel': 'Więcej o talencie {name} (otwiera nową kartę)',
 
   'skills.title': 'Umiejętności',
   'skills.search': 'Szukaj umiejętności',
