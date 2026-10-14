@@ -54,8 +54,6 @@ export const en = {
   'talents.generalNote': 'Gained through experience during play.',
   'talents.page': 'p. {page}',
   'talents.empty': 'No talents match the search.',
-  'talents.more': 'More →',
-  'talents.moreLabel': 'More about {name} (opens in a new tab)',
 
   'skills.title': 'Skills',
   'skills.search': 'Search skills',
