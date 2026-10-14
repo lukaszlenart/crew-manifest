@@ -6,7 +6,7 @@ import { ATTRIBUTES } from '../domain/types'
 import { validateCharacter } from '../domain/validation'
 import { lang, useLocalize, useT } from '../i18n'
 import { BackupControls } from './components/BackupControls'
-import { attributeShort, careerLabel } from './format'
+import { careerLabel } from './format'
 import { href, navigate } from './router'
 import { useShortcuts } from './shortcuts'
 import { characters, deleteCharacter, duplicateCharacter, loaded } from './store'
@@ -152,7 +152,7 @@ function CharacterCard({ character: c, selected, onToggle }: CardProps) {
       <div class="attr-line">
         {ATTRIBUTES.map((a) => (
           <span key={a}>
-            {attributeShort(a, l)} <strong>{attributes[a]}</strong>
+            {RULES.attributes[a].label[l]} <strong>{attributes[a]}</strong>
           </span>
         ))}
       </div>
