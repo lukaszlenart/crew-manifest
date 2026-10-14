@@ -64,8 +64,6 @@ export const en = {
   'skills.filter.career': 'Key skills: {career}',
   'skills.keyFor': 'Key skill for:',
   'skills.empty': 'No skills match the search.',
-  'skills.more': 'Descriptions →',
-  'skills.moreLabel': 'Skill descriptions (opens in a new tab)',
   'tests.title': 'Tests',
   'tests.search': 'Search tests',
   'tests.empty': 'No tests match the search.',
