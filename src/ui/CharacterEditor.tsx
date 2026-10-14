@@ -329,7 +329,18 @@ function EditorForm({ initial, isNew }: { initial: Character; isNew: boolean }) 
         <section class="panel">
           {header(
             'skills',
-            <PointsLeft left={skillLeft} label={t('editor.pointsLeft', { count: skillLeft })} />,
+            <>
+              <a
+                class="small"
+                href={href.skills()}
+                target="_blank"
+                rel="noopener"
+                aria-label={t('skills.moreLabel')}
+              >
+                {t('skills.more')}
+              </a>
+              <PointsLeft left={skillLeft} label={t('editor.pointsLeft', { count: skillLeft })} />
+            </>,
           )}
           <div class="skill-groups">
             {ATTRIBUTES.map((a) => (
@@ -344,16 +355,7 @@ function EditorForm({ initial, isNew }: { initial: Character; isNew: boolean }) 
                           <label for={`skill-${s}`}>
                             {loc(RULES.skills[s].label)}
                             {career?.keySkills.includes(s) && <KeyMark />}
-                          </label>{' '}
-                          <a
-                            class="skill-info muted small"
-                            href={href.skills(s)}
-                            target="_blank"
-                            rel="noopener"
-                            aria-label={t('skills.moreLabel', { name: loc(RULES.skills[s].label) })}
-                          >
-                            {t('skills.more')}
-                          </a>
+                          </label>
                         </th>
                         <td>
                           <Stepper
