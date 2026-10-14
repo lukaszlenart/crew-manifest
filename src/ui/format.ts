@@ -1,10 +1,5 @@
 import { RULES, findCareer } from '../domain/rules'
-import type { Attribute, Character, Lang } from '../domain/types'
-
-/** Short attribute label derived from the localized name (e.g. "STR"). */
-export function attributeShort(attr: Attribute, l: Lang): string {
-  return RULES.attributes[attr].label[l].slice(0, 3).toUpperCase()
-}
+import type { Character, Lang } from '../domain/types'
 
 export function careerLabel(c: Pick<Character, 'careerId'>, l: Lang): string | undefined {
   return findCareer(RULES, c.careerId)?.label[l]
