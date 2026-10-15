@@ -1,4 +1,4 @@
-import { useRef, useState } from 'preact/hooks'
+import { useEffect, useRef, useState } from 'preact/hooks'
 import type { Character } from '../../domain/types'
 import {
   applyImport,
@@ -6,10 +6,12 @@ import {
   parseBackup,
   serializeBackup,
   type ImportMode,
+  type ParsedBackup,
   type RejectedEntry,
 } from '../../storage/backup'
+import { parseTransfer } from '../../storage/transfer'
 import { useT } from '../../i18n'
-import { characters, replaceAllCharacters } from '../store'
+import { characters, pendingImport, replaceAllCharacters } from '../store'
 
 type State =
   | { step: 'idle' }
@@ -24,6 +26,13 @@ export function BackupControls() {
   const t = useT()
   const fileInput = useRef<HTMLInputElement>(null)
   const [state, setState] = useState<State>({ step: 'idle' })
+
+  useEffect(() => {
+    const payload = pendingImport.value
+    if (payload === null) return
+    pendingImport.value = null
+    setState(stateFor(parseTransfer(payload)))
+  }, [pendingImport.value])
 
   const exportAll = () => {
     const now = new Date()
@@ -40,8 +49,7 @@ export function BackupControls() {
     if (!file) return
     const parsed = parseBackup(await file.text())
     if (fileInput.current) fileInput.current.value = ''
-    if (!parsed.ok) setState({ step: 'error', message: `backup.${parsed.error}` })
-    else setState({ step: 'choose', characters: parsed.characters, rejected: parsed.rejected })
+    setState(stateFor(parsed))
   }
 
   const runImport = async (mode: ImportMode) => {
@@ -112,6 +120,12 @@ export function BackupControls() {
       )}
     </>
   )
+}
+
+function stateFor(parsed: ParsedBackup): State {
+  return parsed.ok
+    ? { step: 'choose', characters: parsed.characters, rejected: parsed.rejected }
+    : { step: 'error', message: `backup.${parsed.error}` }
 }
 
 function RejectedList({ rejected }: { rejected: RejectedEntry[] }) {
