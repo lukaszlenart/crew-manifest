@@ -34,6 +34,9 @@ export const saveCharacter = (c: Character) => guarded(() => repo.save(c))
 export const deleteCharacter = (id: string) => guarded(() => repo.delete(id))
 export const duplicateCharacter = (id: string, name: string) =>
   guarded(() => repo.duplicate(id, name))
+/** Backup payload from a `#/import/...` link, waiting for the import dialog. */
+export const pendingImport = signal<string | null>(null)
+
 export const replaceAllCharacters = (list: Character[]) => guarded(() => repo.replaceAll(list))
 
 /** Status of the last editor save, so it survives the editor remount after `#/new` → `#/edit/:id`. */

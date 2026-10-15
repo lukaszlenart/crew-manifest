@@ -11,6 +11,7 @@ export type Route =
   | { name: 'talents'; id?: string }
   | { name: 'skills'; id?: Skill }
   | { name: 'tests'; id?: TestId }
+  | { name: 'import'; payload: string }
 
 export function parseRoute(hash: string): Route {
   let parts: string[]
@@ -32,6 +33,7 @@ export function parseRoute(hash: string): Route {
   if (head === 'talents') return arg ? { name: 'talents', id: arg } : { name: 'talents' }
   if (head === 'skills')
     return arg && isSkill(arg) ? { name: 'skills', id: arg } : { name: 'skills' }
+  if (head === 'import' && arg) return { name: 'import', payload: arg }
   if (head === 'tests') return arg && isTestId(arg) ? { name: 'tests', id: arg } : { name: 'tests' }
   return { name: 'list' }
 }

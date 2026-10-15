@@ -11,6 +11,11 @@ describe('parseRoute', () => {
     expect(parseRoute('#/print/a,b')).toEqual({ name: 'print', ids: ['a', 'b'] })
   })
 
+  it('parses the import route and falls back to the list without a payload', () => {
+    expect(parseRoute('#/import/eyJhIjoxfQ')).toEqual({ name: 'import', payload: 'eyJhIjoxfQ' })
+    expect(parseRoute('#/import')).toEqual({ name: 'list' })
+  })
+
   it('parses the talents routes', () => {
     expect(parseRoute('#/talents')).toEqual({ name: 'talents' })
     expect(parseRoute('#/talents/dodge')).toEqual({ name: 'talents', id: 'dodge' })

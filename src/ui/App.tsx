@@ -4,8 +4,8 @@ import { CharacterEditor } from './CharacterEditor'
 import { CharacterList } from './CharacterList'
 import { CharacterSheet, PrintView } from './CharacterSheet'
 import { LangSwitch } from './components/LangSwitch'
-import { href, route, type Route } from './router'
-import { storageError } from './store'
+import { href, navigate, route, type Route } from './router'
+import { pendingImport, storageError } from './store'
 import { SkillBrowser } from './SkillBrowser'
 import { TalentBrowser } from './TalentBrowser'
 import { TestBrowser } from './TestBrowser'
@@ -21,6 +21,12 @@ export function App() {
   }, [lang.value])
 
   const current = route.value
+  useEffect(() => {
+    if (current.name !== 'import') return
+    pendingImport.value = current.payload
+    navigate(href.list(), { replace: true })
+  }, [current])
+
   return (
     <div class="app">
       <header class="app-header no-print">
@@ -69,6 +75,7 @@ export function App() {
 function View({ route }: { route: Route }) {
   switch (route.name) {
     case 'list':
+    case 'import':
       return <CharacterList />
     case 'new':
       return <CharacterEditor />
