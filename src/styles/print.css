@@ -22,7 +22,9 @@
 
   .no-print,
   .app-header,
-  .banner {
+  .banner,
+  body::before,
+  body::after {
     display: none !important;
   }
 
