@@ -41,7 +41,7 @@ export function PrintView({ ids }: { ids: string[] }) {
     .filter((c): c is Character => c !== undefined)
   if (selected.length === 0) return <NotFound />
   return (
-    <section>
+    <section class="print-view">
       <div class="toolbar no-print">
         <a class="button" href={href.list()}>
           {t('common.back')}
