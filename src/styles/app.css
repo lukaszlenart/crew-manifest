@@ -46,6 +46,10 @@ body::before {
   );
 }
 
+body:has(.print-view)::before {
+  display: none;
+}
+
 body::after {
   top: 50%;
   left: 0;
